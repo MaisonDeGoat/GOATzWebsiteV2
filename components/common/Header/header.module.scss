@@ -1,0 +1,32 @@
+.wrapper {
+  position: absolute;
+  width: 100vw;
+  padding: 30px;
+}
+
+.container {
+  background-color: #7a0019;
+  border-radius: 5px;
+  padding: 15px 25px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  z-index: 1000;
+  max-width: 1200px;
+  margin: auto;
+  .social {
+    padding-left: 10px;
+    padding-right: 10px;
+    display: flex;
+    align-items: center;
+  }
+}
+
+
+.mobileLogo{
+  padding-left: 15px;
+  padding-top: 15px;
+  padding-bottom: 5px;
+
+}

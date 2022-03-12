@@ -1,8 +1,12 @@
-import React from "react";
+import React, { ReactChild } from "react";
 import Header from "@components/common/Header";
 import Footer from "@components/common/Footer";
 
-const index = ({ children }) => {
+interface Props {
+  children: ReactChild;
+}
+
+const index: React.FC<Props> = ({ children }) => {
   return (
     <div>
       <Header />
