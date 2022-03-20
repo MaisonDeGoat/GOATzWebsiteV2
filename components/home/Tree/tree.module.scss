@@ -1,0 +1,83 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-repeat: no-repeat;
+  background-color: #5e0716;
+  background-size: 100%;
+  padding: 60px;
+  background-image: url("../../../public/images/tree-background.svg");
+
+  @include md {
+    padding: 40px;
+  }
+
+  
+  @include sm {
+    padding: 30px;
+  }
+
+  svg{
+    max-width: 1000px;
+  }
+
+  h2 {
+    color: #fff;
+    font-weight: 800;
+    font-size: 60px;
+    text-align: center;
+    margin-bottom: 20px;
+
+    @include md {
+      font-size: 40px;
+    }
+
+    @include sm {
+        font-size: 30px;
+      }
+  }
+}
+
+.tree {
+  enable-background: new 0 0 507.7 525.9;
+  padding: 40px;
+
+  @include md{
+      padding: 20px;
+  }
+
+  @include sm{
+    padding: 10px;
+}
+}
+.st0 {
+  fill: #630719;
+}
+.st1 {
+  fill: #c63327;
+}
+.st2 {
+  fill: #de552e;
+}
+.st3 {
+  fill: #d84727;
+}
+.st4 {
+  fill: #ffffff;
+}
+.st5 {
+  font-family: "Montserrat-ExtraBold";
+}
+.st6 {
+  font-size: 41.0249px;
+}
+.st7 {
+  letter-spacing: -1;
+}
+.st8 {
+  font-size: 31.98px;
+}
+.st9 {
+  font-size: 28.7497px;
+}

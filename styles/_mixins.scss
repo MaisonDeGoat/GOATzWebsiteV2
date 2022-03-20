@@ -9,6 +9,22 @@
         @content;
     }
 }
+
+@mixin lg {
+    @media (max-width: #{$screen-lg}) {
+        @content;
+    }
+}
+
+
+@mixin xl {
+    @media (max-width: #{$screen-xl}) {
+        @content;
+    }
+}
+
+
+
 @mixin center {
     display: flex;
     align-items: center;

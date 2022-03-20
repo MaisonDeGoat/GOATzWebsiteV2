@@ -12,12 +12,16 @@ import DiscordIcon from "../../../public/images/discord-icon.png";
 import OpenseaIcon from "../../../public/images/opensea-icon.png";
 import TwitterIcon from "../../../public/images/twitter-icon.png";
 import Link from "next/link";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTheme } from "@mui/material/styles";
 
 import style from "./header.module.scss";
 import { IconButton } from "@mui/material";
 
 const Header = () => {
   const [drawer, setDrawer] = useState<boolean>(false);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
   const toggleDrawer = () => setDrawer(!drawer);
 
@@ -25,65 +29,68 @@ const Header = () => {
     <div className={style.wrapper}>
       <div className={style.container}>
         <Box display="flex" alignItems="center">
-          <IconButton size="large" onClick={toggleDrawer}>
-            <MenuIcon fontSize="large" color="inherit" />
-          </IconButton>
-          <Image src={Logo} alt="logo" objectFit="contain" height={55} width={237} />
+          {isMobile && (
+            <IconButton size={isMobile ? "small" : "large"} onClick={toggleDrawer}>
+              <MenuIcon fontSize={isMobile ? "small" : "large"} className={style.menuIcon} />
+            </IconButton>
+          )}
+          <Image src={Logo} alt="logo" objectFit="contain" height={isMobile ? 18 : 55} width={isMobile ? 75 : 237} />
         </Box>
-
         <div className={style.social}>
           <Image src={OpenseaIcon} height={20} width={30} objectFit="contain" alt="opensea-icon" />
           <Image src={DiscordIcon} height={20} width={30} objectFit="contain" alt="discord-icon" />
           <Image src={TwitterIcon} height={20} width={30} objectFit="contain" alt="twitter-icon" />
         </div>
-        {/* <Stack direction="row" spacing="20px">
-          <Link href="/home">
-            <a>
-              <Typography color="#fff" fontWeight={800}>
-                HOME
-              </Typography>
-            </a>
-          </Link>
-          <Link href="/home">
-            <a>
-              <Typography color="#fff" fontWeight={800}>
-                ROADMAP
-              </Typography>
-            </a>
-          </Link>
-          <Link href="/home">
-            <a>
-              <Typography color="#fff" fontWeight={800}>
-                FORGE
-              </Typography>
-            </a>
-          </Link>
-          <Link href="/home">
-            <a>
-              <Typography color="#fff" fontWeight={800}>
-                STACKING
-              </Typography>
-            </a>
-          </Link>
-          <Link href="/home">
-            <a>
-              <Typography color="#fff" fontWeight={800}>
-                MERCH
-              </Typography>
-            </a>
-          </Link>
-          <Link href="/home">
-            <a>
-              <Typography color="#fff" fontWeight={800}>
-                MORE
-              </Typography>
-            </a>
-          </Link>
-        </Stack> */}
+        {!isMobile && (
+          <Stack direction="row" spacing="20px">
+            <Link href="/home">
+              <a>
+                <Typography color="#fff" fontWeight={800}>
+                  HOME
+                </Typography>
+              </a>
+            </Link>
+            <Link href="/home">
+              <a>
+                <Typography color="#fff" fontWeight={800}>
+                  ROADMAP
+                </Typography>
+              </a>
+            </Link>
+            <Link href="/home">
+              <a>
+                <Typography color="#fff" fontWeight={800}>
+                  FORGE
+                </Typography>
+              </a>
+            </Link>
+            <Link href="/home">
+              <a>
+                <Typography color="#fff" fontWeight={800}>
+                  STACKING
+                </Typography>
+              </a>
+            </Link>
+            <Link href="/home">
+              <a>
+                <Typography color="#fff" fontWeight={800}>
+                  MERCH
+                </Typography>
+              </a>
+            </Link>
+            <Link href="/home">
+              <a>
+                <Typography color="#fff" fontWeight={800}>
+                  MORE
+                </Typography>
+              </a>
+            </Link>
+          </Stack>
+        )}
       </div>
       Î
       <Drawer anchor="left" open={drawer} onClose={toggleDrawer}>
-        <Box width="200px" bgcolor="#7a0019" height="100%" color="#fff">
+        <Box width="200px" bgcolor="#7a0019" height="100%" color="#fff" >
           <div className={style.mobileLogo}>
             <Image src={Logo} alt="logo" objectFit="contain" height={40} width={120} />
           </div>
