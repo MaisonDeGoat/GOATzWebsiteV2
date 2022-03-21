@@ -6,19 +6,18 @@
   background-repeat: no-repeat;
   background-color: #5e0716;
   background-size: 100%;
-  padding: 60px;
+  padding: 80px;
   background-image: url("../../../public/images/tree-background.svg");
 
   @include md {
-    padding: 40px;
+    padding: 60px;
   }
 
-  
   @include sm {
     padding: 30px;
   }
 
-  svg{
+  svg {
     max-width: 1000px;
   }
 
@@ -34,8 +33,8 @@
     }
 
     @include sm {
-        font-size: 30px;
-      }
+      font-size: 30px;
+    }
   }
 }
 
@@ -43,13 +42,13 @@
   enable-background: new 0 0 507.7 525.9;
   padding: 40px;
 
-  @include md{
-      padding: 20px;
+  @include md {
+    padding: 20px;
   }
 
-  @include sm{
+  @include sm {
     padding: 10px;
-}
+  }
 }
 .st0 {
   fill: #630719;

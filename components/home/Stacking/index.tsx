@@ -1,10 +1,13 @@
 import React from "react";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
-import style from "./stacking.module.scss"
+import Image from "next/image";
+import style from "./stacking.module.scss";
+import StakingButton from "../../../public/images/staking-button.svg";
+
 const Stacking = () => {
   return (
-    <div>
+    <div className={style.wrapper}>
       <div className={style.content}>
         <Typography variant="h2">STAKING</Typography>
 
@@ -14,6 +17,10 @@ const Stacking = () => {
           ERC-721 Tokens and exist on the Ethereum blockchain. Owning a GOAT is not just about having a personalized
           avatar, it's also about gaining access to a vibrant, successful, and generous community.
         </Typography>
+
+        <div role="button" className={style.stakingButton}>
+          <Image src={StakingButton} objectFit="contain" alt="benefits-image" />
+        </div>
       </div>
     </div>
   );

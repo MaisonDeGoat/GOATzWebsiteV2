@@ -4,7 +4,6 @@ import Box from "@mui/material/Box";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import style from "../styles/home.module.scss";
-import HomeCover from "../public/images/home-cover.png";
 import BenefitsBackground from "../public/images/benefits-background.svg";
 import Benefits from "../public/images/benefits-image.png";
 import BenefitsButton from "../public/images/benefits-button.svg";
@@ -12,6 +11,7 @@ import { Button, Container, Grid, Typography } from "@mui/material";
 import RoadMap from "@components/home/RoadMap";
 import Tree from "@components/home/Tree";
 import Stacking from "@components/home/Stacking";
+import Forge from "@components/home/Forge";
 
 export default function Home() {
   const theme = useTheme();
@@ -23,9 +23,6 @@ export default function Home() {
       </Head>
       <div>
         <div className={style.home}>
-          {/* <div className={style.homeImage}>
-            <Image src={HomeCover} layout="fill" objectFit="cover" alt="cover" />
-          </div> */}
           <div className={style.homeContent}>
             <Typography variant="h2">
               WELCOME <br /> TO <br /> GOATz
@@ -40,7 +37,7 @@ export default function Home() {
           <div className={style.benefitImage}>
             <Image src={BenefitsBackground} layout="responsive" objectFit="contain" alt="cover" />
           </div>
-          <Container>
+          <Container maxWidth="lg">
             <Grid container spacing={isMobile ? 5 : 10} className={style.benefitContent}>
               <Grid item xs={12} md={6}>
                 <Box maxWidth="600px" margin="auto">
@@ -70,6 +67,7 @@ export default function Home() {
         <RoadMap />
         <Tree />
         <Stacking />
+        <Forge />
       </div>
       <Box></Box>
     </div>

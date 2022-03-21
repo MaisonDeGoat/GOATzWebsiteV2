@@ -44,45 +44,33 @@ const Header = () => {
         {!isMobile && (
           <Stack direction="row" spacing="20px">
             <Link href="/home">
-              <a>
-                <Typography color="#fff" fontWeight={800}>
-                  HOME
-                </Typography>
+              <a className={style.link}>
+                <Typography>HOME</Typography>
               </a>
             </Link>
             <Link href="/home">
-              <a>
-                <Typography color="#fff" fontWeight={800}>
-                  ROADMAP
-                </Typography>
+              <a className={style.link}>
+                <Typography>ROADMAP</Typography>
               </a>
             </Link>
             <Link href="/home">
-              <a>
-                <Typography color="#fff" fontWeight={800}>
-                  FORGE
-                </Typography>
+              <a className={style.link}>
+                <Typography>FORGE</Typography>
               </a>
             </Link>
             <Link href="/home">
-              <a>
-                <Typography color="#fff" fontWeight={800}>
-                  STACKING
-                </Typography>
+              <a className={style.link}>
+                <Typography>STACKING</Typography>
               </a>
             </Link>
             <Link href="/home">
-              <a>
-                <Typography color="#fff" fontWeight={800}>
-                  MERCH
-                </Typography>
+              <a className={style.link}>
+                <Typography>MERCH</Typography>
               </a>
             </Link>
             <Link href="/home">
-              <a>
-                <Typography color="#fff" fontWeight={800}>
-                  MORE
-                </Typography>
+              <a className={style.link}>
+                <Typography>MORE</Typography>
               </a>
             </Link>
           </Stack>
@@ -90,27 +78,27 @@ const Header = () => {
       </div>
       Î
       <Drawer anchor="left" open={drawer} onClose={toggleDrawer}>
-        <Box width="200px" bgcolor="#7a0019" height="100%" color="#fff" >
+        <Box width="200px" bgcolor="#7a0019" height="100%" color="#fff">
           <div className={style.mobileLogo}>
             <Image src={Logo} alt="logo" objectFit="contain" height={40} width={120} />
           </div>
           <ListItem button>
-            <ListItemText primary="HOME" />
+            <ListItemText disableTypography className={style.listItemText} primary="HOME" />
           </ListItem>
           <ListItem button>
-            <ListItemText primary="ROADMAP" />
+            <ListItemText disableTypography className={style.listItemText} primary="ROADMAP" />
           </ListItem>
           <ListItem button>
-            <ListItemText primary="FORGE" />
+            <ListItemText disableTypography className={style.listItemText} primary="FORGE" />
           </ListItem>
           <ListItem button>
-            <ListItemText primary="STACKING" />
+            <ListItemText disableTypography className={style.listItemText} primary="STACKING" />
           </ListItem>
           <ListItem button>
-            <ListItemText primary="MERCH" />
+            <ListItemText disableTypography className={style.listItemText} primary="MERCH" />
           </ListItem>
           <ListItem button>
-            <ListItemText primary="MORE" />
+            <ListItemText disableTypography className={style.listItemText} primary="MORE" />
           </ListItem>
         </Box>
       </Drawer>

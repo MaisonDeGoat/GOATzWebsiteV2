@@ -9,6 +9,10 @@
   position: relative;
   overflow: hidden;
 
+  @include lg {
+    height: 800px;
+  }
+
   @include md {
     height: 600px;
   }
@@ -26,10 +30,16 @@
 
 .homeContent {
   padding-top: 200px;
-  padding-bottom: 200px;
+  padding-bottom: 300px;
   background-repeat: no-repeat;
   background-size: cover;
+  background-position: center;
   background-image: url("../public/images/home-cover.png");
+
+  @include md {
+    padding-top: 200px;
+    padding-bottom: 100px;
+  }
 
   @include md {
     padding-top: 100px;
@@ -96,7 +106,7 @@
 .benefits {
   position: relative;
   width: 100vw;
-  padding-bottom: 20px;
+  padding-bottom: 50px;
 
   .benefitContent {
     position: relative;
@@ -117,13 +127,14 @@
       font-size: 32px;
       color: #fff;
       font-weight: 800;
-      margin-bottom: 15px;
+      margin-bottom: 20px;
       text-align: left;
       width: 100%;
 
-      @include lg {
+      @include md {
         width: unset;
         text-align: center;
+        font-size: 26px;
       }
     }
 
@@ -131,6 +142,7 @@
       font-weight: 600;
       font-size: 20px;
       color: #fff;
+      max-width: 600px;
 
       @include lg {
         font-size: 16px;
@@ -148,8 +160,12 @@
     top: -400px;
     width: 100vw;
 
-    @include lg {
+    @include xl {
       top: -300px;
+    }
+
+    @include lg {
+      top: -200px;
     }
 
     @include md {
@@ -165,7 +181,7 @@
     margin-top: 80px;
     max-width: 200px;
 
-    @include lg {
+    @include md {
       margin-top: 40px;
     }
   }
