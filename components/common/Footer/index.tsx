@@ -49,54 +49,54 @@ const Footer = () => {
           </Grid>
           <Grid item xs={12} sm={4} md={2}>
             <Stack className={style.list} spacing={2}>
-              <Link href="./home">
+              <Link href="./">
                 <a>Home</a>
               </Link>
-              <Link href="./home">
+              <Link href="./roadmap">
                 <a>Roadmap</a>
               </Link>
-              <Link href="./home">
+              <Link href="./the-forge">
                 <a>Forge</a>
               </Link>
-              <Link href="./home">
+              <Link href="./staking">
                 <a>Staking</a>
               </Link>
-              <Link href="./home">
-                <a>Staking</a>
-              </Link>
+              <a href="https://www.goatzmerch.com" rel="noreferrer" target="_blank">
+                Merch
+              </a>
             </Stack>
           </Grid>
           <Grid item xs={12} sm={4} md={2}>
             <Stack className={style.list} spacing={2}>
-              <Link href="./home">
+              <Link href="./">
                 <a>Getting Started</a>
               </Link>
-              <Link href="./home">
+              <Link href="./">
                 <a>Opensea</a>
               </Link>
-              <Link href="./home">
+              <Link href="./">
                 <a>Contracts</a>
               </Link>
-              <Link href="./home">
+              <Link href="./">
                 <a>Dev Wallet</a>
               </Link>
-              <Link href="./home">
+              <Link href="./white-paper">
                 <a>Whitepaper </a>
               </Link>
             </Stack>
           </Grid>
           <Grid item xs={12} sm={4} md={2}>
             <Stack className={style.list} spacing={2}>
-              <Link href="./home">
+              <Link href="./terms">
                 <a>Terms of Use</a>
               </Link>
-              <Link href="./home">
+              <Link href="./privacy-policy">
                 <a>Privacy Policy</a>
               </Link>
-              <Link href="./home">
+              <Link href="./code-of-conduct">
                 <a>Code of Conduct</a>
               </Link>
-              <Link href="./home">
+              <Link href="./faqs">
                 <a>FAQ</a>
               </Link>
             </Stack>

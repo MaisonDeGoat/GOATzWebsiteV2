@@ -12,9 +12,11 @@ import RoadMap from "@components/home/RoadMap";
 import Tree from "@components/home/Tree";
 import Stacking from "@components/home/Stacking";
 import Forge from "@components/home/Forge";
+import { useRouter } from "next/router";
 
 export default function Home() {
   const theme = useTheme();
+  const router = useRouter();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   return (
     <div className={style.container}>

@@ -1,19 +1,18 @@
 .wrapper {
   position: absolute;
   width: 100vw;
-  padding: 30px;
+  padding-top: 24px;
 
   @include md {
-    padding: 15px;
+    padding-top: 24px;
   }
 
   @include sm {
-    padding: 5px;
+    padding-top: 16px;
   }
 }
 
 .container {
-  background-color: #7a0019;
   border-radius: 5px;
   padding: 15px 25px;
   display: flex;
