@@ -54,7 +54,7 @@ export default function Home() {
                     GOATz are the 1st ever deﬂationary PFP NFT that enables owners to customize their NFTS through a
                     process called The Forge. The total supply of GOATz is always decreasing and the art is always being
                     enhanced. They are ERC-721 Tokens and exist on the Ethereum blockchain. Owning a GOAT is not just
-                    about having a personalized avatar, it's also about gaining access to a vibrant, successful, and
+                    about having a personalized avatar, it&apos;s also about gaining access to a vibrant, successful, and
                     generous community.
                   </Typography>
                   <Link href="/benefits">

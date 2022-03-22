@@ -49,16 +49,16 @@ const Footer = () => {
           </Grid>
           <Grid item xs={12} sm={4} md={2}>
             <Stack className={style.list} spacing={2}>
-              <Link href="./">
+              <Link href="/">
                 <a>Home</a>
               </Link>
-              <Link href="./roadmap">
+              <Link href="/roadmap">
                 <a>Roadmap</a>
               </Link>
-              <Link href="./the-forge">
+              <Link href="/the-forge">
                 <a>Forge</a>
               </Link>
-              <Link href="./staking">
+              <Link href="/staking">
                 <a>Staking</a>
               </Link>
               <a href="https://www.goatzmerch.com" rel="noreferrer" target="_blank">
@@ -68,35 +68,35 @@ const Footer = () => {
           </Grid>
           <Grid item xs={12} sm={4} md={2}>
             <Stack className={style.list} spacing={2}>
-              <Link href="./">
+              <Link href="/">
                 <a>Getting Started</a>
               </Link>
-              <Link href="./">
+              <Link href="/">
                 <a>Opensea</a>
               </Link>
-              <Link href="./">
+              <Link href="/">
                 <a>Contracts</a>
               </Link>
-              <Link href="./">
+              <Link href="/">
                 <a>Dev Wallet</a>
               </Link>
-              <Link href="./white-paper">
+              <Link href="/white-paper">
                 <a>Whitepaper </a>
               </Link>
             </Stack>
           </Grid>
           <Grid item xs={12} sm={4} md={2}>
             <Stack className={style.list} spacing={2}>
-              <Link href="./terms">
+              <Link href="/terms">
                 <a>Terms of Use</a>
               </Link>
-              <Link href="./privacy-policy">
+              <Link href="/privacy-policy">
                 <a>Privacy Policy</a>
               </Link>
-              <Link href="./code-of-conduct">
+              <Link href="/code-of-conduct">
                 <a>Code of Conduct</a>
               </Link>
-              <Link href="./faqs">
+              <Link href="/faqs">
                 <a>FAQ</a>
               </Link>
             </Stack>
