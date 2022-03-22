@@ -101,6 +101,7 @@
   padding-right: min(4vw, 30px);
   padding-top: min(1vw, 10px);
   padding-bottom: min(1vw, 10px);
+  z-index: 100;
 }
 
 .benefits {
@@ -180,6 +181,7 @@
   .benefitsButton {
     margin-top: 80px;
     max-width: 200px;
+    cursor: pointer;
 
     @include md {
       margin-top: 40px;

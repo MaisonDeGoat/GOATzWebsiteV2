@@ -3,7 +3,7 @@
   padding-top: 50px;
   padding-bottom: 50px;
 
-  @include md{
+  @include md {
     padding: 20px;
   }
 }
@@ -19,8 +19,7 @@
   }
 }
 
-
-.logoContainer{
+.logoContainer {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -44,9 +43,17 @@
     padding: 10px 15px;
     max-width: 300px;
     margin-bottom: 20px;
+    font-weight: 600;
+    font-family: "Montserrat";
     @include sm {
       max-width: 100%;
     }
+  }
+
+  input:focus,
+  textarea:focus,
+  select:focus {
+    outline: none;
   }
 
   button {
@@ -59,9 +66,14 @@
     font-weight: 700;
     font-size: 20px;
     border-style: none;
+    cursor: pointer;
 
     @include sm {
       max-width: 100%;
     }
+  }
+
+  button:hover {
+    background-color: #e6b41e;
   }
 }

@@ -7,12 +7,13 @@ import Image from "next/image";
 import style from "./forge.module.scss";
 import ForgeButton from "../../../public/images/forge-button.svg";
 import ForgeImage from "../../../public/images/forge-image.png";
+import Link from "next/link";
 
 const Forge = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   return (
-    <div className={style.wrapper}>
+    <div className={style.wrapper} id="forge">
       <Container>
         <Grid container spacing={isMobile ? 5 : 10} className={style.content}>
           <Grid item xs={12} md={6}>
@@ -23,10 +24,11 @@ const Forge = () => {
                 contract you will be able to take two of your GOATz and choose which traits you want your combined GOAT
                 to have. The traits you didnʼt choose disappear from the ecosystem forever!
               </Typography>
-
-              <div role="button" className={style.forgeButton}>
-                <Image src={ForgeButton} objectFit="contain" alt="benefits-image" />
-              </div>
+              <Link href="/the-forge">
+                <a className={style.forgeButton}>
+                  <Image src={ForgeButton} objectFit="contain" alt="benefits-image" />
+                </a>
+              </Link>
             </Box>
           </Grid>
           <Grid item xs={12} md={6}>

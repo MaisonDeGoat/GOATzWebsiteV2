@@ -1,4 +1,5 @@
 import { Typography } from "@mui/material";
+import Link from "next/link";
 import React from "react";
 import style from "./tree.module.scss";
 
@@ -465,43 +466,63 @@ const Tree = () => {
 		c0-0.6,0.2-1.1,1-1.1c0.1,0,0.2,0,0.3,0c-0.1,0-0.2,0-0.3,0C385.5,383.5,385.3,384,385.2,384.6 M420.4,370.6
 		c0.1-0.1,0.1-0.2,0.2-0.3C420.5,370.4,420.5,370.5,420.4,370.6c0.4,0.8,1.8,0.5,2.1,1.4C422.2,371.1,420.8,371.4,420.4,370.6"
           />
-          <text transform="matrix(1 0 0 1 80.388 87.2085)">
-            <tspan x="0" y="0" className={`${style.st4} ${style.st5} ${style.st6}`}>
-              G
-            </tspan>
-            <tspan x="31.6" y="0" className={`${style.st4} ${style.st5} ${style.st6}`}>
-              O
-            </tspan>
-            <tspan x="65.9" y="0" className={`${style.st4} ${style.st5} ${style.st6} ${style.st7}`}>
-              A
-            </tspan>
-            <tspan x="96.7" y="0" className={`${style.st4} ${style.st5} ${style.st6}`}>
-              T
-            </tspan>
-            <tspan x="122.4" y="0" className={`${style.st4} ${style.st5} ${style.st6}`}>
-              z
-            </tspan>
-          </text>
-          <text transform="matrix(1 0 0 1 323.7469 180.4165)" className={`${style.st4} ${style.st5} ${style.st6}`}>
-            KIDz
-          </text>
-          <text transform="matrix(1 0 0 1 113.0901 276.4619)">
-            <tspan x="0" y="0" className={`${style.st4} ${style.st5} ${style.st8}`}>
-              A
-            </tspan>
-            <tspan x="24.7" y="0" className={`${style.st4} ${style.st5} ${style.st8}`}>
-              U
-            </tspan>
-            <tspan x="49.4" y="0" className={`${style.st4} ${style.st5} ${style.st8}`}>
-              T
-            </tspan>
-          </text>
-          <text transform="matrix(1 0 0 1 296.698 378.1855)" className={`${style.st4} ${style.st5} ${style.st6}`}>
-            MERCH
-          </text>
-          <text transform="matrix(1 0 0 1 43.7112 473.3642)" className={`${style.st4} ${style.st5} ${style.st9}`}>
-            LEARN MORE
-          </text>
+          <Link href="/goatz" passHref>
+            <text transform="matrix(1 0 0 1 80.388 87.2085)" className={style.link}>
+              <tspan x="0" y="0" className={`${style.st4} ${style.st5} ${style.st6}`}>
+                G
+              </tspan>
+              <tspan x="31.6" y="0" className={`${style.st4} ${style.st5} ${style.st6}`}>
+                O
+              </tspan>
+              <tspan x="65.9" y="0" className={`${style.st4} ${style.st5} ${style.st6} ${style.st7}`}>
+                A
+              </tspan>
+              <tspan x="96.7" y="0" className={`${style.st4} ${style.st5} ${style.st6}`}>
+                T
+              </tspan>
+              <tspan x="122.4" y="0" className={`${style.st4} ${style.st5} ${style.st6}`}>
+                z
+              </tspan>
+            </text>
+          </Link>
+          <Link href="/kidz" passHref>
+            <text
+              transform="matrix(1 0 0 1 323.7469 180.4165)"
+              className={`${style.st4} ${style.st5} ${style.st6} ${style.link}`}
+            >
+              KIDz
+            </text>
+          </Link>
+          <Link href="/aut" passHref>
+            <text transform="matrix(1 0 0 1 113.0901 276.4619)" className={style.link}>
+              <tspan x="0" y="0" className={`${style.st4} ${style.st5} ${style.st8}`}>
+                A
+              </tspan>
+              <tspan x="24.7" y="0" className={`${style.st4} ${style.st5} ${style.st8}`}>
+                U
+              </tspan>
+              <tspan x="49.4" y="0" className={`${style.st4} ${style.st5} ${style.st8}`}>
+                T
+              </tspan>
+            </text>
+          </Link>
+          <a href="https://www.goatzmerch.com" rel="noreferrer" target="_blank">
+            <text
+              transform="matrix(1 0 0 1 296.698 378.1855)"
+              className={`${style.st4} ${style.st5} ${style.st6} ${style.link}`}
+            >
+              MERCH
+            </text>
+          </a>
+
+          <Link href="/learn-more" passHref>
+            <text
+              transform="matrix(1 0 0 1 43.7112 473.3642)"
+              className={`${style.st4} ${style.st5} ${style.st9} ${style.link}`}
+            >
+              LEARN MORE
+            </text>
+          </Link>
         </g>
       </svg>
     </div>

@@ -27,6 +27,11 @@ const Header = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const toggleDrawer = () => setDrawer(!drawer);
 
+  const handleMobileLink = (link: string) => {
+    router.push(link);
+    toggleDrawer();
+  };
+
   return (
     <div className={style.wrapper}>
       <Container>
@@ -37,41 +42,56 @@ const Header = () => {
                 <MenuIcon fontSize={isMobile ? "small" : "large"} className={style.menuIcon} />
               </IconButton>
             )}
-            <Image src={Logo} alt="logo" objectFit="contain" height={isMobile ? 18 : 55} width={isMobile ? 75 : 237} />
+            <Link href="/" passHref>
+              <a>
+                <Image
+                  src={Logo}
+                  alt="logo"
+                  objectFit="contain"
+                  height={isMobile ? 18 : 55}
+                  width={isMobile ? 75 : 237}
+                />
+              </a>
+            </Link>
           </Box>
           <div className={style.social}>
-            <Image src={OpenseaIcon} height={20} width={30} objectFit="contain" alt="opensea-icon" />
-            <Image src={DiscordIcon} height={20} width={30} objectFit="contain" alt="discord-icon" />
-            <Image src={TwitterIcon} height={20} width={30} objectFit="contain" alt="twitter-icon" />
+            <a href="https://www.opensea.io" rel="noreferrer" target="_blank">
+              <Image src={OpenseaIcon} height={20} width={30} objectFit="contain" alt="opensea-icon" />
+            </a>
+            <a href="https://www.discord.com" rel="noreferrer" target="_blank">
+              <Image src={DiscordIcon} height={20} width={30} objectFit="contain" alt="discord-icon" />
+            </a>
+            <a href="https://www.twitter.com" rel="noreferrer" target="_blank">
+              <Image src={TwitterIcon} height={20} width={30} objectFit="contain" alt="twitter-icon" />
+            </a>
           </div>
           {!isMobile && (
             <Stack direction="row" spacing="20px">
-              <Link href="/home">
+              <Link href="/">
                 <a className={style.link}>
                   <Typography>HOME</Typography>
                 </a>
               </Link>
-              <Link href="/home">
+              <Link href="/roadmap">
                 <a className={style.link}>
                   <Typography>ROADMAP</Typography>
                 </a>
               </Link>
-              <Link href="/home">
+              <Link href="/the-forge">
                 <a className={style.link}>
                   <Typography>FORGE</Typography>
                 </a>
               </Link>
-              <Link href="/home">
+              <Link href="/staking">
                 <a className={style.link}>
-                  <Typography>STACKING</Typography>
+                  <Typography>STAKING</Typography>
                 </a>
               </Link>
-              <Link href="/home">
-                <a className={style.link}>
-                  <Typography>MERCH</Typography>
-                </a>
-              </Link>
-              <Link href="/home">
+              <a href="https://www.goatzmerch.com" rel="noreferrer" target="_blank" className={style.link}>
+                <Typography>MERCH</Typography>
+              </a>
+
+              <Link href="/">
                 <a className={style.link}>
                   <Typography>MORE</Typography>
                 </a>
@@ -86,22 +106,22 @@ const Header = () => {
           <div className={style.mobileLogo}>
             <Image src={Logo} alt="logo" objectFit="contain" height={40} width={120} />
           </div>
-          <ListItem button>
+          <ListItem button onClick={() => handleMobileLink("/")}>
             <ListItemText disableTypography className={style.listItemText} primary="HOME" />
           </ListItem>
-          <ListItem button>
+          <ListItem button onClick={() => handleMobileLink("/roadmap")}>
             <ListItemText disableTypography className={style.listItemText} primary="ROADMAP" />
           </ListItem>
-          <ListItem button>
+          <ListItem button onClick={() => handleMobileLink("/the-forge")}>
             <ListItemText disableTypography className={style.listItemText} primary="FORGE" />
           </ListItem>
-          <ListItem button>
-            <ListItemText disableTypography className={style.listItemText} primary="STACKING" />
+          <ListItem button onClick={() => handleMobileLink("/staking")}>
+            <ListItemText disableTypography className={style.listItemText} primary="STAKING" />
           </ListItem>
-          <ListItem button>
+          <ListItem button onClick={() => handleMobileLink("https://www.goatzmerch.com")}>
             <ListItemText disableTypography className={style.listItemText} primary="MERCH" />
           </ListItem>
-          <ListItem button>
+          <ListItem button onClick={() => handleMobileLink("/")}>
             <ListItemText disableTypography className={style.listItemText} primary="MORE" />
           </ListItem>
         </Box>

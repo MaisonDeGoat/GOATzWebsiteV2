@@ -9,13 +9,14 @@ import RoadMapDesktopBackground from "../../../public/images/roadmap-background-
 import RoadMapMobileBackground from "../../../public/images/roadmap-background-mobile.png";
 import RoadMapImage from "../../../public/images/roadmap-image.png";
 import RoadMapButton from "../../../public/images/roadmap-button.svg";
+import Link from "next/link";
 
 const RoadMap = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
   return (
-    <div className={style.roadMap}>
+    <div className={style.roadMap} id="roadmap">
       <div>
         <Image
           src={isMobile ? RoadMapMobileBackground : RoadMapDesktopBackground}
@@ -32,9 +33,11 @@ const RoadMap = () => {
             <Grid item xs={6}>
               <div className={style.roadMapImage}>
                 <Image src={RoadMapImage} alt="road-map-background" />
-                <div role="button" className={style.roadMapButton}>
-                  <Image src={RoadMapButton} objectFit="contain" alt="benefits-image" />
-                </div>
+                <Link href="/roadmap">
+                  <a className={style.roadMapButton}>
+                    <Image src={RoadMapButton} objectFit="contain" alt="benefits-image" />
+                  </a>
+                </Link>
               </div>
             </Grid>
           </Grid>
@@ -45,9 +48,11 @@ const RoadMap = () => {
         <div className={style.roadMapContent}>
           <div className={style.roadMapImage}>
             <Image src={RoadMapImage} alt="road-map-background" />
-            <div role="button" className={style.roadMapButton}>
-              <Image src={RoadMapButton} objectFit="contain" alt="benefits-image" />
-            </div>
+            <Link href="/roadmap">
+              <a className={style.roadMapButton}>
+                <Image src={RoadMapButton} objectFit="contain" alt="benefits-image" />
+              </a>
+            </Link>
           </div>
         </div>
       )}

@@ -13,6 +13,7 @@ import Tree from "@components/home/Tree";
 import Stacking from "@components/home/Stacking";
 import Forge from "@components/home/Forge";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 export default function Home() {
   const theme = useTheme();
@@ -56,10 +57,11 @@ export default function Home() {
                     about having a personalized avatar, it's also about gaining access to a vibrant, successful, and
                     generous community.
                   </Typography>
-
-                  <div role="button" className={style.benefitsButton}>
-                    <Image src={BenefitsButton} objectFit="contain" alt="benefits-image" />
-                  </div>
+                  <Link href="/benefits">
+                    <a className={style.benefitsButton}>
+                      <Image src={BenefitsButton} objectFit="contain" alt="benefits-image" />
+                    </a>
+                  </Link>
                 </Box>
               </Grid>
             </Grid>

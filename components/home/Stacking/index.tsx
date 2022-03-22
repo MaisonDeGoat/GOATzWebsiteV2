@@ -4,10 +4,11 @@ import Typography from "@mui/material/Typography";
 import Image from "next/image";
 import style from "./stacking.module.scss";
 import StakingButton from "../../../public/images/staking-button.svg";
+import Link from "next/link";
 
 const Stacking = () => {
   return (
-    <div className={style.wrapper}>
+    <div className={style.wrapper} id="staking">
       <div className={style.content}>
         <Typography variant="h2">STAKING</Typography>
 
@@ -18,9 +19,11 @@ const Stacking = () => {
           avatar, it's also about gaining access to a vibrant, successful, and generous community.
         </Typography>
 
-        <div role="button" className={style.stakingButton}>
-          <Image src={StakingButton} objectFit="contain" alt="benefits-image" />
-        </div>
+        <Link href="/staking">
+          <a className={style.stakingButton}>
+            <Image src={StakingButton} objectFit="contain" alt="benefits-image" />
+          </a>
+        </Link>
       </div>
     </div>
   );
