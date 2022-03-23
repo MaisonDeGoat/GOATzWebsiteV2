@@ -2,9 +2,13 @@ import Container from "@mui/material/Container";
 import Image from "next/image";
 import style from "./staking.module.scss";
 import StakingCover from "../../public/images/staking.png";
+import Head from "next/head";
 const Staking = () => {
   return (
     <div className={style.wrapper}>
+      <Head>
+        <title>GOATz - Staking</title>
+      </Head>
       <Container>
         <Image src={StakingCover} layout="responsive" alt="staking" />
         <p className={style.content}>

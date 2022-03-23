@@ -43,7 +43,7 @@ const Header = () => {
               </IconButton>
             )}
             <Link href="/" passHref>
-              <a>
+              <a className={style.logo}>
                 <Image
                   src={Logo}
                   alt="logo"
@@ -55,13 +55,13 @@ const Header = () => {
             </Link>
           </Box>
           <div className={style.social}>
-            <a href="https://www.opensea.io" rel="noreferrer" target="_blank">
-              <Image src={OpenseaIcon} height={20} width={30} objectFit="contain" alt="opensea-icon" />
+            <a href="https://opensea.io/collection/maisondegoat" rel="noreferrer" target="_blank">
+              <Image src={OpenseaIcon} height={18} width={30} objectFit="contain" alt="opensea-icon" />
             </a>
-            <a href="https://www.discord.com" rel="noreferrer" target="_blank">
+            <a href="https://discord.gg/GOATZ" rel="noreferrer" target="_blank">
               <Image src={DiscordIcon} height={20} width={30} objectFit="contain" alt="discord-icon" />
             </a>
-            <a href="https://www.twitter.com" rel="noreferrer" target="_blank">
+            <a href="https://twitter.com/MaisonDeGOAT" rel="noreferrer" target="_blank">
               <Image src={TwitterIcon} height={20} width={30} objectFit="contain" alt="twitter-icon" />
             </a>
           </div>

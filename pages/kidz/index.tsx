@@ -2,10 +2,14 @@ import Container from "@mui/material/Container";
 import Image from "next/image";
 import style from "./kidz.module.scss";
 import KidzCover from "../../public/images/kidz.png";
+import Head from "next/head";
 const Kidz = () => {
   return (
     <div className={style.wrapper}>
       <Container>
+        <Head>
+          <title>GOATz - Kidz</title>
+        </Head>
         <Image src={KidzCover} layout="responsive" alt="kidz" />
         <p className={style.content}>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore

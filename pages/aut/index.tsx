@@ -1,9 +1,12 @@
 import Container from "@mui/material/Container";
-import Image from "next/image";
+import Head from "next/head";
 import style from "./aut.module.scss";
 const Aut = () => {
   return (
     <div className={style.wrapper}>
+      <Head>
+        <title>GOATz - Aut</title>
+      </Head>
       <Container>
         <p className={style.content}>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore

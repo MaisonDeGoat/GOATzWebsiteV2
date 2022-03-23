@@ -2,9 +2,13 @@ import Container from "@mui/material/Container";
 import Image from "next/image";
 import style from "./roadmap.module.scss";
 import RoadMapCover from "../../public/images/roadmap-image.png";
+import Head from "next/head";
 const RoadMap = () => {
   return (
     <div className={style.wrapper}>
+      <Head>
+        <title>GOATz - Roadmap</title>
+      </Head>
       <Container>
         <Image src={RoadMapCover} alt="goatz" layout="responsive" />
         <p className={style.content}>

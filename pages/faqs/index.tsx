@@ -1,8 +1,12 @@
 import Container from "@mui/material/Container";
+import Head from "next/head";
 import style from "./faqs.module.scss";
 const Faqs = () => {
   return (
     <div className={style.wrapper}>
+      <Head>
+        <title>GOATz - Faqs</title>
+      </Head>
       <Container>
         <p className={style.content}>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore

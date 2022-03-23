@@ -22,19 +22,19 @@ const Footer = () => {
                   <Image src={Logo} alt="logo" objectFit="contain" height={70} width={250} />
                 </Box>
                 <Stack direction="row" spacing={2}>
-                  <a>
+                  <a href="https://discord.gg/GOATZ">
                     <Image src={DiscordIcon} height={30} width={30} objectFit="contain" alt="discord-icon" />
                   </a>
-                  <a>
+                  <a href="https://twitter.com/MaisonDeGOAT">
                     <Image src={TwitterIcon} height={30} width={30} objectFit="contain" alt="twitter-icon" />
                   </a>
-                  <a>
+                  <a href="https://tiktok.com">
                     <Image src={TikTokIcon} height={30} width={30} objectFit="contain" alt="tiktok-icon" />
                   </a>
-                  <a>
+                  <a href="https://www.youtube.com/channel/UC4J0oY9FNjHm0U1AO_QXiyA">
                     <Image src={YoutubeIcon} height={30} width={30} objectFit="contain" alt="youtube-icon" />
                   </a>
-                  <a>
+                  <a href="https://www.twitch.com/">
                     <Image src={TwitchIcon} height={30} width={30} objectFit="contain" alt="twitch-icon" />
                   </a>
                 </Stack>

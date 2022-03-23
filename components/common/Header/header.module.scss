@@ -35,6 +35,12 @@
     padding-right: 10px;
     display: flex;
     align-items: center;
+
+    a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
   }
 }
 
@@ -43,6 +49,11 @@
   margin-right: 5px;
 }
 
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .mobileLogo {
   padding-left: 15px;
   padding-top: 15px;
@@ -56,10 +67,9 @@
     font-weight: 800;
     font-size: 18px;
 
-    @include lg{
+    @include lg {
       font-size: 16px;
     }
-
   }
 }
 

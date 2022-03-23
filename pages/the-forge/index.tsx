@@ -2,9 +2,13 @@ import Container from "@mui/material/Container";
 import Image from "next/image";
 import style from "./forge.module.scss";
 import ForgeCover from "../../public/images/forge-image.png";
+import Head from "next/head";
 const Forge = () => {
   return (
     <div className={style.wrapper}>
+      <Head>
+        <title>GOATz - Forge</title>
+      </Head>
       <Container>
         <Image src={ForgeCover} layout="responsive" alt="staking" />
         <p className={style.content}>

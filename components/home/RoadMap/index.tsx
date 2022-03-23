@@ -14,9 +14,13 @@ import Link from "next/link";
 const RoadMap = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const isExtraLarge = useMediaQuery(theme.breakpoints.down("xl"));
 
   return (
     <div className={style.roadMap} id="roadmap">
+      <div className={style.topBlendGradient}>
+
+      </div>
       <div>
         <Image
           src={isMobile ? RoadMapMobileBackground : RoadMapDesktopBackground}
@@ -27,7 +31,7 @@ const RoadMap = () => {
       </div>
 
       {!isMobile && (
-        <Container className={style.roadMapContent}>
+        <Container maxWidth={isExtraLarge ? "lg" : "xl"} className={style.roadMapContent}>
           <Grid container>
             <Grid item xs={6}></Grid>
             <Grid item xs={6}>

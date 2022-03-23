@@ -1,5 +1,6 @@
 .container {
   background-color: #5e0012;
+  overflow: hidden;
 }
 
 .home {
@@ -116,11 +117,14 @@
   position: relative;
   width: 100vw;
   padding-bottom: 50px;
+  background-size: 100%;
+  background-image: url("../public/images/tree-background.svg");
 
   .benefitContent {
     position: relative;
     z-index: 200;
     padding-top: 40px;
+    padding-bottom: 50px;
   }
 
   .benefitDescription {

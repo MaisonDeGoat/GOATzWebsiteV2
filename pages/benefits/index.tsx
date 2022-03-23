@@ -2,10 +2,14 @@ import Container from "@mui/material/Container";
 import Image from "next/image";
 import style from "./benefits.module.scss";
 import BenefitsCover from "../../public/images/benefits.png";
+import Head from "next/head";
 const Benefits = () => {
   return (
     <div className={style.wrapper}>
       <Container>
+        <Head>
+          <title>GOATz - Benefits</title>
+        </Head>
         <Image src={BenefitsCover} alt="goatz" />
         <p className={style.content}>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
