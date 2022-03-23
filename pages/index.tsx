@@ -22,16 +22,18 @@ export default function Home() {
   return (
     <div className={style.container}>
       <Head>
-        <title>Create Next App</title>
+        <title>GOATz</title>
       </Head>
       <div>
         <div className={style.home}>
           <div className={style.homeContent}>
-            <Typography variant="h2">
-              WELCOME <br /> TO <br /> GOATz
-            </Typography>
             <Typography variant="h4">A THRIVING COMMUNITY OF DREAMERS, REBELS, AND DOERS </Typography>
-            <Button disableElevation variant="contained" className={style.homeButton}>
+            <Button
+              onClick={() => router.push("/benefits")}
+              disableElevation
+              variant="contained"
+              className={style.homeButton}
+            >
               READ MORE
             </Button>
           </div>
@@ -54,8 +56,8 @@ export default function Home() {
                     GOATz are the 1st ever deﬂationary PFP NFT that enables owners to customize their NFTS through a
                     process called The Forge. The total supply of GOATz is always decreasing and the art is always being
                     enhanced. They are ERC-721 Tokens and exist on the Ethereum blockchain. Owning a GOAT is not just
-                    about having a personalized avatar, it&apos;s also about gaining access to a vibrant, successful, and
-                    generous community.
+                    about having a personalized avatar, it&apos;s also about gaining access to a vibrant, successful,
+                    and generous community.
                   </Typography>
                   <Link href="/benefits">
                     <a className={style.benefitsButton}>
