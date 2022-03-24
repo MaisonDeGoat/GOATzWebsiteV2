@@ -13,7 +13,7 @@
   background-size: cover;
   background-position: center;
   background-image: url("../public/images/home-cover.png");
-  height: 1000px;
+  height: 1200px;
 
   @include lg {
     height: 800px;
@@ -44,7 +44,11 @@
   align-items: center;
   flex-direction: column;
   justify-content: flex-end;
-  padding-bottom: 200px;
+  padding-bottom: 300px;
+
+  @include lg {
+    padding-bottom: 200px;
+  }
 
   @include md {
     padding-top: 100px;
@@ -118,7 +122,10 @@
   width: 100vw;
   padding-bottom: 50px;
   background-size: 100%;
-  background-image: url("../public/images/tree-background.svg");
+
+  @include md {
+    background-image: url("../public/images/tree-background.svg");
+  }
 
   .benefitContent {
     position: relative;
@@ -145,6 +152,7 @@
         width: unset;
         text-align: center;
         font-size: 26px;
+        margin-top: 50px;
       }
     }
 
@@ -167,9 +175,13 @@
 
   .benefitImage {
     position: absolute;
-    top: -450px;
+    top: -650px;
     width: 104vw;
     left: -2vw;
+
+    @media (max-width: 2000px) {
+      top: -500px;
+    }
 
     @include xl {
       top: -300px;
@@ -180,14 +192,14 @@
     }
 
     @include md {
-      top: -200px;
+      top: -220px;
     }
 
     @include sm {
-      top: -100px;
+      top: -150px;
     }
     @include xs {
-      top: -50px;
+      top: -100px;
     }
   }
 

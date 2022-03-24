@@ -43,7 +43,7 @@ export default function Home() {
             <Image src={BenefitsBackground} layout="responsive" objectFit="contain" alt="cover" />
           </div>
           <Container maxWidth="lg">
-            <Grid container spacing={isMobile ? 5 : 10} className={style.benefitContent}>
+            <Grid container spacing={isMobile ? 0 : 10} className={style.benefitContent}>
               <Grid item xs={12} md={6}>
                 <Box maxWidth="600px" margin="auto">
                   <Image src={Benefits} objectFit="contain" alt="benefits-image" />

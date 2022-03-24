@@ -16,26 +16,26 @@ const Footer = () => {
       <Container>
         <Grid container spacing={4}>
           <Grid item xs={12} sm={12} md={6}>
-            <div>
+            <div className={style.content}>
               <div className={style.logoContainer}>
                 <Box mb="10px">
                   <Image src={Logo} alt="logo" objectFit="contain" height={70} width={250} />
                 </Box>
-                <Stack direction="row" spacing={2}>
+                <Stack direction="row" spacing={2} className={style.socialLogos}>
                   <a href="https://discord.gg/GOATZ">
-                    <Image src={DiscordIcon} height={30} width={30} objectFit="contain" alt="discord-icon" />
+                    <Image src={DiscordIcon} height={30} width={35} objectFit="contain" alt="discord-icon" />
                   </a>
                   <a href="https://twitter.com/MaisonDeGOAT">
-                    <Image src={TwitterIcon} height={30} width={30} objectFit="contain" alt="twitter-icon" />
+                    <Image src={TwitterIcon} height={30} width={35} objectFit="contain" alt="twitter-icon" />
                   </a>
                   <a href="https://tiktok.com">
-                    <Image src={TikTokIcon} height={30} width={30} objectFit="contain" alt="tiktok-icon" />
+                    <Image src={TikTokIcon} height={30} width={35} objectFit="contain" alt="tiktok-icon" />
                   </a>
                   <a href="https://www.youtube.com/channel/UC4J0oY9FNjHm0U1AO_QXiyA">
-                    <Image src={YoutubeIcon} height={30} width={30} objectFit="contain" alt="youtube-icon" />
+                    <Image src={YoutubeIcon} height={30} width={35} objectFit="contain" alt="youtube-icon" />
                   </a>
                   <a href="https://www.twitch.com/">
-                    <Image src={TwitchIcon} height={30} width={30} objectFit="contain" alt="twitch-icon" />
+                    <Image src={TwitchIcon} height={30} width={35} objectFit="contain" alt="twitch-icon" />
                   </a>
                 </Stack>
               </div>
