@@ -38,8 +38,8 @@ const Forge = () => {
               whileInView="onscreen"
               custom={typeof window !== "undefined" ? -window.innerWidth / 3 : 0}
               viewport={{
-                once: false,
-                amount: 0.5,
+                once: true,
+                amount: 0.2,
               }}
               variants={sideFadeAnimation}
               className={style.description}
@@ -48,10 +48,10 @@ const Forge = () => {
               <Typography variant="body1">
                 One of the main reasons GOATz was created was to give control to the owners and allow them to craft an NFT that represents themselves, a story, or their ambitions!  Through The Forge, this is made possible. Owners can take 2 different GOATz and select their favorite traits from each GOAT to form 1 combined GOAT.
               </Typography>
-              <Link href="/the-forge">
-                <a className={style.forgeButton}>
+              <Link href="/the-forge" passHref>
+                <motion.a className={style.forgeButton} whileHover={{ scale: 1.2 }}>
                   <Image src={ForgeButton} lazyBoundary="500px" objectFit="contain" alt="benefits-image" />
-                </a>
+                </motion.a>
               </Link>
             </motion.div>
           </Grid>
@@ -62,8 +62,8 @@ const Forge = () => {
                 whileInView="onscreen"
                 custom={typeof window !== "undefined" ? window.innerWidth / 3 : 0}
                 viewport={{
-                  once: false,
-                  amount: 0.5,
+                  once: true,
+                  amount: 0.2,
                 }}
                 variants={sideFadeAnimation}
               >

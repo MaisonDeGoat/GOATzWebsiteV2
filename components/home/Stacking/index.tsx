@@ -27,8 +27,8 @@ const Stacking = () => {
         whileInView="onscreen"
         custom={typeof window !== "undefined" ? -window.innerWidth / 3 : 0}
         viewport={{
-          once: false,
-          amount: 0.5,
+          once: true,
+          amount: 0.2,
         }}
         variants={sideFadeAnimation}
         className={style.content}
@@ -39,10 +39,10 @@ const Stacking = () => {
           In the GOATz universe, the KIDz are the long term earners! By staking our companion NFT, KIDz, you will earn $GMILK over time. $GMILK is our in-game currency and can be used to purchase items and experiences within our ecosystem. If you have more questions check out our white paper.
         </Typography>
 
-        <Link href="/staking">
-          <a className={style.stakingButton}>
+        <Link href="/staking" passHref>
+          <motion.a className={style.stakingButton} whileHover={{ scale: 1.2 }}>
             <Image src={StakingButton} lazyBoundary="500px" objectFit="contain" alt="benefits-image" />
-          </a>
+          </motion.a>
         </Link>
       </motion.div>
     </div>
