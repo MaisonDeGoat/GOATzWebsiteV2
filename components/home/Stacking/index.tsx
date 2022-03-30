@@ -3,11 +3,36 @@ import Image from "next/image";
 import style from "./stacking.module.scss";
 import StakingButton from "../../../public/images/staking-button.svg";
 import Link from "next/link";
+import { motion, Variants } from "framer-motion";
 
 const Stacking = () => {
+  const sideFadeAnimation: Variants = {
+    offscreen: (offset: number) => ({
+      opacity: 0,
+      x: offset,
+    }),
+    onscreen: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        duration: 1,
+      },
+    },
+  };
+
   return (
     <div className={style.wrapper} id="staking">
-      <div className={style.content}>
+      <motion.div
+        initial="offscreen"
+        whileInView="onscreen"
+        custom={typeof window !== "undefined" ? -window.innerWidth / 3 : 0}
+        viewport={{
+          once: false,
+          amount: 0.5,
+        }}
+        variants={sideFadeAnimation}
+        className={style.content}
+      >
         <Typography variant="h2">STAKING</Typography>
 
         <Typography variant="body1">
@@ -19,10 +44,10 @@ const Stacking = () => {
 
         <Link href="/staking">
           <a className={style.stakingButton}>
-            <Image src={StakingButton} objectFit="contain" alt="benefits-image" />
+            <Image src={StakingButton} lazyBoundary="500px" objectFit="contain" alt="benefits-image" />
           </a>
         </Link>
-      </div>
+      </motion.div>
     </div>
   );
 };

@@ -16,6 +16,8 @@
     "@emotion/styled": "latest",
     "@mui/icons-material": "latest",
     "@mui/material": "latest",
+    "framer-motion": "^6.2.8",
+    "motion": "^10.7.0",
     "next": "latest",
     "react": "latest",
     "react-dom": "latest",
