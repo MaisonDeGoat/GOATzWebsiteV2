@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import Head from "next/head";
 import Image from "next/image";
 import Box from "@mui/material/Box";
@@ -14,11 +15,27 @@ import Stacking from "@components/home/Stacking";
 import Forge from "@components/home/Forge";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { motion, Variants } from "framer-motion";
 
 export default function Home() {
   const theme = useTheme();
   const router = useRouter();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+
+  const sideFadeAnimation: Variants = {
+    offscreen: (offset: number) => ({
+      opacity: 0,
+      x: offset,
+    }),
+    onscreen: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        duration: 1,
+      },
+    },
+  };
+
   return (
     <div className={style.container}>
       <Head>
@@ -40,17 +57,39 @@ export default function Home() {
         </div>
         <div className={style.benefits}>
           <div className={style.benefitImage}>
-            <Image src={BenefitsBackground} layout="responsive" objectFit="contain" alt="cover" />
+            <Image src={BenefitsBackground} lazyBoundary="500px" layout="responsive" objectFit="contain" alt="cover" />
           </div>
           <Container maxWidth="lg">
             <Grid container spacing={isMobile ? 0 : 10} className={style.benefitContent}>
               <Grid item xs={12} md={6}>
                 <Box maxWidth="600px" margin="auto">
-                  <Image src={Benefits} objectFit="contain" alt="benefits-image" />
+                  <motion.div
+                    initial="offscreen"
+                    whileInView="onscreen"
+                    custom={typeof window !== "undefined" ? -window.innerWidth / 3 : 0}
+                    viewport={{
+                      once: false,
+                      amount: 0.2,
+                    }}
+                    variants={sideFadeAnimation}
+                    className={style.benefitDescription}
+                  >
+                    <Image src={Benefits} objectFit="contain" alt="benefits-image" />
+                  </motion.div>
                 </Box>
               </Grid>
               <Grid item xs={12} md={6}>
-                <Box className={style.benefitDescription}>
+                <motion.div
+                  initial="offscreen"
+                  whileInView="onscreen"
+                  custom={typeof window !== "undefined" ? window.innerWidth / 3 : 0}
+                  viewport={{
+                    once: false,
+                    amount: 0.5,
+                  }}
+                  variants={sideFadeAnimation}
+                  className={style.benefitDescription}
+                >
                   <Typography variant="h4">WELCOME TO GOATz</Typography>
                   <Typography variant="body1">
                     GOATz launched in July 2021 and are the 1st ever deﬂationary PFP NFT that enables owners to customize their NFTS through a process called The Forge. GOATz scarcity is always increasing and the art is always being enhanced. Owning a GOAT will unlock the doors to an amazing community and everything we are developing exclusively for GOATz in the different metaverses like The Sandbox and NFT Worlds. 
@@ -60,7 +99,7 @@ export default function Home() {
                       <Image src={BenefitsButton} objectFit="contain" alt="benefits-image" />
                     </a>
                   </Link>
-                </Box>
+                </motion.div>
               </Grid>
             </Grid>
           </Container>
