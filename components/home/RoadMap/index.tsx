@@ -53,17 +53,17 @@ const RoadMap = () => {
                 whileInView="onscreen"
                 custom={typeof window !== "undefined" ? window.innerWidth / 3 : 0}
                 viewport={{
-                  once: false,
-                  amount: 0.5,
+                  once: true,
+                  amount: 0.2,
                 }}
                 variants={sideFadeAnimation}
                 className={style.roadMapImage}
               >
                 <Image src={RoadMapImage} alt="road-map-background" />
-                <Link href="/roadmap">
-                  <a className={style.roadMapButton}>
+                <Link href="/roadmap" passHref>
+                  <motion.a className={style.roadMapButton} whileHover={{ scale: 1.2 }}>
                     <Image src={RoadMapButton} objectFit="contain" alt="benefits-image" />
-                  </a>
+                  </motion.a>
                 </Link>
               </motion.div>
             </Grid>
@@ -78,17 +78,17 @@ const RoadMap = () => {
             whileInView="onscreen"
             custom={typeof window !== "undefined" ? window.innerWidth / 3 : 0}
             viewport={{
-              once: false,
-              amount: 0.5,
+              once: true,
+              amount: 0.2,
             }}
             variants={sideFadeAnimation}
             className={style.roadMapImage}
           >
             <Image src={RoadMapImage} lazyBoundary="500px" alt="road-map-background" />
-            <Link href="/roadmap">
-              <a className={style.roadMapButton}>
+            <Link href="/roadmap" passHref>
+              <motion.a className={style.roadMapButton} whileHover={{ scale: 1.2 }}>
                 <Image src={RoadMapButton} objectFit="contain" alt="benefits-image" />
-              </a>
+              </motion.a>
             </Link>
           </motion.div>
         </div>

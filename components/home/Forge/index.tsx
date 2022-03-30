@@ -38,8 +38,8 @@ const Forge = () => {
               whileInView="onscreen"
               custom={typeof window !== "undefined" ? -window.innerWidth / 3 : 0}
               viewport={{
-                once: false,
-                amount: 0.5,
+                once: true,
+                amount: 0.2,
               }}
               variants={sideFadeAnimation}
               className={style.description}
@@ -50,10 +50,10 @@ const Forge = () => {
                 contract you will be able to take two of your GOATz and choose which traits you want your combined GOAT
                 to have. The traits you didnʼt choose disappear from the ecosystem forever!
               </Typography>
-              <Link href="/the-forge">
-                <a className={style.forgeButton}>
+              <Link href="/the-forge" passHref>
+                <motion.a className={style.forgeButton} whileHover={{ scale: 1.2 }}>
                   <Image src={ForgeButton} lazyBoundary="500px" objectFit="contain" alt="benefits-image" />
-                </a>
+                </motion.a>
               </Link>
             </motion.div>
           </Grid>
@@ -64,8 +64,8 @@ const Forge = () => {
                 whileInView="onscreen"
                 custom={typeof window !== "undefined" ? window.innerWidth / 3 : 0}
                 viewport={{
-                  once: false,
-                  amount: 0.5,
+                  once: true,
+                  amount: 0.2,
                 }}
                 variants={sideFadeAnimation}
               >

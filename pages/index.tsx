@@ -45,14 +45,13 @@ export default function Home() {
         <div className={style.home}>
           <div className={style.homeContent}>
             <Typography variant="h4">A THRIVING COMMUNITY OF DREAMERS, REBELS, AND DOERS </Typography>
-            <Button
-              onClick={() => router.push("/benefits")}
-              disableElevation
-              variant="contained"
+            <motion.div
+              whileHover={{ scale: 1.2 }}
               className={style.homeButton}
+              onClick={() => router.push("/benefits")}
             >
               READ MORE
-            </Button>
+            </motion.div>
           </div>
         </div>
         <div className={style.benefits}>
@@ -68,7 +67,7 @@ export default function Home() {
                     whileInView="onscreen"
                     custom={typeof window !== "undefined" ? -window.innerWidth / 3 : 0}
                     viewport={{
-                      once: false,
+                      once: true,
                       amount: 0.2,
                     }}
                     variants={sideFadeAnimation}
@@ -84,8 +83,8 @@ export default function Home() {
                   whileInView="onscreen"
                   custom={typeof window !== "undefined" ? window.innerWidth / 3 : 0}
                   viewport={{
-                    once: false,
-                    amount: 0.5,
+                    once: true,
+                    amount: 0.2,
                   }}
                   variants={sideFadeAnimation}
                   className={style.benefitDescription}
@@ -98,10 +97,10 @@ export default function Home() {
                     about having a personalized avatar, it&apos;s also about gaining access to a vibrant, successful,
                     and generous community.
                   </Typography>
-                  <Link href="/benefits">
-                    <a className={style.benefitsButton}>
+                  <Link href="/benefits" passHref>
+                    <motion.a className={style.benefitsButton} whileHover={{ scale: 1.2 }}>
                       <Image src={BenefitsButton} objectFit="contain" alt="benefits-image" />
-                    </a>
+                    </motion.a>
                   </Link>
                 </motion.div>
               </Grid>

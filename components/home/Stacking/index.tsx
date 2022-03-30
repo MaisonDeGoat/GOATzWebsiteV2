@@ -27,8 +27,8 @@ const Stacking = () => {
         whileInView="onscreen"
         custom={typeof window !== "undefined" ? -window.innerWidth / 3 : 0}
         viewport={{
-          once: false,
-          amount: 0.5,
+          once: true,
+          amount: 0.2,
         }}
         variants={sideFadeAnimation}
         className={style.content}
@@ -42,10 +42,10 @@ const Stacking = () => {
           avatar, it&apos;s also about gaining access to a vibrant, successful, and generous community.
         </Typography>
 
-        <Link href="/staking">
-          <a className={style.stakingButton}>
+        <Link href="/staking" passHref>
+          <motion.a className={style.stakingButton} whileHover={{ scale: 1.2 }}>
             <Image src={StakingButton} lazyBoundary="500px" objectFit="contain" alt="benefits-image" />
-          </a>
+          </motion.a>
         </Link>
       </motion.div>
     </div>
