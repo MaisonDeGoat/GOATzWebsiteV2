@@ -23,6 +23,7 @@ GMILK will become the utility currency in which things are purchased in the GOAT
 Discord Upgrade – Because Discord is the current home for our community, we will be investing some time and effort in upgrading our Discord interactivity and security.
 Site Overhaul – As we continue to add utility and add to our modular ecosystem it is necessary that our website makes it easy for owners to navigate and do what they want to do.
 <br/>
+          
           The Forge = Our identity is obviously in The Forge and that will continue going forward as we add new innovative incentives for users.
 GOATz X – GOATz X is about creating partnerships and collaborations this year. Going forward there will be a focus on creating meaningful partnerships and collaborating across different IPs. We will be allocating dedicated resources and it will be a personal focus area of mine to lock in and activate these partnerships. We have already established partnerships with VHS, NiftyGateway, and Sandbox.
 IRL Events -  We are currently planning on an event at NFT NYC in June. If 2 or more GOATz are gathering, we would love to support it, financially and with our presence. Let us know what you have planned.
