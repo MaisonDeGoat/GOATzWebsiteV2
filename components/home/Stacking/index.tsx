@@ -1,7 +1,7 @@
 import Typography from "@mui/material/Typography";
 import Image from "next/image";
 import style from "./stacking.module.scss";
-import StakingButton from "../../../public/images/staking-button.svg";
+import StakingButton from "../../../public/images/staking-button.png";
 import Link from "next/link";
 import { motion, Variants } from "framer-motion";
 
