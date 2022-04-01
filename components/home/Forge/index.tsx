@@ -5,7 +5,7 @@ import { Container, Grid, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import Image from "next/image";
 import style from "./forge.module.scss";
-import ForgeButton from "../../../public/images/forge-button.svg";
+import ForgeButton from "../../../public/images/forge-button.png";
 import ForgeImage from "../../../public/images/forge-image.png";
 import Link from "next/link";
 import { motion, Variants } from "framer-motion";

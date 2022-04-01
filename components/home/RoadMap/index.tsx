@@ -8,7 +8,7 @@ import style from "./roadMap.module.scss";
 import RoadMapDesktopBackground from "../../../public/images/roadmap-background-desktop.png";
 import RoadMapMobileBackground from "../../../public/images/roadmap-background-mobile.png";
 import RoadMapImage from "../../../public/images/roadmap-image.png";
-import RoadMapButton from "../../../public/images/roadmap-button.svg";
+import RoadMapButton from "../../../public/images/roadmap-button.png";
 import Link from "next/link";
 import { motion, Variants } from "framer-motion";
 

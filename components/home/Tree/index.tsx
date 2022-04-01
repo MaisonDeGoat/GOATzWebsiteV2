@@ -1,6 +1,5 @@
 import { Typography } from "@mui/material";
 import Link from "next/link";
-import React from "react";
 import style from "./tree.module.scss";
 
 const Tree = () => {

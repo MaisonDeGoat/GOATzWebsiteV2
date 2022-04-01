@@ -7,7 +7,7 @@ import { useTheme } from "@mui/material/styles";
 import style from "../styles/home.module.scss";
 import BenefitsBackground from "../public/images/benefits-background.svg";
 import Benefits from "../public/images/benefits-image.png";
-import BenefitsButton from "../public/images/benefits-button.svg";
+import BenefitsButton from "../public/images/benefits-button.png";
 import { Button, Container, Grid, Typography } from "@mui/material";
 import RoadMap from "@components/home/RoadMap";
 import Tree from "@components/home/Tree";
