@@ -60,7 +60,7 @@ export default class Stacking extends React.Component<any, any> {
     }
   }
 
-  componentWillReceiveProps(newProps: any) {
+  componentDidUpdate(newProps: any) {
     this.setStateFromWithNewProps(newProps)
   }
 
