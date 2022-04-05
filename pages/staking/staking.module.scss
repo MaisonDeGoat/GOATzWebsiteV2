@@ -1,4 +1,5 @@
 .wrapper {
+  z-index: 1;
   background-image: url("../../public/images/tree-background.svg");
   background-color: #5f0113;
   padding-top: 150px;
@@ -19,12 +20,12 @@
   line-height: 46px;
   color: #ffffff;
   margin: 0;
-  padding: 40px 0 40px;
+  padding: 30px 0 30px;
 
   @include md {
     font-size: 26px;
     line-height: 30px;
-    padding: 35px 0 35px;
+    padding: 25px 0 25px;
   }
 
   @include sm {
@@ -32,4 +33,214 @@
     line-height: 20px;
     padding: 20px 0 20px;
   }
+}
+.roadMapButton {
+  max-width: 170px;
+  cursor: pointer;
+
+  @include lg {
+    margin-top: 40px;
+  }
+}
+
+.connectButton{
+  background: url("../../public/images/buttonBg.png") no-repeat;
+  background-size: cover;
+  height: 83px;
+  width: 250px;
+  color: #ffffff;
+  font-size: 32px;
+  font-weight: bold;
+  padding-top: 14px;
+  margin-bottom: 40px;
+}
+
+.connectedButton{
+  background: url("../../public/images/buttonBg.png") no-repeat;
+  background-size: cover;
+  height: 83px;
+  width: 250px;
+  color: #ffffff;
+  font-size: 23px;
+  font-weight: bold;
+  padding-top: 20px;
+  margin-bottom: 40px;
+}
+
+.unclaimedBtn{
+  background: #F50303;
+  cursor: not-allowed;
+  border: 3px solid #e8b736;
+  border-radius: 30px;
+  color: white;
+  width: auto;
+  padding: 1vh 2vh;
+  font-family: Montserrat;
+  font-size: 24px;
+  font-weight: 800;
+  margin: 0vh 0 2vh 0;
+}
+
+.claimedBtn{
+  background: #14FF00;
+  cursor: not-allowed;
+  border: 3px solid #e8b736;
+  border-radius: 30px;
+  color: white;
+  width: auto;
+  padding: 1vh 2vh;
+  font-family: Montserrat;
+  font-size: 24px;
+  font-weight: 800;
+  margin: 0vh 0 2vh 0;
+}
+
+.gmilk1 {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.gmilk1 img {
+  height: 300px;
+}
+.gmilk1 h1 {
+  text-align: left;
+  font-family: "Montserrat";
+  font-weight: 800;
+  font-size: 3rem;
+  color: #ffffff;
+  @include sm {
+    font-size: 2rem;
+  }
+}
+.content {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  column-gap: 80px;
+  @include sm {
+    column-gap: 10px;
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.btngroup {
+  // text-align: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  @include sm {
+    flex-direction: column;
+  }
+}
+.btn100 button {
+  width: 100%;
+}
+.connectbtn {
+  margin-left: -80px;
+}
+.yellowbg {
+  background: #e8b736;
+  padding: 1vh;
+  border-radius: 10px;
+  text-align: center;
+  margin: 1.5vh 0;
+}
+.yellowbtn {
+  cursor: pointer;
+  border: 3px solid #e8b736;
+  border-radius: 30px;
+  background: transparent;
+  color: white;
+  width: auto;
+  padding: 1vh 2vh;
+  font-family: Montserrat;
+  font-size: 24px;
+  font-weight: 800;
+  margin: 0vh 0 2vh 0;
+}
+.greenbtn {
+  cursor: pointer;
+  border: 3px solid #14FF00;
+  border-radius: 30px;
+  background: #14FF00;
+  color: black;
+  width: auto;
+  padding: 1vh 2vh;
+  font-family: Montserrat;
+  font-size: 24px;
+  font-weight: 800;
+  margin: 0vh 0 2vh 0;
+}
+.disabledbtn {
+  cursor: not-allowed;
+  border: 3px solid #e8b736;
+  border-radius: 30px;
+  background: transparent;
+  color: white;
+  width: auto;
+  padding: 1vh 2vh;
+  font-family: Montserrat;
+  font-size: 24px;
+  font-weight: 800;
+  margin: 0vh 0 2vh 0;
+}
+.card {
+  background: #e8b736;
+  padding: 1vh;
+  border-radius: 10px;
+  margin: 1vh 0 2vh 0;
+  @include sm {
+    width: min-content;
+  }
+}
+.card img {
+  height: 120px;
+  padding: 0px;
+  margin: 3px;
+}
+.cardinput {
+  display: block;
+  outline: none;
+  border: none;
+  width: 100%;
+  background: #e8b736;
+  padding: 1vh;
+  border-radius: 10px;
+  color: white;
+  font-size: 24px;
+  margin: 1.5vh 0;
+}
+.modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  padding: 0 4vh;
+  font-weight: 800;
+  font-size: 36px;
+  width: 60vw;
+  color: white;
+  height: 70vh;
+  border-radius: 10px;
+  margin: auto;
+  z-index: 9;
+  background: rgba(94, 94, 94, 0.8);
+  @include sm {
+    width: 80vw;
+    height: 60vh;
+    position: fixed;
+    z-index: 66;
+  }
+}
+.modal p {
+  @include sm {
+    font-size: 26px;
+  }
+}
+.icon {
+  align-self: flex-end;
+  justify-self: flex-start;
 }

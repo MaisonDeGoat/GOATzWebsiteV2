@@ -16,10 +16,13 @@
     "@emotion/styled": "latest",
     "@mui/icons-material": "latest",
     "@mui/material": "latest",
+    "@types/toastr": "^2.1.39",
     "next": "latest",
     "react": "latest",
     "react-dom": "latest",
-    "sass": "^1.49.9"
+    "sass": "^1.49.9",
+    "toastr": "^2.1.4",
+    "web3": "^1.6.0"
   },
   "devDependencies": {
     "@types/node": "latest",
