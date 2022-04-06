@@ -10,6 +10,7 @@ import { CacheProvider, EmotionCache } from "@emotion/react";
 import createEmotionCache from "@config/createEmotionCache";
 import theme from "@config/theme";
 import Layout from "@components/common/Layout";
+import './toastr.css';
 
 import { CHAINID, LIST_ABI_GMILK_ERC20, GMILK_ABI_ADDRESS, LIST_ABI_STAKING, STAKING_ABI_ADDRESS, KIDZ_ABI_ADDRESS, LIST_ABI_KIDZ, GOATZ_ABI_ADDRESS, LIST_ABI_GOATZ } from "../config/abi-config"
 

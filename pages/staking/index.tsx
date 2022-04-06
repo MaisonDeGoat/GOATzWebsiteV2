@@ -12,6 +12,8 @@ import Head from "next/head";
 import CloseIcon from '@mui/icons-material/Close';
 import toastr from 'toastr';
 import { STAKING_ABI_ADDRESS } from "@config/abi-config";
+import { Util } from 'util/util';
+import BigNumber from 'bignumber.js';
 
 export default class Stacking extends React.Component<any, any> {
   state: any = {};
@@ -23,7 +25,6 @@ export default class Stacking extends React.Component<any, any> {
       account: this.props.account,
       web3: this.props.web3,
       mintWeb3Inst: this.props.mintWeb3Inst,
-      showModal: false,
       claimCheckInputValue: '',
       claimCheckStatus: 'STATUS',
       isAlreadyConnected: false,
@@ -31,6 +32,7 @@ export default class Stacking extends React.Component<any, any> {
       mintedGoatzIdList: null,
       mintedGoatzObjList: [],
       selectedGoat: [],
+      unstakedGoatzLoading: false,
 
       totalUnstakedKidz: 0,
       allUnstakedKidz: [],
@@ -38,11 +40,15 @@ export default class Stacking extends React.Component<any, any> {
       totalStakedGmilkKidz: 0,
       unstakedKidsInput: 0,
       showUnstakeKidzModal: false,
+      showClaimKidzModal: false,
+      unstakedKidzLoading: false,
 
       totalStakedKidz: 0,
       allStakedKidz: [],
       selectedStakedKidz: [],
       showStakeKidzToUnstakeModal: false,
+      showClaimGoatzModal: false,
+      stakedKidzLoading: false,
 
       transactionStatus: 'start'
     };
@@ -51,7 +57,6 @@ export default class Stacking extends React.Component<any, any> {
       hideDuration: 300,
       timeOut: 3000,
     };
-    // console.log(this.props)
   }
 
   componentDidMount() {
@@ -65,8 +70,6 @@ export default class Stacking extends React.Component<any, any> {
   }
 
   async setStateFromWithNewProps(props: any) {
-    // console.log("new Props:::", props)
-    // console.log(this.state)
     let canUpdate = false;
     if (props.isEnabled && !this.state.isEnabled) {
       canUpdate = true;
@@ -84,6 +87,43 @@ export default class Stacking extends React.Component<any, any> {
 
   }
 
+  getWeiFormated = (number: any, decimals: any) => {
+    let baseNum: any = new BigNumber(10);
+    let decimalBig: any = new BigNumber(decimals);
+    return this.getFormated(new BigNumber(number).dividedBy(baseNum ** decimalBig).toFixed(6));
+  }
+
+  getFormated(str: any) {
+    if (str.endsWith('.000000')) {
+      return str.replace('.000000', '');
+    } else if (str.endsWith('.00000')) {
+      return str.replace('.00000', '');
+    } else if (str.endsWith('.0000')) {
+      return str.replace('.0000', '');
+    } else if (str.endsWith('.000')) {
+      return str.replace('.000', '');
+    } else if (str.endsWith('.00')) {
+      return str.replace('.00', '');
+    } else if (str.endsWith('.0')) {
+      return str.replace('.0', '');
+    } else {
+      return this.removeTrailingZeros(str)
+    }
+  }
+
+  removeTrailingZeros(value: any) {
+    // # if not containing a dot, we do not need to do anything
+    if (!value || value.indexOf('.') === -1) {
+      return value;
+    }
+
+    // # as long as the last character is a 0 or a dot, remove it
+    while ((value.slice(-1) === '0' || value.slice(-1) === '.') && value.indexOf('.') !== -1) {
+      value = value.substr(0, value.length - 1);
+    }
+    return value;
+  }
+
   async onLoadData() {
     await this.setState({ isAlreadyConnected: true })
     this.getMintedGoatz();
@@ -93,30 +133,35 @@ export default class Stacking extends React.Component<any, any> {
 
   async getMintedGoatz() {
     try {
-      let totalGoatz = await this.props.goatzWeb3Inst.methods.balanceOf(this.state.account).call();
-      console.log("totalGoatz", totalGoatz)
-      this.setState({ totalGoatz: totalGoatz })
-      if (totalGoatz > 0) {
+      this.setState({
+        totalGoatz: '',
+        mintedGoatzIdList: null,
+        mintedGoatzObjList: [],
+        selectedGoat: [],
+      })
+      let allGoatzCount = await this.props.goatzWeb3Inst.methods.balanceOf(this.state.account).call();
+      if (allGoatzCount > 0) {
         let list: any[] = [];
-        this.getMintedGoatzList(list, totalGoatz, 0);
+        this.getMintedGoatzList(list, allGoatzCount, 0);
       }
     } catch (e) {
 
     }
   }
 
-  async getMintedGoatzList(list: any[], totalGoatz: number, index: number) {
-    if (index <= totalGoatz - 1) {
+  async getMintedGoatzList(list: any[], allGoatzCount: number, index: number) {
+    if (index <= allGoatzCount - 1) {
       let temp = await this.props.goatzWeb3Inst.methods.tokenOfOwnerByIndex(this.state.account, index).call();
       list.push(temp)
 
-      await this.getMintedGoatzList(list, totalGoatz, index + 1);
-    } else if (index > totalGoatz - 1) {
+      await this.getMintedGoatzList(list, allGoatzCount, index + 1);
+    } else if (index > allGoatzCount - 1) {
       //set in state
-      // console.log(list)
-      await this.setState({ mintedGoatzIdList: list });
+      let unstakedIdList = await this.props.stakingWeb3Inst.methods.getUnclaimedGoatz(list).call();
+      this.setState({ totalGoatz: unstakedIdList.length })
+      await this.setState({ mintedGoatzIdList: unstakedIdList });
       if (list && list.length > 0) {
-        this.getMintedGoatzObj([], 0, list.length, list)
+        this.getMintedGoatzObj([], 0, unstakedIdList.length, unstakedIdList)
       }
     }
   }
@@ -129,7 +174,6 @@ export default class Stacking extends React.Component<any, any> {
         .then(res => res.json())
         .then(
           (result) => {
-            // console.log(result);
             for (let attr of result?.attributes) {
               result[attr.trait_type] = attr.value;
             }
@@ -143,8 +187,17 @@ export default class Stacking extends React.Component<any, any> {
           }
         )
     } else if (index > totalLength - 1) {
-      // console.log(goatzList)
       this.setState({ mintedGoatzObjList: goatzList })
+    }
+  }
+
+  getGoatzBalance(count: any) {
+    try {
+      let perGoatPrice = new BigNumber(5.555);
+      let amount: any = new BigNumber(count).multipliedBy(perGoatPrice);
+      return this.getFormated(amount.toFixed(3)) + (amount.gt(new BigNumber(0)) ? 'K' : '')
+    } catch (e) {
+      return '-'
     }
   }
 
@@ -174,6 +227,13 @@ export default class Stacking extends React.Component<any, any> {
 
   async getUnstakedKidz() {
     try {
+      this.setState({
+        totalUnstakedKidz: 0,
+        allUnstakedKidz: [],
+        selectedUnstakedKidz: [],
+        totalStakedGmilkKidz: 0,
+        unstakedKidsInput: 0,
+      })
       let allKidz = await this.props.kidzWeb3Inst.methods.walletOfOwner(this.state.account).call();
       let length = allKidz ? allKidz.length : 0;
       this.setState({ totalUnstakedKidz: length })
@@ -184,9 +244,6 @@ export default class Stacking extends React.Component<any, any> {
   }
 
   isAnyTransactionInProgress() {
-    console.log("test",
-    this.state.transactionStatus == "inprogress",
-    this.state.transactionStatus)
     if (this.state.transactionStatus == "inprogress") {
       return true;
     }
@@ -199,7 +256,6 @@ export default class Stacking extends React.Component<any, any> {
         .then(res => res.json())
         .then(
           (result) => {
-            // console.log(result);
             for (let attr of result?.attributes) {
               result[attr.trait_type] = attr.value;
             }
@@ -213,7 +269,6 @@ export default class Stacking extends React.Component<any, any> {
           }
         )
     } else if (index > totalLength - 1) {
-      // console.log(kidzList)
       this.setState({ allUnstakedKidz: kidzList })
     }
   }
@@ -241,22 +296,29 @@ export default class Stacking extends React.Component<any, any> {
       }
       this.setState({ selectedUnstakedKidz: tempSelectedKidz, unstakedKidsInput: tempSelectedKidz.length });
       // onTempRefreshChange(goatzObj)
+    } else {
+      toastr.warning("One Transaction is In-Progress!");
     }
   }
 
   //Staked Kidz
   async getStakedKidz() {
     try {
+      await this.setState({
+        totalStakedKidz: 0,
+        allStakedKidz: [],
+        selectedStakedKidz: []
+      })
       let allKidz = await this.props.stakingWeb3Inst.methods.depositsOf(this.state.account).call();
       let length = allKidz ? allKidz.length : 0;
       this.setState({ totalStakedKidz: length })
       this.getStakedKidzObj([], 0, length, allKidz);
       let totalGMilkList = await this.props.stakingWeb3Inst.methods.calculateRewards(this.state.account, allKidz).call();
-      let total = 0;
+      let total = new BigNumber(0);
       for (let item of totalGMilkList) {
-        total = total + item;
+        total = total.plus(new BigNumber(item));
       }
-      this.setState({ totalStakedGmilkKidz: total / 1e18 });
+      this.setState({ totalStakedGmilkKidz: this.getWeiFormated(total, 18) });
     } catch (e) {
       console.error(e)
     }
@@ -268,7 +330,6 @@ export default class Stacking extends React.Component<any, any> {
         .then(res => res.json())
         .then(
           (result) => {
-            // console.log(result);
             for (let attr of result?.attributes) {
               result[attr.trait_type] = attr.value;
             }
@@ -282,7 +343,6 @@ export default class Stacking extends React.Component<any, any> {
           }
         )
     } else if (index > totalLength - 1) {
-      // console.log(kidzList)
       this.setState({ allStakedKidz: kidzList })
     }
   }
@@ -310,6 +370,8 @@ export default class Stacking extends React.Component<any, any> {
       }
       this.setState({ selectedStakedKidz: tempSelectedKidz })
       // onTempRefreshChange(goatzObj)
+    } else {
+      toastr.warning("One Transaction is In-Progress!");
     }
   }
 
@@ -323,23 +385,38 @@ export default class Stacking extends React.Component<any, any> {
   }
 
   scrollTop() {
-    console.log('first')
-    window.scrollTo({ top: 0, behavior: 'smooth' })
-  }
-
-  setShowModal(value: boolean) {
-    this.setState({ showModal: value })
+    // window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
   setUnstakedKidzModal(value: boolean) {
     if (this.state.transactionStatus == 'start') {
       this.setState({ showUnstakeKidzModal: value })
+    } else {
+      toastr.warning("One Transaction is In-Progress!");
     }
   }
 
   setStakedKidzToUnstakeModal(value: boolean) {
     if (this.state.transactionStatus == 'start') {
       this.setState({ showStakeKidzToUnstakeModal: value })
+    } else {
+      toastr.warning("One Transaction is In-Progress!");
+    }
+  }
+
+  setClaimKidzModal(value: boolean) {
+    if (this.state.transactionStatus == 'start') {
+      this.setState({ showClaimKidzModal: value })
+    } else {
+      toastr.warning("One Transaction is In-Progress!");
+    }
+  }
+
+  setClaimGoatzModal(value: boolean) {
+    if (this.state.transactionStatus == 'start') {
+      this.setState({ showClaimGoatzModal: value })
+    } else {
+      toastr.warning("One Transaction is In-Progress!");
     }
   }
 
@@ -357,6 +434,8 @@ export default class Stacking extends React.Component<any, any> {
         }
         this.setState({ unstakedKidsInput: dec[0] });
       }
+    } else {
+      toastr.warning("One Transaction is In-Progress!");
     }
   }
 
@@ -400,7 +479,6 @@ export default class Stacking extends React.Component<any, any> {
         }
         await this.setState({ transactionStatus: 'inprogress' });
         let isApproved = await this.props.kidzWeb3Inst.methods.isApprovedForAll(this.state.account, STAKING_ABI_ADDRESS).call();
-        console.log("isApproved::", isApproved)
         if (!isApproved) {
           await this.props.kidzWeb3Inst.methods.setApprovalForAll(STAKING_ABI_ADDRESS, true).send({
             from: this.state.account
@@ -409,7 +487,12 @@ export default class Stacking extends React.Component<any, any> {
             await this.stakeKidz();
           }).catch((error: any) => {
             isApproved = false
-            toastr.error("Approve Failed");
+            this.setState({ transactionStatus: 'start' });
+            if (error.code === 4001) {
+              toastr.error(error.message);
+            } else {
+              toastr.error("Oops! Something went wrong. Please REFRESH your browser and try again");
+            }
           });
         }
 
@@ -427,32 +510,32 @@ export default class Stacking extends React.Component<any, any> {
   }
 
   async stakeKidz() {
-    let ids = [];
-
-    // for (let item of this.state.selectedUnstakedKidz) {
-    //   ids.push(item.id)
-    // }
-    // console.log(typeof ids, ids, this.state.selectedUnstakedKidz);
     try {
       let gaslimit = await this.props.stakingWeb3Inst.methods.deposit(this.state.selectedUnstakedKidz).estimateGas({
         from: this.state.account
+      });
+
+      await this.props.stakingWeb3Inst.methods.deposit(this.state.selectedUnstakedKidz).send({
+        from: this.state.account
+      }).then(async (result: any) => {
+        await this.setState({ transactionStatus: 'start' });
+        this.setUnstakedKidzModal(false);
+        await this.getUnstakedKidz();
+        await this.getStakedKidz();
+        toastr.success("Stake succesfully done")
+      }).catch(async (error: any) => {
+        await this.setState({ transactionStatus: 'start' });
+        this.setUnstakedKidzModal(false);
+        if (error.code === 4001) {
+          toastr.error(error.message);
+        } else {
+          toastr.error("Oops! Something went wrong. Please REFRESH your browser and try again");
+        }
       });
     }
     catch (e) {
       throw e;
     }
-    await this.props.stakingWeb3Inst.methods.deposit(this.state.selectedUnstakedKidz).send({
-      from: this.state.account
-    }).then(async (result: any) => {
-      await this.getUnstakedKidz();
-      await this.getStakedKidz();
-      toastr.success("Stake succesfully done")
-    }).catch(async (error: any) => {
-      await this.getUnstakedKidz();
-      await this.getStakedKidz();
-      toastr.error("Stake Failed");
-    });
-    await this.setState({ transactionStatus: 'start' });
   }
 
   async unstakeKidz() {
@@ -463,23 +546,98 @@ export default class Stacking extends React.Component<any, any> {
           return
         }
         await this.setState({ transactionStatus: 'inprogress' });
-        let ids = [];
-
-        // for (let item of this.state.selectedStakedKidz) {
-        //   ids.push(item.id)
-        // }
         await this.props.stakingWeb3Inst.methods.withdraw(this.state.selectedStakedKidz).send({
           from: this.state.account
-        }).then((result: any) => {
-          toastr.success("Stake succesfully done")
-        }).catch((error: any) => {
-          toastr.error("Stake Failed");
+        }).then(async (result: any) => {
+          toastr.success("Unstake succesfully done")
+          await this.setState({ transactionStatus: 'start' });
+          this.setStakedKidzToUnstakeModal(false);
+          this.getUnstakedKidz();
+          this.getStakedKidz();
+        }).catch(async (error: any) => {
+          await this.setState({ transactionStatus: 'start' });
+          this.setStakedKidzToUnstakeModal(false);
+          if (error.code === 4001) {
+            toastr.error(error.message);
+          } else {
+            toastr.error("Oops! Something went wrong. Please REFRESH your browser and try again");
+          }
         });
-        this.getMintedGoatz();
-        this.getUnstakedKidz();
-        this.getStakedKidz();
+
+      } else {
+        await this.setState({ transactionStatus: 'start' });
+        toastr.error("Please connect your wallet.")
+      }
+    } catch (e) {
+      await this.setState({ transactionStatus: 'start' });
+    }
+  }
+
+  async claimKidz() {
+    try {
+      if (this.state.isEnabled) {
+        if (this.state.transactionStatus != 'start') {
+          toastr.warning("One Transaction is In-Progress!");
+          return
+        }
+        let ids: any = [];
+        for (let item of this.state.allStakedKidz) {
+          ids.push(item.id)
+        }
+        await this.setState({ transactionStatus: 'inprogress' });
+        await this.props.stakingWeb3Inst.methods.claimRewards(ids).send({
+          from: this.state.account
+        }).then(async (result: any) => {
+          await this.setState({ transactionStatus: 'start' });
+          this.setClaimKidzModal(false);
+          this.getUnstakedKidz();
+          this.getStakedKidz();
+          toastr.success("Claim succesfully done");
+        }).catch(async (error: any) => {
+          await this.setState({ transactionStatus: 'start' });
+          this.setClaimKidzModal(false);
+          if (error.code === 4001) {
+            toastr.error(error.message);
+          } else {
+            toastr.error("Oops! Something went wrong. Please REFRESH your browser and try again");
+          }
+        });
         await this.setState({ transactionStatus: 'start' });
 
+      } else {
+        await this.setState({ transactionStatus: 'start' });
+        toastr.error("Please connect your wallet.")
+      }
+    } catch (e) {
+      console.error(e)
+      await this.setState({ transactionStatus: 'start' });
+    }
+  }
+
+  async claimGoatz() {
+    try {
+      if (this.state.isEnabled) {
+        if (this.state.transactionStatus != 'start') {
+          toastr.warning("One Transaction is In-Progress!");
+          return
+        }
+        this.setState({ transactionStatus: 'inprogress' });
+        await this.props.stakingWeb3Inst.methods.claimGoatzRewards(this.state.selectedGoat).send({
+          from: this.state.account
+        }).then(async (result: any) => {
+          await this.setState({ transactionStatus: 'start' });
+          this.setClaimGoatzModal(false);
+          this.getMintedGoatz();
+          toastr.success("Claim succesfully done");
+        }).catch(async (error: any) => {
+          await this.setState({ transactionStatus: 'start' });
+          this.setClaimGoatzModal(false);
+          if (error.code === 4001) {
+            toastr.error(error.message);
+          } else {
+            toastr.error("Oops! Something went wrong. Please REFRESH your browser and try again");
+          }
+        });
       } else {
         await this.setState({ transactionStatus: 'start' });
         toastr.error("Please connect your wallet.")
@@ -495,17 +653,6 @@ export default class Stacking extends React.Component<any, any> {
         <Head>
           <title>GOATz - Staking</title>
         </Head>
-        {this.state.showModal && <div className={style.modal} > {this.scrollTop()}
-          <span className={style.icon} onClick={() => this.setShowModal(false)}><CloseIcon /></span>
-          <div>
-            <p >YOU ARE ABOUT TO CLAIM 8420 GMILK WITH 40% TAX</p>
-            <Link href="/roadmap">
-              <a className={style.roadMapButton}>
-                <Image src={RoadMapButton} objectFit="none" alt="benefits-image" />
-              </a>
-            </Link>
-          </div>
-        </div>}
 
         {(this.isAnyTransactionInProgress()) ? (<div id="toast-container" className="toast-top-right">
           <div className="toast toast-info" aria-live="assertive">
@@ -537,8 +684,33 @@ export default class Stacking extends React.Component<any, any> {
           </div>
         </div>}
 
+        {this.state.showClaimKidzModal && <div className={style.modal} > {this.scrollTop()}
+          <span className={style.icon} onClick={() => this.setClaimKidzModal(false)}><CloseIcon /></span>
+          <div>
+            <p >YOU ARE ABOUT TO CLAIM {this.state.totalStakedGmilkKidz} GMILK WITH 40% TAX</p>
+            {this.state.totalStakedKidz && this.state.totalStakedKidz > 0 ? <Button onClick={() => { this.claimKidz() }}>
+              <a className={style.connectButton}>
+                CONFIRM
+              </a>
+            </Button> : ''}
+          </div>
+        </div>}
+
+
+        {this.state.showClaimGoatzModal && <div className={style.modal} > {this.scrollTop()}
+          <span className={style.icon} onClick={() => this.setClaimGoatzModal(false)}><CloseIcon /></span>
+          <div>
+            <p >YOU ARE ABOUT TO CLAIM {this.getGoatzBalance(this.state.selectedGoat.length)} GMILK</p>
+            {this.state.selectedGoat && this.state.selectedGoat.length > 0 ? <Button onClick={() => { this.claimGoatz() }}>
+              <a className={style.connectButton}>
+                CONFIRM
+              </a>
+            </Button> : ''}
+          </div>
+        </div>}
+
         <Container>
-          <Image src={StakingCover} layout="responsive" alt="staking" />
+          {/* <Image src={StakingCover} layout="responsive" alt="staking" /> */}
           <p className={style.content}>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
             magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
@@ -561,10 +733,6 @@ export default class Stacking extends React.Component<any, any> {
               </a>
             </Button>}
 
-          {/* <a className={style.roadMapButton}>
-                <Image src={RoadMapButton} objectFit="none" alt="benefits-image" />
-              </a> */}
-
           <div className={style.gmilk1}>
             <img src={gmilk1.src} alt="" />
             <h1>TIME FOR SOME <br /> $GMILK</h1>
@@ -579,7 +747,6 @@ export default class Stacking extends React.Component<any, any> {
             </div>
             <div  >
               <span> &nbsp; </span>
-              {/* <p className={style.yellowbg}> 6 </p> */}
               <input className={style.cardinput} style={{ textAlign: 'center', 'fontWeight': 'bold', 'fontSize': '30px' }}
                 type='text' value={this.state.unstakedKidsInput}
                 placeholder="0"
@@ -601,7 +768,7 @@ export default class Stacking extends React.Component<any, any> {
               <span> &nbsp; </span>
               <p className={style.yellowbg}> {this.state.totalStakedGmilkKidz} GMILK </p>
               <div className={style.btngroup}>
-                <button className={this.state.allStakedKidz && this.state.allStakedKidz.length > 0 ? style.greenbtn : style.yellowbtn} onClick={() => this.setShowModal(true)}> CLAIM </button>
+                <button className={this.state.allStakedKidz && this.state.allStakedKidz.length > 0 ? style.greenbtn : style.yellowbtn} onClick={() => this.setClaimKidzModal(true)}> CLAIM </button>
                 <button className={this.state.selectedStakedKidz && this.state.selectedStakedKidz.length > 0 ? style.greenbtn : style.yellowbtn} onClick={() => this.setStakedKidzToUnstakeModal(true)}> UNSTAKE </button>
               </div>
             </div>
@@ -616,9 +783,9 @@ export default class Stacking extends React.Component<any, any> {
             </div>
             <div >
               <span> &nbsp; </span>
-              <p className={style.yellowbg}> 46k GMILK </p>
+              <p className={style.yellowbg}> {this.getGoatzBalance(this.state.mintedGoatzObjList.length)} GMILK </p>
               <div className={`${style.btngroup} ${style.btn100}`}>
-                <button className={this.state.selectedGoat && this.state.selectedGoat.length > 0 ? style.greenbtn : style.yellowbtn} onClick={() => this.setShowModal(true)}> CLAIM </button>
+                <button className={this.state.selectedGoat && this.state.selectedGoat.length > 0 ? style.greenbtn : style.yellowbtn} onClick={() => this.setClaimGoatzModal(true)}> CLAIM </button>
               </div>
             </div>
           </div>

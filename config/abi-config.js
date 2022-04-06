@@ -1,6 +1,6 @@
 export const CHAINID = [4]
 export const GMILK_ABI_ADDRESS = '0x235e2E11652e8b60476F48037f73Ddb7c881fa00';
-export const STAKING_ABI_ADDRESS = '0xE3194f73eEab044796aB193e0085246dE7d02C35';
+export const STAKING_ABI_ADDRESS = '0x5a7b837D4fbD7abDcFAC7e7EeEeF2A710C536aC2';
 export const KIDZ_ABI_ADDRESS = '0x29abA55520Ba7E1ebBeCb4bf9B94832e7E193472';
 export const GOATZ_ABI_ADDRESS = '0x30b5713383507cC3650dd7aa8Ae401890A985C7e';
 
@@ -279,73 +279,6 @@ export const LIST_ABI_GMILK_ERC20 = [
 
 export const LIST_ABI_STAKING = [
     {
-        "inputs": [
-            {
-                "internalType": "uint256[]",
-                "name": "tokenIds",
-                "type": "uint256[]"
-            }
-        ],
-        "name": "claimGoatzRewards",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "uint256[]",
-                "name": "tokenIds",
-                "type": "uint256[]"
-            }
-        ],
-        "name": "claimRewards",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "uint256[]",
-                "name": "tokenIds",
-                "type": "uint256[]"
-            }
-        ],
-        "name": "deposit",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "address",
-                "name": "_kidz",
-                "type": "address"
-            },
-            {
-                "internalType": "address",
-                "name": "_goatz",
-                "type": "address"
-            },
-            {
-                "internalType": "uint256",
-                "name": "_expiration",
-                "type": "uint256"
-            },
-            {
-                "internalType": "address",
-                "name": "_gmilk",
-                "type": "address"
-            }
-        ],
-        "name": "initialize",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
         "anonymous": false,
         "inputs": [
             {
@@ -365,13 +298,6 @@ export const LIST_ABI_STAKING = [
         "type": "event"
     },
     {
-        "inputs": [],
-        "name": "pause",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
         "anonymous": false,
         "inputs": [
             {
@@ -383,39 +309,6 @@ export const LIST_ABI_STAKING = [
         ],
         "name": "Paused",
         "type": "event"
-    },
-    {
-        "inputs": [],
-        "name": "renounceOwnership",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "uint256",
-                "name": "_expiration",
-                "type": "uint256"
-            }
-        ],
-        "name": "setExpiration",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "uint256",
-                "name": "_rate",
-                "type": "uint256"
-            }
-        ],
-        "name": "setRate",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
     },
     {
         "anonymous": false,
@@ -443,26 +336,6 @@ export const LIST_ABI_STAKING = [
         "type": "event"
     },
     {
-        "inputs": [
-            {
-                "internalType": "address",
-                "name": "newOwner",
-                "type": "address"
-            }
-        ],
-        "name": "transferOwnership",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "unpause",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
         "anonymous": false,
         "inputs": [
             {
@@ -474,19 +347,6 @@ export const LIST_ABI_STAKING = [
         ],
         "name": "Unpaused",
         "type": "event"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "uint256[]",
-                "name": "tokenIds",
-                "type": "uint256[]"
-            }
-        ],
-        "name": "withdraw",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
     },
     {
         "anonymous": false,
@@ -512,13 +372,6 @@ export const LIST_ABI_STAKING = [
         ],
         "name": "Withdrawn",
         "type": "event"
-    },
-    {
-        "inputs": [],
-        "name": "withdrawTokens",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
     },
     {
         "inputs": [
@@ -600,20 +453,40 @@ export const LIST_ABI_STAKING = [
     {
         "inputs": [
             {
-                "internalType": "address",
-                "name": "account",
-                "type": "address"
-            }
-        ],
-        "name": "depositsOf",
-        "outputs": [
-            {
                 "internalType": "uint256[]",
-                "name": "",
+                "name": "tokenIds",
                 "type": "uint256[]"
             }
         ],
-        "stateMutability": "view",
+        "name": "claimGoatzRewards",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256[]",
+                "name": "tokenIds",
+                "type": "uint256[]"
+            }
+        ],
+        "name": "claimRewards",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256[]",
+                "name": "tokenIds",
+                "type": "uint256[]"
+            }
+        ],
+        "name": "deposit",
+        "outputs": [],
+        "stateMutability": "nonpayable",
         "type": "function"
     },
     {
@@ -641,6 +514,25 @@ export const LIST_ABI_STAKING = [
         "type": "function"
     },
     {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "account",
+                "type": "address"
+            }
+        ],
+        "name": "depositsOf",
+        "outputs": [
+            {
+                "internalType": "uint256[]",
+                "name": "",
+                "type": "uint256[]"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
         "inputs": [],
         "name": "expiration",
         "outputs": [
@@ -648,6 +540,25 @@ export const LIST_ABI_STAKING = [
                 "internalType": "uint256",
                 "name": "",
                 "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256[]",
+                "name": "tokenIds",
+                "type": "uint256[]"
+            }
+        ],
+        "name": "getUnclaimedGoatz",
+        "outputs": [
+            {
+                "internalType": "uint256[]",
+                "name": "_unclaimed",
+                "type": "uint256[]"
             }
         ],
         "stateMutability": "view",
@@ -680,6 +591,19 @@ export const LIST_ABI_STAKING = [
         "type": "function"
     },
     {
+        "inputs": [],
+        "name": "goatzClaimRate",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
         "inputs": [
             {
                 "internalType": "uint256",
@@ -699,16 +623,31 @@ export const LIST_ABI_STAKING = [
         "type": "function"
     },
     {
-        "inputs": [],
-        "name": "goatzClaimRate",
-        "outputs": [
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "_kidz",
+                "type": "address"
+            },
+            {
+                "internalType": "address",
+                "name": "_goatz",
+                "type": "address"
+            },
             {
                 "internalType": "uint256",
-                "name": "",
+                "name": "_expiration",
                 "type": "uint256"
+            },
+            {
+                "internalType": "address",
+                "name": "_gmilk",
+                "type": "address"
             }
         ],
-        "stateMutability": "view",
+        "name": "initialize",
+        "outputs": [],
+        "stateMutability": "nonpayable",
         "type": "function"
     },
     {
@@ -739,6 +678,13 @@ export const LIST_ABI_STAKING = [
     },
     {
         "inputs": [],
+        "name": "pause",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
         "name": "paused",
         "outputs": [
             {
@@ -762,8 +708,99 @@ export const LIST_ABI_STAKING = [
         ],
         "stateMutability": "view",
         "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "renounceOwnership",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "_kidz",
+                "type": "address"
+            },
+            {
+                "internalType": "address",
+                "name": "_goatz",
+                "type": "address"
+            }
+        ],
+        "name": "setAddress",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_expiration",
+                "type": "uint256"
+            }
+        ],
+        "name": "setExpiration",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_rate",
+                "type": "uint256"
+            }
+        ],
+        "name": "setRate",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "newOwner",
+                "type": "address"
+            }
+        ],
+        "name": "transferOwnership",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "unpause",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256[]",
+                "name": "tokenIds",
+                "type": "uint256[]"
+            }
+        ],
+        "name": "withdraw",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "withdrawTokens",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
     }
-];
+]
 
 export const LIST_ABI_KIDZ = [
     {

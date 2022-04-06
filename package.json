@@ -17,6 +17,7 @@
     "@mui/icons-material": "latest",
     "@mui/material": "latest",
     "@types/toastr": "^2.1.39",
+    "bignumber.js": "^9.0.2",
     "next": "latest",
     "react": "latest",
     "react-dom": "latest",

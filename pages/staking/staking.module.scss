@@ -68,11 +68,11 @@
 }
 
 .unclaimedBtn{
-  background: #F50303;
+  background: #14FF00;
   cursor: not-allowed;
-  border: 3px solid #e8b736;
+  border: 3px solid #14FF00;
   border-radius: 30px;
-  color: white;
+  color: black;
   width: auto;
   padding: 1vh 2vh;
   font-family: Montserrat;
@@ -82,9 +82,9 @@
 }
 
 .claimedBtn{
-  background: #14FF00;
+  background: #F50303;
   cursor: not-allowed;
-  border: 3px solid #e8b736;
+  border: 3px solid #F50303;
   border-radius: 30px;
   color: white;
   width: auto;
@@ -210,7 +210,7 @@
   margin: 1.5vh 0;
 }
 .modal {
-  position: absolute;
+  position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
