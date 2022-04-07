@@ -6,6 +6,7 @@ import { Button } from "@mui/material";
 import style from "./staking.module.scss";
 import StakingCover from "../../public/images/staking.png";
 import gmilk1 from '../../public/images/gmilk1.png'
+import loadingImg from '../../public/images/Spin.gif'
 import Link from "next/link";
 import RoadMapButton from "../../public/images/buttonBgConnect.png";
 import Head from "next/head";
@@ -24,7 +25,6 @@ export default class Stacking extends React.Component<any, any> {
       isEnabled: this.props.isEnabled,
       account: this.props.account,
       web3: this.props.web3,
-      mintWeb3Inst: this.props.mintWeb3Inst,
       claimCheckInputValue: '',
       claimCheckStatus: 'STATUS',
       isAlreadyConnected: false,
@@ -38,9 +38,10 @@ export default class Stacking extends React.Component<any, any> {
       allUnstakedKidz: [],
       selectedUnstakedKidz: [],
       totalStakedGmilkKidz: 0,
-      unstakedKidsInput: 0,
+      unstakedKidsInput: '',
       showUnstakeKidzModal: false,
       showClaimKidzModal: false,
+      actualClaimmableRewards: '',
       unstakedKidzLoading: false,
 
       totalStakedKidz: 0,
@@ -74,12 +75,13 @@ export default class Stacking extends React.Component<any, any> {
     if (props.isEnabled && !this.state.isEnabled) {
       canUpdate = true;
     }
-    await this.setState({
-      isEnabled: props.isEnabled,
-      account: props.account,
-      web3: props.web3,
-      mintWeb3Inst: props.mintWeb3Inst,
-    })
+    if (props.isEnabled != this.state.isEnabled || props.account != this.state.account || props.web3 != this.state.web3) {
+      await this.setState({
+        isEnabled: props.isEnabled,
+        account: props.account,
+        web3: props.web3,
+      })
+    }
 
     if (canUpdate && !this.state.isAlreadyConnected) {
       this.onLoadData()
@@ -138,14 +140,17 @@ export default class Stacking extends React.Component<any, any> {
         mintedGoatzIdList: null,
         mintedGoatzObjList: [],
         selectedGoat: [],
+        unstakedGoatzLoading: true
       })
       let allGoatzCount = await this.props.goatzWeb3Inst.methods.balanceOf(this.state.account).call();
       if (allGoatzCount > 0) {
         let list: any[] = [];
         this.getMintedGoatzList(list, allGoatzCount, 0);
+      } else {
+        this.setState({ unstakedGoatzLoading: false })
       }
     } catch (e) {
-
+      console.error(e)
     }
   }
 
@@ -187,7 +192,7 @@ export default class Stacking extends React.Component<any, any> {
           }
         )
     } else if (index > totalLength - 1) {
-      this.setState({ mintedGoatzObjList: goatzList })
+      this.setState({ mintedGoatzObjList: goatzList, unstakedGoatzLoading: false })
     }
   }
 
@@ -206,8 +211,10 @@ export default class Stacking extends React.Component<any, any> {
       return this.state.mintedGoatzObjList.map((e: any, key: any) => {
         return <img className="mb-4" style={{ border: (e.selected ? '7px solid #17fe00' : 'none') }} key={key} src={e.image} onClick={() => { this.imageSelection(e) }} alt="" />;
       })
-    } else {
+    } else if (!this.state.unstakedGoatzLoading) {
       return <h4 style={{ textAlign: 'center' }}>No any GOATz to CLAIM!</h4>;
+    } else if (this.state.unstakedGoatzLoading) {
+      return <h4 style={{ textAlign: 'center' }}><img src={loadingImg.src} style={{width:'50px',height:'50px'}}/><div>Loading...</div></h4>;
     }
   }
 
@@ -232,7 +239,8 @@ export default class Stacking extends React.Component<any, any> {
         allUnstakedKidz: [],
         selectedUnstakedKidz: [],
         totalStakedGmilkKidz: 0,
-        unstakedKidsInput: 0,
+        unstakedKidsInput: '',
+        unstakedKidzLoading: true
       })
       let allKidz = await this.props.kidzWeb3Inst.methods.walletOfOwner(this.state.account).call();
       let length = allKidz ? allKidz.length : 0;
@@ -269,7 +277,7 @@ export default class Stacking extends React.Component<any, any> {
           }
         )
     } else if (index > totalLength - 1) {
-      this.setState({ allUnstakedKidz: kidzList })
+      this.setState({ allUnstakedKidz: kidzList, unstakedKidzLoading: false })
     }
   }
 
@@ -278,8 +286,10 @@ export default class Stacking extends React.Component<any, any> {
       return this.state.allUnstakedKidz.map((e: any, key: any) => {
         return <img className="mb-4" style={{ border: (e.selected ? '7px solid #17fe00' : 'none') }} key={key} src={e.image} onClick={() => { this.unstakedKidzImageSelection(e) }} alt="" />;
       })
-    } else {
+    } else if (!this.state.unstakedKidzLoading) {
       return <h4 style={{ textAlign: 'center' }}>No any UNSTAKED KIDz!</h4>;
+    } else if (this.state.unstakedKidzLoading) {
+      return <h4 style={{ textAlign: 'center' }}><img src={loadingImg.src} style={{width:'50px',height:'50px'}}/><div>Loading...</div></h4>;
     }
   }
 
@@ -294,7 +304,7 @@ export default class Stacking extends React.Component<any, any> {
         goatzObj['selected'] = true;
         tempSelectedKidz.push(goatzObj['id']);
       }
-      this.setState({ selectedUnstakedKidz: tempSelectedKidz, unstakedKidsInput: tempSelectedKidz.length });
+      this.setState({ selectedUnstakedKidz: tempSelectedKidz, unstakedKidsInput: tempSelectedKidz.length ? tempSelectedKidz.length : '' });
       // onTempRefreshChange(goatzObj)
     } else {
       toastr.warning("One Transaction is In-Progress!");
@@ -307,7 +317,8 @@ export default class Stacking extends React.Component<any, any> {
       await this.setState({
         totalStakedKidz: 0,
         allStakedKidz: [],
-        selectedStakedKidz: []
+        selectedStakedKidz: [],
+        stakedKidzLoading: true
       })
       let allKidz = await this.props.stakingWeb3Inst.methods.depositsOf(this.state.account).call();
       let length = allKidz ? allKidz.length : 0;
@@ -343,7 +354,7 @@ export default class Stacking extends React.Component<any, any> {
           }
         )
     } else if (index > totalLength - 1) {
-      this.setState({ allStakedKidz: kidzList })
+      this.setState({ allStakedKidz: kidzList, stakedKidzLoading: false })
     }
   }
 
@@ -352,8 +363,10 @@ export default class Stacking extends React.Component<any, any> {
       return this.state.allStakedKidz.map((e: any, key: any) => {
         return <img className="mb-4" style={{ border: (e.selected ? '7px solid #17fe00' : 'none') }} key={key} src={e.image} onClick={() => { this.stakedKidzImageSelection(e) }} alt="" />;
       })
-    } else {
+    } else if (!this.state.stakedKidzLoading) {
       return <h4 style={{ textAlign: 'center' }}>No any STAKED KIDz!</h4>;
+    } else if (this.state.stakedKidzLoading) {
+      return <h4 style={{ textAlign: 'center' }}><img src={loadingImg.src} style={{width:'50px',height:'50px'}}/><div>Loading...</div></h4>;
     }
   }
 
@@ -390,7 +403,11 @@ export default class Stacking extends React.Component<any, any> {
 
   setUnstakedKidzModal(value: boolean) {
     if (this.state.transactionStatus == 'start') {
-      this.setState({ showUnstakeKidzModal: value })
+      if (this.state.selectedUnstakedKidz && this.state.selectedUnstakedKidz.length > 0) {
+        this.setState({ showUnstakeKidzModal: value })
+      } else {
+        toastr.error("Please select Kidz to Stake.")
+      }
     } else {
       toastr.warning("One Transaction is In-Progress!");
     }
@@ -398,15 +415,36 @@ export default class Stacking extends React.Component<any, any> {
 
   setStakedKidzToUnstakeModal(value: boolean) {
     if (this.state.transactionStatus == 'start') {
-      this.setState({ showStakeKidzToUnstakeModal: value })
+      if (this.state.selectedStakedKidz && this.state.selectedStakedKidz.length > 0) {
+        this.setState({ showStakeKidzToUnstakeModal: value })
+      } else {
+        toastr.error("Please select Kidz to Unstake.")
+      }
     } else {
       toastr.warning("One Transaction is In-Progress!");
     }
   }
 
-  setClaimKidzModal(value: boolean) {
+  async setClaimKidzModal(value: boolean) {
     if (this.state.transactionStatus == 'start') {
-      this.setState({ showClaimKidzModal: value })
+      if (this.state.totalStakedKidz && this.state.totalStakedKidz > 0) {
+        let actualClaimmableRewards = ''
+        try {
+          if (value) {
+            let ids: any = [];
+            for (let item of this.state.allStakedKidz) {
+              ids.push(item.id)
+            }
+            actualClaimmableRewards = await this.props.stakingWeb3Inst.methods.actualClaimmableRewards(ids);
+            actualClaimmableRewards = this.getWeiFormated(actualClaimmableRewards, 18);
+          }
+          this.setState({ showClaimKidzModal: value, actualClaimmableRewards: actualClaimmableRewards })
+        } catch (e) {
+
+        }
+      } else {
+        toastr.error("You don't have Kidz for Claim.")
+      }
     } else {
       toastr.warning("One Transaction is In-Progress!");
     }
@@ -414,25 +452,49 @@ export default class Stacking extends React.Component<any, any> {
 
   setClaimGoatzModal(value: boolean) {
     if (this.state.transactionStatus == 'start') {
-      this.setState({ showClaimGoatzModal: value })
+      if (this.state.selectedGoat && this.state.selectedGoat.length > 0) {
+        this.setState({ showClaimGoatzModal: value })
+      } else {
+        toastr.error("Please select Goatz to Claim.")
+      }
+
     } else {
       toastr.warning("One Transaction is In-Progress!");
     }
   }
 
-  onUnstakedKidsInputInputChanged(value: string) {
+  async onUnstakedKidsInputInputChanged(value: string) {
     if (this.state.transactionStatus == 'start') {
       let number = Number(value);
       if (value == '.') {
-        value = '0';
-        number = 0;
+        value = '';
+        number = NaN;
       }
       if (!isNaN(number) && number < 10000000000) {
         let dec = (value + '').split('.');
         if (dec[1]) {
           // return;
         }
-        this.setState({ unstakedKidsInput: dec[0] });
+
+        if (this.state.allUnstakedKidz && this.state.allUnstakedKidz.length > 0 && number <= this.state.allUnstakedKidz.length) {
+
+          let tempSelectedKidz: any = [];
+          let currentInx = 0;
+          let allUnstakedKidzArr: any = [].concat(this.state.allUnstakedKidz)
+          for (let item of allUnstakedKidzArr) {
+            item['selected'] = false;
+            if (currentInx < number) {
+              tempSelectedKidz.push(item.id)
+              item['selected'] = true;
+            }
+            currentInx = currentInx + 1;
+          }
+          await this.setState({ allUnstakedKidz: [] })
+          await this.setState({ allUnstakedKidz: allUnstakedKidzArr, selectedUnstakedKidz: tempSelectedKidz, unstakedKidsInput: tempSelectedKidz.length ? tempSelectedKidz.length : '' });
+
+          // this.setState({ unstakedKidsInput: dec[0] });
+        }
+
       }
     } else {
       toastr.warning("One Transaction is In-Progress!");
@@ -457,6 +519,10 @@ export default class Stacking extends React.Component<any, any> {
   async onClaimCheck() {
     try {
       if (this.state.isEnabled) {
+        if (!this.state.claimCheckInputValue) {
+          toastr.error("Please enter valid Goatz ID #.")
+          return;
+        }
         let isClaimed = await this.props.stakingWeb3Inst.methods.goatzClaimed(this.state.claimCheckInputValue).call();
         toastr.success(isClaimed ? "GOATz already claimed!" : "GOATz is available to claim!")
         this.setState({ claimCheckStatus: isClaimed ? 'CLAIMED' : 'UNCLAIMED' })
@@ -476,6 +542,10 @@ export default class Stacking extends React.Component<any, any> {
         if (this.state.transactionStatus != 'start') {
           toastr.warning("One Transaction is In-Progress!");
           return
+        }
+        if (!(this.state.selectedUnstakedKidz && this.state.selectedUnstakedKidz.length > 0)) {
+          toastr.error("Please select Kidz to Stake.")
+          return;
         }
         await this.setState({ transactionStatus: 'inprogress' });
         let isApproved = await this.props.kidzWeb3Inst.methods.isApprovedForAll(this.state.account, STAKING_ABI_ADDRESS).call();
@@ -545,6 +615,10 @@ export default class Stacking extends React.Component<any, any> {
           toastr.warning("One Transaction is In-Progress!");
           return
         }
+        if (!(this.state.selectedStakedKidz && this.state.selectedStakedKidz.length > 0)) {
+          toastr.error("Please select Kidz to Unstake.")
+          return;
+        }
         await this.setState({ transactionStatus: 'inprogress' });
         await this.props.stakingWeb3Inst.methods.withdraw(this.state.selectedStakedKidz).send({
           from: this.state.account
@@ -579,6 +653,9 @@ export default class Stacking extends React.Component<any, any> {
         if (this.state.transactionStatus != 'start') {
           toastr.warning("One Transaction is In-Progress!");
           return
+        }
+        if (!(this.state.totalStakedKidz && this.state.totalStakedKidz > 0)) {
+          toastr.error("You don't have Kidz for Claim.")
         }
         let ids: any = [];
         for (let item of this.state.allStakedKidz) {
@@ -620,6 +697,9 @@ export default class Stacking extends React.Component<any, any> {
         if (this.state.transactionStatus != 'start') {
           toastr.warning("One Transaction is In-Progress!");
           return
+        }
+        if (!(this.state.selectedGoat && this.state.selectedGoat.length > 0)) {
+          toastr.error("Please select Goatz to Claim.")
         }
         this.setState({ transactionStatus: 'inprogress' });
         await this.props.stakingWeb3Inst.methods.claimGoatzRewards(this.state.selectedGoat).send({
@@ -687,7 +767,7 @@ export default class Stacking extends React.Component<any, any> {
         {this.state.showClaimKidzModal && <div className={style.modal} > {this.scrollTop()}
           <span className={style.icon} onClick={() => this.setClaimKidzModal(false)}><CloseIcon /></span>
           <div>
-            <p >YOU ARE ABOUT TO CLAIM {this.state.totalStakedGmilkKidz} GMILK WITH 40% TAX</p>
+            <p >YOU ARE ABOUT TO CLAIM {this.state.totalStakedGmilkKidz} GMILK WITH {this.state.actualClaimmableRewards}K TAX</p>
             {this.state.totalStakedKidz && this.state.totalStakedKidz > 0 ? <Button onClick={() => { this.claimKidz() }}>
               <a className={style.connectButton}>
                 CONFIRM
@@ -739,7 +819,7 @@ export default class Stacking extends React.Component<any, any> {
           </div>
 
           <div className={style.content}>
-            <div>
+            <div className={style.wrapperScroll}>
               <span>KIDz UNSTAKED</span>
               <div className={style.card}>
                 {this.getLeftPanelUnstakedKidz()}
