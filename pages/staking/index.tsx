@@ -42,6 +42,7 @@ export default class Stacking extends React.Component<any, any> {
       showUnstakeKidzModal: false,
       showClaimKidzModal: false,
       actualClaimmableRewards: '',
+      taxAmount: '',
       unstakedKidzLoading: false,
 
       totalStakedKidz: 0,
@@ -158,15 +159,18 @@ export default class Stacking extends React.Component<any, any> {
     if (index <= allGoatzCount - 1) {
       let temp = await this.props.goatzWeb3Inst.methods.tokenOfOwnerByIndex(this.state.account, index).call();
       list.push(temp)
-
       await this.getMintedGoatzList(list, allGoatzCount, index + 1);
     } else if (index > allGoatzCount - 1) {
       //set in state
       let unstakedIdList = await this.props.stakingWeb3Inst.methods.getUnclaimedGoatz(list).call();
       this.setState({ totalGoatz: unstakedIdList.length })
       await this.setState({ mintedGoatzIdList: unstakedIdList });
-      if (list && list.length > 0) {
-        this.getMintedGoatzObj([], 0, unstakedIdList.length, unstakedIdList)
+      if (unstakedIdList && unstakedIdList.length > 0) {
+        if (unstakedIdList.length > 1 || (unstakedIdList.length == 1 && unstakedIdList[0] != 0)) {
+          this.getMintedGoatzObj([], 0, unstakedIdList.length, unstakedIdList);
+        } else {
+          this.setState({ mintedGoatzObjList: [], unstakedGoatzLoading: false });
+        }
       }
     }
   }
@@ -214,7 +218,7 @@ export default class Stacking extends React.Component<any, any> {
     } else if (!this.state.unstakedGoatzLoading) {
       return <h4 style={{ textAlign: 'center' }}>No any GOATz to CLAIM!</h4>;
     } else if (this.state.unstakedGoatzLoading) {
-      return <h4 style={{ textAlign: 'center' }}><img src={loadingImg.src} style={{width:'50px',height:'50px'}}/><div>Loading...</div></h4>;
+      return <h4 style={{ textAlign: 'center', margin: '0px' }}><img src={loadingImg.src} style={{ width: '50px', height: '50px' }} /><div>Loading...</div></h4>;
     }
   }
 
@@ -289,7 +293,7 @@ export default class Stacking extends React.Component<any, any> {
     } else if (!this.state.unstakedKidzLoading) {
       return <h4 style={{ textAlign: 'center' }}>No any UNSTAKED KIDz!</h4>;
     } else if (this.state.unstakedKidzLoading) {
-      return <h4 style={{ textAlign: 'center' }}><img src={loadingImg.src} style={{width:'50px',height:'50px'}}/><div>Loading...</div></h4>;
+      return <h4 style={{ textAlign: 'center', margin: '0px' }}><img src={loadingImg.src} style={{ width: '50px', height: '50px' }} /><div>Loading...</div></h4>;
     }
   }
 
@@ -366,7 +370,7 @@ export default class Stacking extends React.Component<any, any> {
     } else if (!this.state.stakedKidzLoading) {
       return <h4 style={{ textAlign: 'center' }}>No any STAKED KIDz!</h4>;
     } else if (this.state.stakedKidzLoading) {
-      return <h4 style={{ textAlign: 'center' }}><img src={loadingImg.src} style={{width:'50px',height:'50px'}}/><div>Loading...</div></h4>;
+      return <h4 style={{ textAlign: 'center', margin: '0px' }}><img src={loadingImg.src} style={{ width: '50px', height: '50px' }} /><div>Loading...</div></h4>;
     }
   }
 
@@ -429,16 +433,37 @@ export default class Stacking extends React.Component<any, any> {
     if (this.state.transactionStatus == 'start') {
       if (this.state.totalStakedKidz && this.state.totalStakedKidz > 0) {
         let actualClaimmableRewards = ''
+        let totalStakedGmilkKidz = ''
+        let taxAmount = 0;
         try {
           if (value) {
             let ids: any = [];
             for (let item of this.state.allStakedKidz) {
               ids.push(item.id)
             }
-            actualClaimmableRewards = await this.props.stakingWeb3Inst.methods.actualClaimmableRewards(ids);
+            actualClaimmableRewards = await this.props.stakingWeb3Inst.methods.actualClaimmableRewards([19, 20]).call({
+              from: this.state.account
+            });
+
+            let totalGMilkList = await this.props.stakingWeb3Inst.methods.calculateRewards(this.state.account, ids).call();
+            let total = new BigNumber(0);
+            for (let item of totalGMilkList) {
+              total = total.plus(new BigNumber(item));
+            }
+            this.setState({ totalStakedGmilkKidz: this.getWeiFormated(total, 18) });
+
+            totalStakedGmilkKidz = this.getWeiFormated(total, 18);
+
             actualClaimmableRewards = this.getWeiFormated(actualClaimmableRewards, 18);
+
+            taxAmount = Number(totalStakedGmilkKidz) - Number(actualClaimmableRewards);
           }
-          this.setState({ showClaimKidzModal: value, actualClaimmableRewards: actualClaimmableRewards })
+          this.setState({
+            showClaimKidzModal: value,
+            totalStakedGmilkKidz: totalStakedGmilkKidz,
+            actualClaimmableRewards: actualClaimmableRewards,
+            taxAmount: taxAmount.toFixed(5)
+          });
         } catch (e) {
 
         }
@@ -767,7 +792,7 @@ export default class Stacking extends React.Component<any, any> {
         {this.state.showClaimKidzModal && <div className={style.modal} > {this.scrollTop()}
           <span className={style.icon} onClick={() => this.setClaimKidzModal(false)}><CloseIcon /></span>
           <div>
-            <p >YOU ARE ABOUT TO CLAIM {this.state.totalStakedGmilkKidz} GMILK WITH {this.state.actualClaimmableRewards}K TAX</p>
+            <p >YOU ARE ABOUT TO CLAIM {this.state.totalStakedGmilkKidz} GMILK WITH {this.state.taxAmount} GMILK TAX</p>
             {this.state.totalStakedKidz && this.state.totalStakedKidz > 0 ? <Button onClick={() => { this.claimKidz() }}>
               <a className={style.connectButton}>
                 CONFIRM

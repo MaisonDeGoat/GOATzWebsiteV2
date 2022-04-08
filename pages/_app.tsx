@@ -64,7 +64,6 @@ export default class MyApp extends App {
   }
 
   async connectToMetaMaskNetwork() {
-    console.log("Connect")
     if (this.state.isConnecting) {
       return;
     }
@@ -105,7 +104,6 @@ export default class MyApp extends App {
   }
 
   async setConfig() {
-    console.log("Network changed")
     if (this.state.web3) {
 
       try {
@@ -161,7 +159,6 @@ export default class MyApp extends App {
 
   async configNetwork(chainId: any, account: any) {
     chainId = Number(chainId);
-    console.log(chainId)
     if (CHAINID.indexOf(chainId) == -1) {
       toastr.info('Wrong network choosen. Please choose Ethereum Mainnet');
       await this.setState({
@@ -179,8 +176,8 @@ export default class MyApp extends App {
         isEnabled: true,
         isConnecting: false,
         chainId: chainId,
-        account: '0x6401694dbA7B91a105B0653Ce167cf5527B80456',
-        // account: account,
+        // account: '0x6401694dbA7B91a105B0653Ce167cf5527B80456',
+        account: account,
         gmilkWeb3Inst: gmilkWeb3Inst,
         stakingWeb3Inst: stakingWeb3Inst,
         kidzWeb3Inst: kidzWeb3Inst,
