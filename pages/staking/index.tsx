@@ -176,7 +176,7 @@ export default class Stacking extends React.Component<any, any> {
   }
 
   async getMintedGoatzObj(goatzList: any[], index: number, totalLength: number, list: string[]) {
-    if (index <= totalLength - 1) {
+    if (index <= totalLength - 1 && Number(list[index]) != 0) {
       let url = await this.props.goatzWeb3Inst.methods.tokenURI(list[index]).call();
       fetch(url)
         // fetch("https://goatz.mypinata.cloud/ipfs/QmUmJ25CAhPhExapS2fLgD6Qbr9fExyxUGtzzY7Nkwykai/" + list[index])
@@ -197,6 +197,8 @@ export default class Stacking extends React.Component<any, any> {
         )
     } else if (index > totalLength - 1) {
       this.setState({ mintedGoatzObjList: goatzList, unstakedGoatzLoading: false })
+    } else {
+      this.getMintedGoatzObj(goatzList, index + 1, totalLength, list)
     }
   }
 
