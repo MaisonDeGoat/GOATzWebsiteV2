@@ -443,7 +443,7 @@ export default class Stacking extends React.Component<any, any> {
             for (let item of this.state.allStakedKidz) {
               ids.push(item.id)
             }
-            actualClaimmableRewards = await this.props.stakingWeb3Inst.methods.actualClaimmableRewards([19, 20]).call({
+            actualClaimmableRewards = await this.props.stakingWeb3Inst.methods.actualClaimmableRewards(ids).call({
               from: this.state.account
             });
 
@@ -590,6 +590,7 @@ export default class Stacking extends React.Component<any, any> {
             } else {
               toastr.error("Oops! Something went wrong. Please REFRESH your browser and try again");
             }
+            this.setUnstakedKidzModal(false);
           });
         }
 
@@ -631,6 +632,7 @@ export default class Stacking extends React.Component<any, any> {
       });
     }
     catch (e) {
+      this.setUnstakedKidzModal(false);
       throw e;
     }
   }
@@ -670,6 +672,7 @@ export default class Stacking extends React.Component<any, any> {
         toastr.error("Please connect your wallet.")
       }
     } catch (e) {
+      this.setStakedKidzToUnstakeModal(false);
       await this.setState({ transactionStatus: 'start' });
     }
   }

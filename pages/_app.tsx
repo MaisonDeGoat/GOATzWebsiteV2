@@ -28,7 +28,6 @@ export default class MyApp extends App {
     if (Component.getInitialProps) {
       pageProps = await Component.getInitialProps(ctx)
     }
-
     return { pageProps }
   }
 
@@ -43,6 +42,37 @@ export default class MyApp extends App {
     stakingWeb3Inst: null,
     kidzWeb3Inst: null,
     goatzWeb3Inst: null,
+  }
+
+  componentDidMount() {
+    setTimeout(()=>{
+      // console.log(this.state)
+      // this.check()
+      this.autoConnect();
+    })
+    
+  }
+
+  async check(){
+    await this.setState({account: '0x6401694dbA7B91a105B0653Ce167cf5527B80456',isEnabled:true})
+    console.log(this.state)
+  }
+  async autoConnect() {
+    try {
+      let web3 = null;
+      if ((window as any).ethereum && (window as any).ethereum.isMetaMask) {
+        web3 = new Web3((window as any).ethereum);
+      }
+      if (web3) {
+        const accounts = await web3.eth.getAccounts();
+        if (accounts && accounts.length > 0) {
+          this.connectToMetaMaskNetwork();
+        }
+      }
+
+    } catch (e) {
+      // console.log("ERROR:::::::", e)
+    }
   }
 
   async connectToMetaMaskNetwork() {
@@ -165,6 +195,7 @@ export default class MyApp extends App {
         kidzWeb3Inst: kidzWeb3Inst,
         goatzWeb3Inst: goatzWeb3Inst,
       });
+      console.log(this.state.isEnabled)
       toastr.success('Wallet connected successfully.');
     } else {
     }
