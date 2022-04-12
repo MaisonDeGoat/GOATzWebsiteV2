@@ -850,11 +850,10 @@ export default class Stacking extends React.Component<any, any> {
         <Container>
           {/* <Image src={StakingCover} layout="responsive" alt="staking" /> */}
           <p className={style.content}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-            magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-            est laborum.
+            Welcome to the KIDz Academy where KIDz are staked to earn $GMILK and GOATz can claim it! 
+            Before staking or claiming please read our terms of use. 
+            Be sure to claim your GMILK prior to unstaking any KIDZ. 
+            GOATz that have claimed their GMILK will not appear below.
           </p>
         </Container>
         <Container>
