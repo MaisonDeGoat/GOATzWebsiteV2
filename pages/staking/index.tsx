@@ -47,6 +47,7 @@ export default class Stacking extends React.Component<any, any> {
 
       totalStakedKidz: 0,
       allStakedKidz: [],
+      selectedKidzIdz: [],
       selectedStakedKidz: [],
       showStakeKidzToUnstakeModal: false,
       showClaimGoatzModal: false,
@@ -323,21 +324,30 @@ export default class Stacking extends React.Component<any, any> {
       await this.setState({
         totalStakedKidz: 0,
         allStakedKidz: [],
+        selectedKidzIdz: [],
         selectedStakedKidz: [],
         stakedKidzLoading: true
       })
       let allKidz = await this.props.stakingWeb3Inst.methods.depositsOf(this.state.account).call();
       let length = allKidz ? allKidz.length : 0;
-      this.setState({ totalStakedKidz: length })
+      this.setState({ totalStakedKidz: length, selectedKidzIdz: allKidz })
       this.getStakedKidzObj([], 0, length, allKidz);
-      let totalGMilkList = await this.props.stakingWeb3Inst.methods.calculateRewards(this.state.account, allKidz).call();
+      this.getGmilkOfStakedKidz(allKidz)
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
+  async getGmilkOfStakedKidz(selectedKidzIdz: any) {
+    try {
+      let totalGMilkList = await this.props.stakingWeb3Inst.methods.calculateRewards(this.state.account, selectedKidzIdz).call();
       let total = new BigNumber(0);
       for (let item of totalGMilkList) {
         total = total.plus(new BigNumber(item));
       }
       this.setState({ totalStakedGmilkKidz: this.getWeiFormated(total, 18) });
     } catch (e) {
-      console.error(e)
+
     }
   }
 
@@ -376,7 +386,7 @@ export default class Stacking extends React.Component<any, any> {
     }
   }
 
-  stakedKidzImageSelection(goatzObj: any) {
+  async stakedKidzImageSelection(goatzObj: any) {
     if (this.state.transactionStatus == 'start') {
       let tempSelectedKidz = this.state.selectedStakedKidz;
       let inx = tempSelectedKidz.indexOf(goatzObj['id']);
@@ -387,7 +397,8 @@ export default class Stacking extends React.Component<any, any> {
         goatzObj['selected'] = true;
         tempSelectedKidz.push(goatzObj['id']);
       }
-      this.setState({ selectedStakedKidz: tempSelectedKidz })
+      await this.getGmilkOfStakedKidz((tempSelectedKidz && tempSelectedKidz.length > 0 ? tempSelectedKidz : this.state.selectedKidzIdz))
+      await this.setState({ selectedStakedKidz: tempSelectedKidz })
       // onTempRefreshChange(goatzObj)
     } else {
       toastr.warning("One Transaction is In-Progress!");
@@ -433,6 +444,10 @@ export default class Stacking extends React.Component<any, any> {
 
   async setClaimKidzModal(value: boolean) {
     if (this.state.transactionStatus == 'start') {
+      if(!value){
+        this.setState({showClaimKidzModal: value});
+        return;
+      }
       if (this.state.totalStakedKidz && this.state.totalStakedKidz > 0) {
         let actualClaimmableRewards = ''
         let totalStakedGmilkKidz = ''
@@ -440,8 +455,17 @@ export default class Stacking extends React.Component<any, any> {
         try {
           if (value) {
             let ids: any = [];
-            for (let item of this.state.allStakedKidz) {
-              ids.push(item.id)
+            for (let item of this.state.selectedStakedKidz) {
+              ids.push(item)
+            }
+            if (ids.length == 0) {
+              for (let item of this.state.allStakedKidz) {
+                ids.push(item.id)
+              }
+            }
+            if(ids.length == 0){
+              toastr.error("You do not have Kidz to cliam!")
+              return
             }
             actualClaimmableRewards = await this.props.stakingWeb3Inst.methods.actualClaimmableRewards(ids).call({
               from: this.state.account
@@ -457,7 +481,6 @@ export default class Stacking extends React.Component<any, any> {
             totalStakedGmilkKidz = this.getWeiFormated(total, 18);
 
             actualClaimmableRewards = this.getWeiFormated(actualClaimmableRewards, 18);
-
             taxAmount = Number(totalStakedGmilkKidz) - Number(actualClaimmableRewards);
           }
           this.setState({
@@ -684,12 +707,17 @@ export default class Stacking extends React.Component<any, any> {
           toastr.warning("One Transaction is In-Progress!");
           return
         }
-        if (!(this.state.totalStakedKidz && this.state.totalStakedKidz > 0)) {
-          toastr.error("You don't have Kidz for Claim.")
-        }
         let ids: any = [];
-        for (let item of this.state.allStakedKidz) {
-          ids.push(item.id)
+        for (let item of this.state.selectedStakedKidz) {
+          ids.push(item)
+        }
+        if (ids.length == 0) {
+          for (let item of this.state.allStakedKidz) {
+            ids.push(item.id)
+          }
+        }
+        if (!(ids && ids.length > 0)) {
+          toastr.error("You don't have Kidz for Claim.")
         }
         await this.setState({ transactionStatus: 'inprogress' });
         await this.props.stakingWeb3Inst.methods.claimRewards(ids).send({
