@@ -825,7 +825,7 @@ export default class Stacking extends React.Component<any, any> {
         {this.state.showClaimKidzModal && <div className={style.modal} > {this.scrollTop()}
           <span className={style.icon} onClick={() => this.setClaimKidzModal(false)}><CloseIcon /></span>
           <div>
-            <p >YOU ARE ABOUT TO CLAIM {this.state.totalStakedGmilkKidz} GMILK WITH {this.state.taxAmount} GMILK TAX</p>
+            <p >YOU ARE ABOUT TO CLAIM {parseInt(this.state.totalStakedGmilkKidz)} GMILK WITH {parseInt(this.state.taxAmount)} GMILK TAX</p>
             {this.state.totalStakedKidz && this.state.totalStakedKidz > 0 ? <Button onClick={() => { this.claimKidz() }}>
               <a className={style.connectButton}>
                 CONFIRM
@@ -903,7 +903,7 @@ export default class Stacking extends React.Component<any, any> {
             </div>
             <div>
               <span> &nbsp; </span>
-              <p className={style.yellowbg}> {this.state.totalStakedGmilkKidz} GMILK </p>
+              <p className={style.yellowbg}> {parseInt(this.state.totalStakedGmilkKidz)} GMILK </p>
               <div className={style.btngroup}>
                 <button className={this.state.allStakedKidz && this.state.allStakedKidz.length > 0 ? style.greenbtn : style.yellowbtn} onClick={() => this.setClaimKidzModal(true)}> CLAIM </button>
                 <button className={this.state.selectedStakedKidz && this.state.selectedStakedKidz.length > 0 ? style.greenbtn : style.yellowbtn} onClick={() => this.setStakedKidzToUnstakeModal(true)}> UNSTAKE </button>
