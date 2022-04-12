@@ -16,7 +16,7 @@
 
 
 .wrapperScroll{
-  height: 150px;
+  height: 230px;
   overflow: auto;
 }
 .content {
@@ -194,10 +194,10 @@
   border-radius: 10px;
   margin: 1vh 0 2vh 0;
   white-space: nowrap;
-  position: absolute;
-  overflow-y: scroll;
+  overflow-y: hidden;
+  // overflow-x: hidden;
   height: 150px;
-  width: 50%;
+  width:100%;
   @include sm {
     width: min-content;
   }
