@@ -16,16 +16,18 @@ const Forge = () => {
           <br/>
           <br/>
           <b>The What</b>
+          <br/>
           2 GOATz go in and 1 GOAT comes out! They say greatness is forged in fire! Through a token burning
           contract you will be able to take two of your GOATz and choose which traits you want your combined
           GOAT to have. The traits you didnʼt choose disappear from the ecosystem forever! There is no cost
-          associated with Forging however you will pay gas. We have had 5 Forge SZNs, taking the total supply
-          of GOATz to 7,694 (from the original 10,000 minted). The Forge SZNs will be announced at different
+          associated with Forging however you will pay gas. We have had 8 Forge SZNs, taking the total supply
+          of GOATz to 7,131 (from the original 10,000 minted). The Forge SZNs will be announced at different
           times for those who wish to combine the traits they want their GOATz to carry forward and continue
           the community mission of reducing supply.
           <br/>
           <br/>
           <b>The How</b>
+          <br/>
           Owners of 2 or more GOATz will connect their wallet to the Forge via the website. 
           Once the GOATz are loaded, select the 2 you wish to Forge. From there,
           select the Traits and Token ID# you wish to carry forward. Lastly, Forged
@@ -38,6 +40,7 @@ const Forge = () => {
           <br/>
           <br/>
           <b>The Why</b>
+          <br/>
           Forging is a personal decision and one that doesnʼt come easy for
           everyone. Donʼt feel pressure to Forge. But, here are some reasons
           some choose to Forge:
