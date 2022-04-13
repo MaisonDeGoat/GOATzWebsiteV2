@@ -485,7 +485,7 @@ const Tree = () => {
               </tspan>
             </text>
           </Link>
-	  <a href="https://opensea.io/collection/goatzkidzofficial" rel="noreferrer" target="_blank">
+	  <Link href="https://opensea.io/collection/goatzkidzofficial" passHref>
             <text
               transform="matrix(1 0 0 1 323.7469 180.4165)"
               className={`${style.st4} ${style.st5} ${style.st6} ${style.link}`}
