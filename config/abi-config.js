@@ -1,6 +1,6 @@
 export const CHAINID = [4]
 export const GMILK_ABI_ADDRESS = '0x35886b36D14Ae87eb6d636D840622762D394Af28';
-export const STAKING_ABI_ADDRESS = '0x921394F0AB0AF9C7B7e60ED41094C25A9Cd11624';
+export const STAKING_ABI_ADDRESS = '0xeFB3E3338d454C1da560BD2d29a8bEC90f211B79';
 export const KIDZ_ABI_ADDRESS = '0x29abA55520Ba7E1ebBeCb4bf9B94832e7E193472';
 export const GOATZ_ABI_ADDRESS = '0x30b5713383507cC3650dd7aa8Ae401890A985C7e';
 
@@ -376,12 +376,30 @@ export const LIST_ABI_STAKING = [
 	{
 		"inputs": [
 			{
+				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			},
+			{
 				"internalType": "uint256[]",
 				"name": "tokenIds",
 				"type": "uint256[]"
 			}
 		],
 		"name": "actualClaimmableRewards",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "baseTaxRate",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -729,6 +747,24 @@ export const LIST_ABI_STAKING = [
 		"type": "function"
 	},
 	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "token",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "recoverExcessToken",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
 		"inputs": [],
 		"name": "renounceOwnership",
 		"outputs": [],
@@ -739,16 +775,24 @@ export const LIST_ABI_STAKING = [
 		"inputs": [
 			{
 				"internalType": "address",
-				"name": "_kidz",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "_goatz",
+				"name": "_treasury",
 				"type": "address"
 			}
 		],
 		"name": "setAddress",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_baseTaxRate",
+				"type": "uint256"
+			}
+		],
+		"name": "setBaseTaxRate",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -794,6 +838,19 @@ export const LIST_ABI_STAKING = [
 	},
 	{
 		"inputs": [],
+		"name": "treasury",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
 		"name": "unpause",
 		"outputs": [],
 		"stateMutability": "nonpayable",
@@ -808,13 +865,6 @@ export const LIST_ABI_STAKING = [
 			}
 		],
 		"name": "withdraw",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "withdrawTokens",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"

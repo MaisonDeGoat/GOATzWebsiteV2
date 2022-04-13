@@ -517,9 +517,9 @@ export default class Stacking extends React.Component<any, any> {
               toastr.error("You do not have Kidz to cliam!");
               return;
             }
-            actualClaimmableRewards = await this.props.stakingWeb3Inst.methods.actualClaimmableRewards(ids).call({
-              from: this.state.account,
-            });
+            actualClaimmableRewards = await this.props.stakingWeb3Inst.methods
+              .actualClaimmableRewards(this.state.account, ids)
+              .call();
 
             let totalGMilkList = await this.props.stakingWeb3Inst.methods
               .calculateRewards(this.state.account, ids)
