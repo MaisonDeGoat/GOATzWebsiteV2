@@ -11,10 +11,7 @@ const Stacking = () => {
         <Typography variant="h2">STAKING</Typography>
 
         <Typography variant="body1">
-          GOATz are the 1st ever deﬂationary PFP NFT that enables owners to customize their NFTS through a process
-          called The Forge.The total supply of GOATz is always decreasing and the art is always being enhanced. They are
-          ERC-721 Tokens and exist on the Ethereum blockchain. Owning a GOAT is not just about having a personalized
-          avatar, it&apos;s also about gaining access to a vibrant, successful, and generous community.
+          In the GOATz universe, the KIDz are the long term earners! By staking our companion NFT, KIDz, you will earn $GMILK over time. $GMILK is our in-game currency and can be used to purchase items and experiences within our ecosystem. If you have more questions check out our white paper.
         </Typography>
 
         <Link href="/staking">
