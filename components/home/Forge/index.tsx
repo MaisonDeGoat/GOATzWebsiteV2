@@ -20,9 +20,7 @@ const Forge = () => {
             <Box className={style.description}>
               <Typography variant="h4">THE FORGE</Typography>
               <Typography variant="body1">
-                2 GOATz go in and 1 GOAT comes out! They say greatness is forged in ﬁre! Through a token burning
-                contract you will be able to take two of your GOATz and choose which traits you want your combined GOAT
-                to have. The traits you didnʼt choose disappear from the ecosystem forever!
+                One of the main reasons GOATz was created was to give control to the owners and allow them to craft an NFT that represents themselves, a story, or their ambitions!  Through The Forge, this is made possible. Owners can take 2 different GOATz and select their favorite traits from each GOAT to form 1 combined GOAT.
               </Typography>
               <Link href="/the-forge">
                 <a className={style.forgeButton}>
