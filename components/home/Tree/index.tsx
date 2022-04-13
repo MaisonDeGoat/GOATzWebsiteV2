@@ -493,7 +493,7 @@ const Tree = () => {
               KIDz
             </text>
           </Link>
-          <Link href="/aut" passHref>
+          <Link href="https://looksrare.org/collections/0xC7D7Aa806496be5bebD005C129315F215A7caa6D" passHref>
             <text transform="matrix(1 0 0 1 113.0901 276.4619)" className={style.link}>
               <tspan x="0" y="0" className={`${style.st4} ${style.st5} ${style.st8}`}>
                 A
