@@ -12,7 +12,7 @@ const PrivacyPolicy = () => {
           PRIVACY POLICY
           This Privacy Policy is designed to help you understand how KRHFT Studios LLC, a California corporation, and its affiliates (collectively called “KRFHT
           Studios”, “we,” “us,” and “our”) collects, uses, and shares your personal information and to help you understand and exercise your privacy rights.
-          This Privacy Policy applies to personal information collected and processed by KRHFT Studios LLC's website, which allows for the transacting of NFTs,
+          This Privacy Policy applies to personal information collected and processed by KRHFT Studios LLC&aposs website, which allows for the transacting of NFTs,
           staking of NFTs and other services as may be offered by KRHFT Studios LLC from time to time (collectively, the “Services”). For clarity, the Services do not
           include any decentralized aspect of the Ethereum Blockchain that are not controlled by KRHFT Studios LLC due to the decentralized nature of the open
           blockchain networks. “NFT” in this Privacy Policy means a non-fungible token or similar digital asset implemented on a blockchain (such as the
@@ -139,7 +139,7 @@ const PrivacyPolicy = () => {
           pseudonymous, public wallet address using external sources of information, any transaction you enter onto the Ethereum Blockchain could
           possibly be used to identify you, or information about you.
           • Third Party Websites and Applications. You may choose to share personal information or interact with third-party websites and/or thirdparty applications, including, but not limited to, third-party electronic wallet extensions. Once your personal information has been shared
-          with a third-party website or a third-party application, it will also be subject to such third party's privacy policy. We encourage you to closely
+          with a third-party website or a third-party application, it will also be subject to such third party&aposs privacy policy. We encourage you to closely
           read each third-party website or third-party application privacy policy before sharing your personal information or otherwise interacting
           with them. Please note that we do not control, and we are not responsible for the third-party websites or the third-party applications
           processing of your personal information.
@@ -154,7 +154,7 @@ const PrivacyPolicy = () => {
           B. Disclosures to Protect Us or Others
           We may access, preserve, and disclose any information we store associated with you to external parties if we, in good faith, believe doing so is
           required or appropriate to: comply with law enforcement or national security requests and legal process, such as a court order or subpoena;
-          protect your, our, or others' rights, property, or safety; enforce our policies or contracts; collect amounts owed to us; or assist with an
+          protect your, our, or others&apos rights, property, or safety; enforce our policies or contracts; collect amounts owed to us; or assist with an
           investigation or prosecution of suspected or actual illegal activity.
           C. Disclosure in the Event of Merger, Sale, or Other Asset Transfers
           If we are involved in a merger, acquisition, financing due diligence, reorganization, bankruptcy, receivership, purchase or sale of assets, or
@@ -200,7 +200,7 @@ const PrivacyPolicy = () => {
           is 100% secure, and we cannot ensure or warrant the security of any information you provide to us. To the fullest extent permitted by applicable
           law, we do not accept liability for unauthorized disclosure.
           By using our Services or providing personal information to us, you agree that we may communicate with you electronically regarding security,
-          privacy, and administrative issues relating to your use of our Services. If we learn of a security system's breach, we may attempt to notify you
+          privacy, and administrative issues relating to your use of our Services. If we learn of a security system&aposs breach, we may attempt to notify you
           electronically by posting a notice on our Services, by mail or by sending an email to you.
           7. INTERNATIONAL DATA TRANSFERS
           All information processed by us may be transferred, processed, and stored anywhere in the world, including, but not limited to, the United States
@@ -228,7 +228,7 @@ const PrivacyPolicy = () => {
           with
           Personal information categories listed in Cal. Civ. Code § 1798.80(e)
           A name, signature, Social Security number, address, telephone number, passport number,
-          driver's license or state identification card number, insurance policy number, education,
+          driver&aposs license or state identification card number, insurance policy number, education,
           employment, employment history, bank account number, credit card number, debit card
           number, or any other financial information. Personal Information does not include publicly
           available information that is lawfully made available to the general public from federal, state,
@@ -262,7 +262,7 @@ const PrivacyPolicy = () => {
           • Data analytics providers
           • Other users (your posts).
           Internet or other electronic network activity
-          Browsing history, search history, information on a consumer's interaction with an internet
+          Browsing history, search history, information on a consumer&aposs interaction with an internet
           website, application, or advertisement.
           • Service providers
           • Blockchain networks
@@ -278,7 +278,7 @@ const PrivacyPolicy = () => {
           identification codes, student financial information, or student disciplinary records.
           • Service providers
           Inferences drawn from other personal information to create a profile about a consumer
-          Profile reflecting a consumer's preferences, characteristics, psychological trends,
+          Profile reflecting a consumer&aposs preferences, characteristics, psychological trends,
           predispositions, behavior, attitudes, intelligence, abilities, and aptitudes.
           • Service providers
           The categories of sources from which we collect personal information and our business and commercial purposes for using personal information
@@ -294,7 +294,7 @@ const PrivacyPolicy = () => {
           about whom we collected personal information or an authorized representative, which may include confirming the email address associated with
           any personal information we have about you. If you are a California resident and would like to exercise any of your rights under the CCPA, please
           contact us as set forth in “Contact Us” below. We will process such requests in accordance with applicable laws.
-          Accessibility. This Privacy Policy uses industry-standard technologies and was developed in line with the World Wide Web Consortium's Web
+          Accessibility. This Privacy Policy uses industry-standard technologies and was developed in line with the World Wide Web Consortium&aposs Web
           Content Accessibility Guidelines, version 2.1. If you wish to print this policy, please do so from your web browser or by saving the page as a PDF.
           California Shine the Light. The California “Shine the Light” law permits users who are California residents to request and obtain from us once a
           year, free of charge, a list of the third parties to whom we have disclosed their personal information (if any) for their direct marketing purposes
@@ -309,10 +309,10 @@ const PrivacyPolicy = () => {
           sell that personal information. You can exercise this right by contacting us as set forth in “Contact Us” below with the subject line “Nevada Do
           Not Sell Request” and providing us with your name and the email address associated with your account. Please note that we do not currently sell
           your personal information as sales are defined in Nevada Revised Statutes Chapter 603A.
-          11. CHILDREN'S INFORMATION
+          11. CHILDREN&aposS INFORMATION
           The Services are not directed to children under 13 (or other age as required by local law), and we do not knowingly collect personal information
           from children. If you learn that your child has provided us with personal information without your consent, you may contact us as set forth in
-          “Contact Us” below. If we learn that we have collected a child's personal information in violation of applicable law, we will promptly take steps
+          “Contact Us” below. If we learn that we have collected a child&aposs personal information in violation of applicable law, we will promptly take steps
           to delete such information.
           12. THIRD-PARTY WEBSITES/APPLICATIONS
           The Services may contain links to other websites/applications and other websites/applications may reference or link to our Services. These thirdparty services are not controlled by us. We encourage our users to read the privacy policies of each website and application with which they
@@ -324,6 +324,7 @@ const PrivacyPolicy = () => {
           14. CONTACT US
           If you have any questions about our privacy practices or this Privacy Policy, or to exercise your rights as detailed in this Privacy Policy, please
           contact us at: support@maisondegoat.com
+
 
 
         </p>
