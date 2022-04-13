@@ -12,7 +12,7 @@ const Benefits = () => {
         </Head>
         <Image src={BenefitsCover} alt="goatz" />
         <p className={style.content}>
-          For an in-depth look at everything we are building for GOATz, please check out our <a href=“www.MaisonDeGOAT.com/Roadmap”>Roadmap 2.0</a>
+          For an in-depth look at everything we are building for GOATz, please check out our <a href="www.MaisonDeGOAT.com/Roadmap">Roadmap 2.0</a>
         </p>
       </Container>
     </div>
