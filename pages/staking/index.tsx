@@ -1089,7 +1089,7 @@ export default class Stacking extends React.Component<any, any> {
             </div>
             <div>
               <span> &nbsp; </span>
-              <p className={style.yellowbg}> {this.getGoatzBalance(this.state.mintedGoatzObjList.length)} GMILK </p>
+              <p className={style.yellowbg}> {this.getGoatzBalance(this.state.selectedGoat.length ? this.state.selectedGoat.length : this.state.mintedGoatzObjList.length)} GMILK </p>
               <div className={`${style.btngroup} ${style.btn100}`}>
                 <button
                   className={
