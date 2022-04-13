@@ -68,16 +68,16 @@ const Footer = () => {
           </Grid>
           <Grid item xs={12} sm={4} md={2}>
             <Stack className={style.list} spacing={2}>
-              <Link href="/">
+              <Link href="/benefits">
                 <a>Getting Started</a>
               </Link>
-              <Link href="/">
+              <Link href="https://opensea.io/collection/maisondegoat">
                 <a>Opensea</a>
               </Link>
-              <Link href="/">
+              <Link href="https://etherscan.io/address/0x3eacf2d8ce91b35c048c6ac6ec36341aae002fb9">
                 <a>Contracts</a>
               </Link>
-              <Link href="/">
+              <Link href="https://etherscan.io/address/0x6401694dba7b91a105b0653ce167cf5527b80456">
                 <a>Dev Wallet</a>
               </Link>
               <Link href="/white-paper">
