@@ -14,10 +14,9 @@
   }
 }
 
-
-.wrapperScroll{
+.wrapperScroll {
   height: 230px;
-  overflow: auto;
+  overflow: hidden;
 }
 .content {
   font-weight: 800;
@@ -48,7 +47,7 @@
   }
 }
 
-.connectButton{
+.connectButton {
   background: url("../../public/images/buttonBg.png") no-repeat;
   background-size: cover;
   height: 83px;
@@ -60,7 +59,7 @@
   margin-bottom: 40px;
 }
 
-.connectedButton{
+.connectedButton {
   background: url("../../public/images/buttonBg.png") no-repeat;
   background-size: cover;
   height: 83px;
@@ -72,10 +71,10 @@
   margin-bottom: 40px;
 }
 
-.unclaimedBtn{
-  background: #14FF00;
+.unclaimedBtn {
+  background: #14ff00;
   cursor: not-allowed;
-  border: 3px solid #14FF00;
+  border: 3px solid #14ff00;
   border-radius: 30px;
   color: black;
   width: auto;
@@ -86,10 +85,10 @@
   margin: 0vh 0 2vh 0;
 }
 
-.claimedBtn{
-  background: #F50303;
+.claimedBtn {
+  background: #f50303;
   cursor: not-allowed;
-  border: 3px solid #F50303;
+  border: 3px solid #f50303;
   border-radius: 30px;
   color: white;
   width: auto;
@@ -164,9 +163,9 @@
 }
 .greenbtn {
   cursor: pointer;
-  border: 3px solid #14FF00;
+  border: 3px solid #14ff00;
   border-radius: 30px;
-  background: #14FF00;
+  background: #14ff00;
   color: black;
   width: auto;
   padding: 1vh 2vh;
@@ -194,10 +193,9 @@
   border-radius: 10px;
   margin: 1vh 0 2vh 0;
   white-space: nowrap;
-  position: absolute;
-  overflow-y: scroll;
+  overflow-y: hidden;
   height: 150px;
-  width: 50%;
+  width: 100%;
   @include sm {
     width: min-content;
   }
