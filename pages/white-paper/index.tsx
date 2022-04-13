@@ -9,11 +9,7 @@ const WhitePaper = () => {
       </Head>
       <Container>
         <p className={style.content}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-          magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-          consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-          est laborum.
+          Click <a href="https://drive.google.com/uc?export=download&id=1-WWjx1c6XeT--sObLWyertp_ZLRwo8bS">Here</a> to Download The Whitepaper
         </p>
       </Container>
     </div>

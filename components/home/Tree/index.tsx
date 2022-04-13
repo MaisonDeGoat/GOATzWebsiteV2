@@ -6,7 +6,7 @@ import style from "./tree.module.scss";
 const Tree = () => {
   return (
     <div className={style.container}>
-      <Typography variant="h2">TAKE A LOOK AROUND</Typography>
+      <Typography variant="h2">ADDITIONAL LINKS</Typography>
       <svg
         version="1.1"
         id="Layer_1"
@@ -466,7 +466,7 @@ const Tree = () => {
 		c0-0.6,0.2-1.1,1-1.1c0.1,0,0.2,0,0.3,0c-0.1,0-0.2,0-0.3,0C385.5,383.5,385.3,384,385.2,384.6 M420.4,370.6
 		c0.1-0.1,0.1-0.2,0.2-0.3C420.5,370.4,420.5,370.5,420.4,370.6c0.4,0.8,1.8,0.5,2.1,1.4C422.2,371.1,420.8,371.4,420.4,370.6"
           />
-          <Link href="/goatz" passHref>
+          <Link href="https://opensea.io/collection/maisondegoat" passHref>
             <text transform="matrix(1 0 0 1 80.388 87.2085)" className={style.link}>
               <tspan x="0" y="0" className={`${style.st4} ${style.st5} ${style.st6}`}>
                 G
@@ -485,7 +485,7 @@ const Tree = () => {
               </tspan>
             </text>
           </Link>
-          <Link href="/kidz" passHref>
+	  <Link href="https://opensea.io/collection/goatzkidzofficial" passHref>
             <text
               transform="matrix(1 0 0 1 323.7469 180.4165)"
               className={`${style.st4} ${style.st5} ${style.st6} ${style.link}`}
@@ -515,7 +515,7 @@ const Tree = () => {
             </text>
           </a>
 
-          <Link href="/learn-more" passHref>
+          <Link href="/benefits" passHref>
             <text
               transform="matrix(1 0 0 1 43.7112 473.3642)"
               className={`${style.st4} ${style.st5} ${style.st9} ${style.link}`}

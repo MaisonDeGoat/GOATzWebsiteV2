@@ -53,11 +53,7 @@ export default function Home() {
                 <Box className={style.benefitDescription}>
                   <Typography variant="h4">WELCOME TO GOATz</Typography>
                   <Typography variant="body1">
-                    GOATz are the 1st ever deﬂationary PFP NFT that enables owners to customize their NFTS through a
-                    process called The Forge. The total supply of GOATz is always decreasing and the art is always being
-                    enhanced. They are ERC-721 Tokens and exist on the Ethereum blockchain. Owning a GOAT is not just
-                    about having a personalized avatar, it&apos;s also about gaining access to a vibrant, successful,
-                    and generous community.
+                    GOATz launched in July 2021 and are the 1st ever deﬂationary PFP NFT that enables owners to customize their NFTS through a process called The Forge. GOATz scarcity is always increasing and the art is always being enhanced. Owning a GOAT will unlock the doors to an amazing community and everything we are developing exclusively for GOATz in the different metaverses like The Sandbox and NFT Worlds. 
                   </Typography>
                   <Link href="/benefits">
                     <a className={style.benefitsButton}>
