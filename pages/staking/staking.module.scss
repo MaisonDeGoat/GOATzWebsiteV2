@@ -196,9 +196,9 @@
   overflow-y: hidden;
   height: 150px;
   width: 100%;
-  @include sm {
-    width: min-content;
-  }
+  // @include sm {
+  //   width: min-content;
+  // }
 }
 .card img {
   height: 120px;
