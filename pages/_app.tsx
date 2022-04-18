@@ -10,6 +10,11 @@ import { CacheProvider, EmotionCache } from "@emotion/react";
 import createEmotionCache from "@config/createEmotionCache";
 import theme from "@config/theme";
 import Layout from "@components/common/Layout";
+
+import "./css/bootstrap.css";
+import "./css/bootstrap-custom.css";
+import "./css/custom.css";
+import "./css/all.css";
 import './toastr.css';
 
 import { CHAINID, LIST_ABI_GMILK_ERC20, GMILK_ABI_ADDRESS, LIST_ABI_STAKING, STAKING_ABI_ADDRESS, KIDZ_ABI_ADDRESS, LIST_ABI_KIDZ, GOATZ_ABI_ADDRESS, LIST_ABI_GOATZ } from "../config/abi-config"
@@ -45,16 +50,16 @@ export default class MyApp extends App {
   }
 
   componentDidMount() {
-    setTimeout(()=>{
+    setTimeout(() => {
       // console.log(this.state)
       // this.check()
       this.autoConnect();
     })
-    
+
   }
 
-  async check(){
-    await this.setState({account: '0x6401694dbA7B91a105B0653Ce167cf5527B80456',isEnabled:true})
+  async check() {
+    await this.setState({ account: '0x6401694dbA7B91a105B0653Ce167cf5527B80456', isEnabled: true })
     console.log(this.state)
   }
   async autoConnect() {
@@ -204,18 +209,24 @@ export default class MyApp extends App {
   render() {
     const { Component, emotionCache = clientSideEmotionCache, pageProps }: any = this.props;
     return (
-      <CacheProvider value={emotionCache}>
-        <Head>
-          <meta name="viewport" content="initial-scale=1, width=device-width" />
-        </Head>
-        <ThemeProvider theme={theme}>
-          {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-          <CssBaseline />
-          <Layout>
-            <Component {...pageProps}  {...this.state} connect={() => { this.connectToMetaMaskNetwork() }} />
-          </Layout>
-        </ThemeProvider>
-      </CacheProvider>
+      <>
+        <CacheProvider value={emotionCache}>
+          <Head>
+            <meta name="viewport" content="initial-scale=1, width=device-width" />
+          </Head>
+          <ThemeProvider theme={theme}>
+            {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+            <CssBaseline />
+            <Layout>
+              <Component {...pageProps}  {...this.state} connect={() => { this.connectToMetaMaskNetwork() }} />
+            </Layout>
+          </ThemeProvider>
+        </CacheProvider>
+
+        {/* <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" /> */}
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+      </>
     );
   }
 }

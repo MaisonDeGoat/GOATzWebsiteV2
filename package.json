@@ -18,6 +18,7 @@
     "@mui/material": "latest",
     "@types/toastr": "^2.1.39",
     "bignumber.js": "^9.0.2",
+    "google-spreadsheet": "^3.1.15",
     "next": "latest",
     "react": "latest",
     "react-dom": "latest",
@@ -26,10 +27,19 @@
     "web3": "^1.6.0"
   },
   "devDependencies": {
+    "@types/google-spreadsheet": "^3.1.4",
     "@types/node": "latest",
     "@types/react": "latest",
     "eslint": "latest",
     "eslint-config-next": "latest",
     "typescript": "latest"
+  },
+  "browser": {
+    "child_process": false,
+    "fs": false,
+    "path": false,
+    "os": false,
+    "net":false,
+    "tls":false
   }
 }
