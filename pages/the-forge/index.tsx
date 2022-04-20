@@ -170,11 +170,11 @@ export default class Forge extends React.Component<any, any> {
     if (this.state.mintedGoatzObjList && this.state.mintedGoatzObjList.length > 0) {
       return this.state.mintedGoatzObjList.map((e: any, key: any) => {
         return (
-          <div className="col-md-6">
+          <div className="col-md-6"
+            key={key}>
             <img
               className="mb-4"
               style={{ border: e.selected ? 'solid 3px red' : 'none' }}
-              key={key}
               src={e.image}
               onClick={() => {
                 this.imageSelection(e);
