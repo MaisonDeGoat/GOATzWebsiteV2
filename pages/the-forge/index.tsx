@@ -169,9 +169,21 @@ export default class Forge extends React.Component<any, any> {
   getLeftPanelGoatz() {
     if (this.state.mintedGoatzObjList && this.state.mintedGoatzObjList.length > 0) {
       return this.state.mintedGoatzObjList.map((e: any, key: any) => {
-        // <option key={key} value={e.tokenId}>{e.tokenName} ({e.tokenId})</option>;
-        return <div className="col-md-6"><a onClick={() => this.imageSelection(e)} ><img className="mb-4" style={{ border: (e.selected ? 'solid 3px red' : 'none') }} key={key} src={e.image} alt="" /></a></div>;
-      })
+        return (
+          <div className="col-md-6">
+            <img
+              className="mb-4"
+              style={{ border: e.selected ? 'solid 3px red' : 'none' }}
+              key={key}
+              src={e.image}
+              onClick={() => {
+                this.imageSelection(e);
+              }}
+              alt=""
+            />
+          </div>
+        );
+      });
     } else {
       return;
     }
