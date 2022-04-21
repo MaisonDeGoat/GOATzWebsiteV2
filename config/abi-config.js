@@ -1,6 +1,6 @@
 export const CHAINID = [1]
 
-export const FORGE_SCREEN_STATUS = false;
+export const FORGE_SCREEN_STATUS = true;
 
 export const SPREADSHEET_ID = '1pBhshvGTr6Hbn6S6v4hmKzB0bWQceKjUZgAH9eEEBWM';
 export const SHEET_ID = '0';
