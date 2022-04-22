@@ -15,7 +15,7 @@ import ForgeCover from "../../public/images/forge-image.png";
 import { Util } from "util/util";
 import {
   FORGE_SCREEN_STATUS, SPREADSHEET_ID, LIST_ABI_GOATz,
-  LIST_ABI_ACCESSTOKEN, FROGE_ABI_ADDRESS, ACCESSTOKEN_ABI_ADDRESS, CLIENT_EMAIL,
+  LIST_ABI_ACCESSTOKEN, GOATZ_ABI_ADDRESS, ACCESSTOKEN_ABI_ADDRESS, CLIENT_EMAIL,
   PRIVATE_KEY, SHEET_ID, SHEET_ID_ALL, SHEET_ID_TEMP, SHEET_ID_ALL_TEMP, SHEET_ALL_ACCESSTOKEN_ID
 } from "@config/abi-config";
 import { list } from "@config/listedAddress"
@@ -108,7 +108,7 @@ export default class Forge extends React.Component<any, any> {
 
   async onLoadData() {
     await this.setState({ isAlreadyConnected: true });
-    let web3_GOATz = new this.state.web3.eth.Contract(LIST_ABI_GOATz, FROGE_ABI_ADDRESS);
+    let web3_GOATz = new this.state.web3.eth.Contract(LIST_ABI_GOATz, GOATZ_ABI_ADDRESS);
     let web3_AccessToken = new this.state.web3.eth.Contract(LIST_ABI_ACCESSTOKEN, ACCESSTOKEN_ABI_ADDRESS);
     await this.setState({ web3_GOATz: web3_GOATz, web3_AccessToken: web3_AccessToken });
     this.getMintedGoatz();
@@ -131,7 +131,6 @@ export default class Forge extends React.Component<any, any> {
       this.getMintedGoatzList(list, totalGoatz, index + 1);
     } else if (index > totalGoatz - 1) {
       //set in state
-      console.log(list)
       this.setState({ mintedGoatzIdList: list });
       if (list && list.length > 0) {
         this.getMintedGoatzObj([], 0, list.length, list)
@@ -147,7 +146,6 @@ export default class Forge extends React.Component<any, any> {
         .then(res => res.json())
         .then(
           (result) => {
-            console.log(result);
             for (let attr of result?.attributes) {
               result[attr.trait_type] = attr.value;
             }
@@ -156,12 +154,10 @@ export default class Forge extends React.Component<any, any> {
             this.getMintedGoatzObj(goatzList, index + 1, totalLength, list)
           },
           (error) => {
-            console.log("Error:::", error)
             this.getMintedGoatzObj(goatzList, index, totalLength, list)
           }
         )
     } else if (index > totalLength - 1) {
-      console.log(goatzList)
       this.setState({ mintedGoatzObjList: goatzList })
     }
   }
@@ -190,13 +186,10 @@ export default class Forge extends React.Component<any, any> {
   }
 
   imageSelection(goatzObj: any) {
-    console.log("imageSelection::", goatzObj)
     if (!this.state.firstSelectedGoat) {
-      console.log("First")
       goatzObj['selected'] = true;
       this.setState({ firstSelectedGoat: goatzObj })
     } else if (!this.state.secondSelectedGoat && goatzObj['id'] != this.state.firstSelectedGoat['id']) {
-      console.log("Second")
       goatzObj['selected'] = true;
       this.setState({ secondSelectedGoat: goatzObj })
     }
@@ -324,8 +317,6 @@ export default class Forge extends React.Component<any, any> {
 
   async appendSpreadsheet(newRow: any, newRowAll: any, burnId: any, unBurnId: any, burnedStrCheck: string, simpleStrCheck: string) {
     try {
-      console.log("YES::", new Date())
-
       await doc.useServiceAccountAuth({
         client_email: CLIENT_EMAIL,
         private_key: PRIVATE_KEY,
@@ -406,7 +397,6 @@ export default class Forge extends React.Component<any, any> {
 
           this.setState({ isMinting: true })
           let gasPriceAsync = await this.state.web3.eth.getGasPrice();
-          console.log("gas", gasPriceAsync)
 
           gasPriceAsync = Number(gasPriceAsync) + Number(10000000000);
 
@@ -434,7 +424,6 @@ export default class Forge extends React.Component<any, any> {
         this.setState({ isMinting: false, isForge: false })
       }
     } catch (e) {
-      console.log(e)
       toastr.error("Forge Failed due to some error.")
       this.setState({ isMinting: false })
     }
@@ -445,17 +434,15 @@ export default class Forge extends React.Component<any, any> {
     const rows2 = await sheetAll.getRows();
     let rowCounter = 0;
     for (let obj of rows2) {
-      console.log("=====>")
+      // console.log("=====>")
       let counter = 0;
       let matchCount = 0;
       for (let keys of Object.keys(newRowAll)) {
-        console.log("----", newRowAll[keys])
         if (obj[keys] == newRowAll[keys]) {
           matchCount = matchCount + 1;
         }
         counter = counter + 1;
       }
-      console.log(counter + "===" + matchCount)
       if (counter - 1 == matchCount) {
         rows2[rowCounter]['transactionHash'] = transactionHash
         await rows2[rowCounter].save();
