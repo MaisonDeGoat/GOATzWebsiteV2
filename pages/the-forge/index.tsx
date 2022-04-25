@@ -475,7 +475,7 @@ export default class Forge extends React.Component<any, any> {
           {!this.state.isForgeActive ? <Container>
             <Image src={ForgeCover} layout="responsive" alt="staking" />
             <p className={style.content}>
-              <b>Forge SZN 9 Opening April 22nd 9AM PDT</b>
+              <b>Forge SZN 10 Coming Soon, and it's gonna be big!</b>
               <br />
               <br />
               <b>The What</b>
