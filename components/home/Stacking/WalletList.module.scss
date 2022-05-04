@@ -1,0 +1,65 @@
+.full_page_overlay {
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10000;
+    overflow: auto;
+    .full_page_overlay--bg {
+        width: 100%;
+        height: 100%;
+        background-color: rgba(94, 94, 94, 0.8);
+    }
+  
+    .full_page_overlay_container {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1000000;
+        width: 100%;
+  
+        .full_page_overlay_wrapper {
+            width: 768px;
+            margin: auto;
+            background-color: #fff;
+            border-radius: 40px;
+            overflow: hidden;
+            @include md {width: 85%;border-radius: 20px;}
+  
+            .wallet__grid {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                @include sm {grid-template-columns: repeat(1, 1fr);}
+  
+                .wallet__wrapper {
+                    padding: 30px;
+                    text-align: center;
+                    background-color: #fff;
+                    &:nth-child(1) {border-bottom: 1px solid #efefef;border-right: 1px solid #efefef;}
+                    // &:nth-child(2) {border-bottom: 1px solid #efefef;}
+                    &:nth-child(3) {border-right: 1px solid #efefef;}
+            
+                    @media (max-width: 596px) {
+                        &:nth-child(1),
+                        &:nth-child(2),
+                        &:nth-child(3) {border: none;}
+            
+                        &:nth-child(1),
+                        &:nth-child(2) {border-bottom: 1px solid #efefef;}
+                    }
+                    & * {margin: 6px 0;}
+                    .grey {color: gray;}
+  
+                    &:hover {
+                        cursor: pointer;
+                        transform: scale(1.1);
+                        box-shadow: 0 0 4px 0 rgba($color: #000000, $alpha: 0.2);
+                        transition: all 300ms ease-in-out;
+                    }
+                }
+            }
+        }
+    }
+}

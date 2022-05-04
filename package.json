@@ -10,6 +10,7 @@
     "post-update": "echo \"codesandbox preview only, need an update\" && yarn upgrade --latest"
   },
   "dependencies": {
+    "@coinbase/wallet-sdk": "^3.0.11",
     "@emotion/cache": "latest",
     "@emotion/react": "latest",
     "@emotion/server": "latest",
@@ -17,6 +18,8 @@
     "@mui/icons-material": "latest",
     "@mui/material": "latest",
     "@types/toastr": "^2.1.39",
+    "@walletconnect/web3-provider": "^1.7.8",
+    "@web3-react/core": "^6.1.9",
     "bignumber.js": "^9.0.2",
     "google-spreadsheet": "^3.1.15",
     "next": "latest",
@@ -39,7 +42,7 @@
     "fs": false,
     "path": false,
     "os": false,
-    "net":false,
-    "tls":false
+    "net": false,
+    "tls": false
   }
 }

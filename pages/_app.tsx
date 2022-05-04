@@ -10,6 +10,8 @@ import { CacheProvider, EmotionCache } from "@emotion/react";
 import createEmotionCache from "@config/createEmotionCache";
 import theme from "@config/theme";
 import Layout from "@components/common/Layout";
+import CoinbaseWalletSDK from "@coinbase/wallet-sdk";
+import WalletConnectProvider from "@walletconnect/web3-provider";
 
 import "./css/bootstrap.css";
 import "./css/bootstrap-custom.css";
@@ -17,7 +19,8 @@ import "./css/custom.css";
 import "./css/all.css";
 import './toastr.css';
 
-import { CHAINID, LIST_ABI_GMILK_ERC20, GMILK_ABI_ADDRESS, LIST_ABI_STAKING, STAKING_ABI_ADDRESS, KIDZ_ABI_ADDRESS, LIST_ABI_KIDZ, GOATZ_ABI_ADDRESS, LIST_ABI_GOATZ } from "../config/abi-config"
+import { CHAINID, LIST_ABI_GMILK_ERC20, GMILK_ABI_ADDRESS, LIST_ABI_STAKING, RPC,
+  STAKING_ABI_ADDRESS, KIDZ_ABI_ADDRESS, LIST_ABI_KIDZ, GOATZ_ABI_ADDRESS, LIST_ABI_GOATZ } from "../config/abi-config"
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -49,14 +52,14 @@ export default class MyApp extends App {
     goatzWeb3Inst: null,
   }
 
-  componentDidMount() {
-    setTimeout(() => {
-      // console.log(this.state)
-      // this.check()
-      this.autoConnect();
-    })
+  // componentDidMount() {
+  //   setTimeout(() => {
+  //     // console.log(this.state)
+  //     // this.check()
+  //     this.autoConnect();
+  //   })
 
-  }
+  // }
 
   async check() {
     await this.setState({ account: '0x6401694dbA7B91a105B0653Ce167cf5527B80456', isEnabled: true })
@@ -120,6 +123,88 @@ export default class MyApp extends App {
     }
   }
 
+  // Coinbase Connection
+  async connectToCoinbase() {
+    if (this.state.isConnecting) {
+      return;
+    }
+    this.setState({ isConnecting: true });
+    try {
+      const coinbaseWallet = new CoinbaseWalletSDK({
+        appName: "GOATz",
+        appLogoUrl: "",
+        darkMode: false
+      })
+      const ethereum = coinbaseWallet.makeWeb3Provider(RPC, 1);
+
+      this.state.web3 = new Web3(ethereum);
+
+      ethereum.on('chainChanged', (accounts) => {
+        this.setConfig();
+      })
+
+      ethereum.on('accountsChanged', (accounts) => {
+        this.setConfig();
+      })
+
+      ethereum.on('disconnect', () => { })
+
+      try {
+        await this.setConfig();
+      } catch (err) {
+        toastr.error("Unable To Connect.");
+        await this.setState({ isEnabled: false })
+      }
+
+    } catch (err) {
+      await this.setState({ isEnabled: false, isConnecting: false })
+    }
+  }
+
+  // walletConnect
+  async connectToConnectWallet() {
+    if (this.state.isConnecting) {
+      return;
+    }
+    this.setState({ isConnecting: true });
+    try {
+      const provider: any = new WalletConnectProvider({
+        rpc: { 1: RPC},
+        bridge: "https://bridge.walletconnect.org",
+        qrcode: true
+      });
+
+      //  Enable session (triggers QR Code modal)
+      await provider.enable().then(async (result: any) => {
+        this.state.web3 = new Web3(provider);
+
+        provider.on("networkChanged", (chainId: any) => {
+          this.setConfig()
+        })
+
+        provider.on('chainChanged', (chainId: any) => {
+          this.setConfig();
+        })
+        provider.on('accountsChanged', (chainId: any) => {
+          document.location.reload();
+        })
+        provider.on("disconnect", (code: any, reason: any) => {
+          // console.log(code, reason);
+          document.location.reload();
+        });
+
+        try {
+          await this.setConfig();
+        } catch (e) {
+          await this.setState({ isEnabled: false });
+        }
+      })
+    } catch (err) {
+      toastr.error("Unable To Connect");
+      this.setState({ isEnable: false, isConnecting: false })
+    }
+  }
+
   async setConfig() {
     if (this.state.web3) {
 
@@ -156,7 +241,7 @@ export default class MyApp extends App {
                 {
                   chainId: '0x' + (1).toString(16),
                   chainName: "Ethereum Mainnet",
-                  rpcUrls: ["	https://rpc.ankr.com/eth/"],
+                  rpcUrls: [RPC],
                   nativeCurrency: {
                     name: "ETH",
                     symbol: "ETH",
@@ -213,12 +298,19 @@ export default class MyApp extends App {
         <CacheProvider value={emotionCache}>
           <Head>
             <meta name="viewport" content="initial-scale=1, width=device-width" />
+            <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
           </Head>
           <ThemeProvider theme={theme}>
             {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
             <CssBaseline />
             <Layout>
-              <Component {...pageProps}  {...this.state} connect={() => { this.connectToMetaMaskNetwork() }} />
+              <Component
+                {...pageProps}
+                {...this.state}
+                connectToMetaMaskHandler={() => this.connectToMetaMaskNetwork()}
+                connectToCoinbaseWallet={() => this.connectToCoinbase()}
+                connectToConnectWalletHandler={() => this.connectToConnectWallet()}
+              />
             </Layout>
           </ThemeProvider>
         </CacheProvider>

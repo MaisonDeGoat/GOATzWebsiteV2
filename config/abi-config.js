@@ -19,6 +19,8 @@ export const KIDZ_ABI_ADDRESS = '0xDA1011bb5a16b4032172b1CBC45Db31fDaAA18d0';
 export const GOATZ_ABI_ADDRESS = '0x3EAcf2D8ce91b35c048C6Ac6Ec36341aaE002FB9';
 export const ACCESSTOKEN_ABI_ADDRESS = '0xa1c68bf0105968c5045b241120b616175b1c5d81';
 
+export const RPC= 'https://rpc.ankr.com/eth';
+
 export const LIST_ABI_GMILK_ERC20 = [
     {
         "anonymous": false,

@@ -15,6 +15,7 @@ import toastr from "toastr";
 import { STAKING_ABI_ADDRESS } from "@config/abi-config";
 import { Util } from "util/util";
 import BigNumber from "bignumber.js";
+import WalletList from "@components/home/Stacking/WalletList";
 
 export default class Stacking extends React.Component<any, any> {
   state: any = {};
@@ -54,6 +55,7 @@ export default class Stacking extends React.Component<any, any> {
       stakedKidzLoading: false,
 
       transactionStatus: "start",
+      isWalletList: false
     };
     toastr.options = {
       // positionClass: 'toast-top-full-width',
@@ -857,12 +859,24 @@ export default class Stacking extends React.Component<any, any> {
     }
   }
 
+  showWalletList = () => this.setState({ isWalletList: true })
+  hideWalletList = () => this.setState({ isWalletList: false })
+
   render() {
     return (
       <div className={style.wrapper}>
         <Head>
           <title>GOATz - Staking</title>
         </Head>
+
+        <WalletList
+          {...this.state}
+          connectToMetaMask={this.props.connectToMetaMaskHandler}
+          connectToCoinbaseWallet={this.props.connectToCoinbaseWallet}
+          connectToConnectWalletHandler={this.props.connectToConnectWalletHandler}
+          hideWalletListHandler={this.hideWalletList}
+          updateWalletDataHandler={this.props.updateWalletDataHandler}
+        />
 
         {this.isAnyTransactionInProgress() ? (
           <div id="toast-container" className="toast-top-right">
@@ -1001,7 +1015,7 @@ export default class Stacking extends React.Component<any, any> {
           ) : (
             <Button
               onClick={() => {
-                this.props.connect();
+                this.showWalletList()
               }}
             >
               <a className={style.connectButton}>Connect</a>
