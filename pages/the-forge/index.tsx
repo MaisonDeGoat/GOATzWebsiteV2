@@ -23,6 +23,7 @@ import StakingCover from "../../public/images/staking.png";
 import gmilk1 from "../../public/images/gmilk1.png";
 import loadingImg from "../../public/images/Spin.gif";
 import RoadMapButton from "../../public/images/buttonBgConnect.png";
+import WalletList from "@components/home/Stacking/WalletList";
 
 const urls = {
   Fur: 'https://goatz.mypinata.cloud/ipfs/QmXSGrnbjkgPZx8YNcFA3VrNC76b1QqKd4v4MsEK1qmGLf/',
@@ -65,7 +66,8 @@ export default class Forge extends React.Component<any, any> {
       mouth: 0,
       horns: 0,
       id: 0,
-      ville: ''
+      ville: '',
+      isWalletList: false
     };
     toastr.options = {
       // positionClass: 'toast-top-full-width',
@@ -166,17 +168,20 @@ export default class Forge extends React.Component<any, any> {
     if (this.state.mintedGoatzObjList && this.state.mintedGoatzObjList.length > 0) {
       return this.state.mintedGoatzObjList.map((e: any, key: any) => {
         return (
-          <div className="col-md-6"
-            key={key}>
-            <img
-              className="mb-4"
-              style={{ border: e.selected ? 'solid 3px red' : 'none' }}
-              src={e.image}
-              onClick={() => {
-                this.imageSelection(e);
-              }}
-              alt=""
-            />
+          <div className="col-md-6" key={key}>
+            <>
+              <style jsx>{`
+                .mintedGoatzObjList__border { border: ${e.selected ? 'solid 3px red' : 'none'} }
+              `}</style>
+              <Image
+                className="mb-4 mintedGoatzObjList__border"
+                src={e.image}
+                onClick={() => {
+                  this.imageSelection(e);
+                }}
+                alt=""
+              />
+            </>
           </div>
         );
       });
@@ -464,6 +469,9 @@ export default class Forge extends React.Component<any, any> {
     return address.slice(0, 8) + "....." + address.slice(address.length - 3, address.length);
   }
 
+  showWalletList = () => this.setState({ isWalletList: true })
+  hideWalletList = () => this.setState({ isWalletList: false })
+
   render() {
 
     return (
@@ -472,6 +480,16 @@ export default class Forge extends React.Component<any, any> {
           <Head>
             <title>GOATz - Forge</title>
           </Head>
+
+          <WalletList
+            {...this.state}
+            connectToMetaMask={this.props.connectToMetaMaskHandler}
+            connectToCoinbaseWallet={this.props.connectToCoinbaseWallet}
+            connectToConnectWalletHandler={this.props.connectToConnectWalletHandler}
+            hideWalletListHandler={this.hideWalletList}
+            updateWalletDataHandler={this.props.updateWalletDataHandler}
+          />
+
           {!this.state.isForgeActive ? <Container>
             <Image src={ForgeCover} layout="responsive" alt="staking" />
             <p className={style.content}>
@@ -524,7 +542,7 @@ export default class Forge extends React.Component<any, any> {
                   {
                     this.state.isEnabled ? <a className="w-100 btn btn-wlt" style={{ fontSize: 'calc((1.4 - 1) * 1.2vw + 1.6rem)' }}>{this.getShortAccountId()} </a>
                       :
-                      <a className="w-100 btn btn-wlt" style={{ fontSize: 'calc(0.08vw + 1.6rem)' }} onClick={() => { this.props.connect(); }}>CONNECT WALLET &nbsp;
+                      <a className="w-100 btn btn-wlt" style={{ fontSize: 'calc(0.08vw + 1.6rem)' }} onClick={() => { this.showWalletList() }}>CONNECT WALLET &nbsp;
                         <i className="fas fa-angle-right"></i>
                       </a>
                   }
@@ -543,7 +561,7 @@ export default class Forge extends React.Component<any, any> {
                   {(this.state.firstSelectedGoat && this.state.secondSelectedGoat) ? <div className="goat-list">
                     {this.state.firstSelectedGoat ?
                       <div className="list-item">
-                        <a><img src={this.state.firstSelectedGoat.image} alt="" /></a>
+                        <a><Image src={this.state.firstSelectedGoat.image} alt="" /></a>
                       </div>
                       : ''}
                     {this.state.secondSelectedGoat ?

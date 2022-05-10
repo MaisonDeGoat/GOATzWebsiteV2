@@ -1,6 +1,5 @@
 import Container from "@mui/material/Container";
-import { useState, useRef } from "react";
-import React from "react";
+import React, { ReactChild } from "react";
 import Image from "next/image";
 import { Button } from "@mui/material";
 import style from "./staking.module.scss";
@@ -16,6 +15,10 @@ import { STAKING_ABI_ADDRESS } from "@config/abi-config";
 import { Util } from "util/util";
 import BigNumber from "bignumber.js";
 import WalletList from "@components/home/Stacking/WalletList";
+
+interface Props {
+  children?: ReactChild | ReactChild[];
+}
 
 export default class Stacking extends React.Component<any, any> {
   state: any = {};
@@ -222,16 +225,22 @@ export default class Stacking extends React.Component<any, any> {
     if (this.state.mintedGoatzObjList && this.state.mintedGoatzObjList.length > 0) {
       return this.state.mintedGoatzObjList.map((e: any, key: any) => {
         return (
-          <img
-            className="mb-4"
-            style={{ border: e.selected ? "7px solid #17fe00" : "none" }}
-            key={key}
-            src={e.image}
-            onClick={() => {
-              this.imageSelection(e);
-            }}
-            alt=""
-          />
+          <>
+            <style jsx>{`
+              .allStakedKidz {
+                border: ${e.selected ? "7px solid #17fe00" : "none"}
+              }
+            `}</style>
+            <Image
+              className="mb-4 allStakedKidz"
+              key={key}
+              src={e.image}
+              onClick={() => {
+                this.imageSelection(e);
+              }}
+              alt=""
+            />
+          </>
         );
       });
     } else if (!this.state.unstakedGoatzLoading) {
@@ -239,7 +248,7 @@ export default class Stacking extends React.Component<any, any> {
     } else if (this.state.unstakedGoatzLoading) {
       return (
         <h4 style={{ textAlign: "center", margin: "0px" }}>
-          <img src={loadingImg.src} style={{ width: "50px", height: "50px" }} />
+          <Image src={loadingImg.src} width="50px" height="50px" alt="" />
           <div>Loading...</div>
         </h4>
       );
@@ -311,16 +320,22 @@ export default class Stacking extends React.Component<any, any> {
     if (this.state.allUnstakedKidz && this.state.allUnstakedKidz.length > 0) {
       return this.state.allUnstakedKidz.map((e: any, key: any) => {
         return (
-          <img
-            className="mb-4"
-            style={{ border: e.selected ? "7px solid #17fe00" : "none" }}
-            key={key}
-            src={e.image}
-            onClick={() => {
-              this.unstakedKidzImageSelection(e);
-            }}
-            alt=""
-          />
+          <>
+            <style jsx>{`
+              .allUnstakedKidz__border {
+                border: ${e.selected ? "7px solid #17fe00" : "none"}
+              }
+            `}</style>
+            <Image
+              className="mb-4 allUnstakedKidz__border"
+              key={key}
+              src={e.image}
+              onClick={() => {
+                this.unstakedKidzImageSelection(e);
+              }}
+              alt=""
+            />
+          </>
         );
       });
     } else if (!this.state.unstakedKidzLoading) {
@@ -328,7 +343,7 @@ export default class Stacking extends React.Component<any, any> {
     } else if (this.state.unstakedKidzLoading) {
       return (
         <h4 style={{ textAlign: "center", margin: "0px" }}>
-          <img src={loadingImg.src} style={{ width: "50px", height: "50px" }} />
+          <Image src={loadingImg.src} width="50px" height="50px" alt="" />
           <div>Loading...</div>
         </h4>
       );
@@ -416,16 +431,22 @@ export default class Stacking extends React.Component<any, any> {
     if (this.state.allStakedKidz && this.state.allStakedKidz.length > 0) {
       return this.state.allStakedKidz.map((e: any, key: any) => {
         return (
-          <img
-            className="mb-4"
-            style={{ border: e.selected ? "7px solid #17fe00" : "none" }}
-            key={key}
-            src={e.image}
-            onClick={() => {
-              this.stakedKidzImageSelection(e);
-            }}
-            alt=""
-          />
+          <>
+            <style jsx>{`
+              .allStakedKidz__border {
+                border: ${e.selected ? "7px solid #17fe00" : "none"}
+              }
+            `}</style>
+            <Image
+              className="mb-4 allStakedKidz__border"
+              key={key}
+              src={e.image}
+              onClick={() => {
+                this.stakedKidzImageSelection(e);
+              }}
+              alt=""
+            />
+          </>
         );
       });
     } else if (!this.state.stakedKidzLoading) {
@@ -433,7 +454,7 @@ export default class Stacking extends React.Component<any, any> {
     } else if (this.state.stakedKidzLoading) {
       return (
         <h4 style={{ textAlign: "center", margin: "0px" }}>
-          <img src={loadingImg.src} style={{ width: "50px", height: "50px" }} />
+          <Image src={loadingImg.src} width="50px" height="50px" alt="" />
           <div>Loading...</div>
         </h4>
       );
@@ -877,46 +898,46 @@ export default class Stacking extends React.Component<any, any> {
           hideWalletListHandler={this.hideWalletList}
           updateWalletDataHandler={this.props.updateWalletDataHandler}
         />
-
-        {this.isAnyTransactionInProgress() ? (
-          <div id="toast-container" className="toast-top-right">
-            <div className="toast toast-info" aria-live="assertive">
-              <div className="toast-message">Transaction is in progress.</div>
+        <>
+          {this.isAnyTransactionInProgress() ? (
+            <div id="toast-container" className="toast-top-right">
+              <div className="toast toast-info" aria-live="assertive">
+                <div className="toast-message">Transaction is in progress.</div>
+              </div>
             </div>
-          </div>
-        ) : (
-          ""
-        )}
-
-        {this.state.showUnstakeKidzModal && (
-          <div className={style.modal}>
-            {" "}
-            {this.scrollTop()}
-            <span className={style.icon} onClick={() => this.setUnstakedKidzModal(false)}>
-              <CloseIcon />
-            </span>
-            <div>
-              <p>
-                YOU ARE ABOUT TO STAKE{" "}
-                {this.state.selectedUnstakedKidz && this.state.selectedUnstakedKidz.length > 0
-                  ? this.state.selectedUnstakedKidz.length
-                  : 0}{" "}
-                KIDz
-              </p>
-              {this.state.selectedUnstakedKidz && this.state.selectedUnstakedKidz.length > 0 ? (
-                <Button
-                  onClick={() => {
-                    this.onUnstakeToStakeKidz();
-                  }}
-                >
-                  <a className={style.connectButton}>CONFIRM</a>
-                </Button>
-              ) : (
-                ""
-              )}
+          ) : (
+            ""
+          )}
+          {this.state.showUnstakeKidzModal && (
+            <div className={style.modal}>
+              {" "}
+              {this.scrollTop()}
+              <span className={style.icon} onClick={() => this.setUnstakedKidzModal(false)}>
+                <CloseIcon />
+              </span>
+              <div>
+                <p>
+                  YOU ARE ABOUT TO STAKE{" "}
+                  {this.state.selectedUnstakedKidz && this.state.selectedUnstakedKidz.length > 0
+                    ? this.state.selectedUnstakedKidz.length
+                    : 0}{" "}
+                  KIDz
+                </p>
+                {this.state.selectedUnstakedKidz && this.state.selectedUnstakedKidz.length > 0 ? (
+                  <Button
+                    onClick={() => {
+                      this.onUnstakeToStakeKidz();
+                    }}
+                  >
+                    <a className={style.connectButton}>CONFIRM</a>
+                  </Button>
+                ) : (
+                  ""
+                )}
+              </div>
             </div>
-          </div>
-        )}
+          )}
+        </>
 
         {this.state.showStakeKidzToUnstakeModal && (
           <div className={style.modal}>
@@ -1023,7 +1044,8 @@ export default class Stacking extends React.Component<any, any> {
           )}
 
           <div className={style.gmilk1}>
-            <img src={gmilk1.src} alt="" />
+            {/* <img src={gmilk1.src} alt="" /> */}
+            <Image src={gmilk1.src} alt="" width="200" height="350" objectFit="contain" />
             <h1>
               TIME FOR SOME <br /> $GMILK
             </h1>

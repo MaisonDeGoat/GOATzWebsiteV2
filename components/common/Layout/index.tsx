@@ -3,7 +3,7 @@ import Header from "@components/common/Header";
 import Footer from "@components/common/Footer";
 
 interface Props {
-  children: ReactChild;
+  children ? : ReactChild | ReactChild[];
 }
 
 const index: React.FC<Props> = ({ children }) => {

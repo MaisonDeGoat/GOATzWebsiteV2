@@ -5,7 +5,6 @@ import { Typography, Box } from "@mui/material";
 import metamaskIcon from "../../../public/images/metamask-icon.svg";
 import walletconnectIcon from "../../../public/images/walletconnect-circle-blue.svg";
 import coinbaseIcon from "../../../public/images/coinbase-icon.png";
-import { useWeb3React } from "@web3-react/core";
 
 const WalletList = (props: any) => {
     
