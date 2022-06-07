@@ -19,8 +19,47 @@ import "./css/custom.css";
 import "./css/all.css";
 import './toastr.css';
 
-import { CHAINID, LIST_ABI_GMILK_ERC20, GMILK_ABI_ADDRESS, LIST_ABI_STAKING, RPC,
+import { CHAINID, CHAINID_HEX, LIST_ABI_GMILK_ERC20, GMILK_ABI_ADDRESS, LIST_ABI_STAKING, RPC,
   STAKING_ABI_ADDRESS, KIDZ_ABI_ADDRESS, LIST_ABI_KIDZ, GOATZ_ABI_ADDRESS, LIST_ABI_GOATZ } from "../config/abi-config"
+
+import Onboard from '@web3-onboard/core'
+import injectedModule from "@web3-onboard/injected-wallets";
+import walletConnectModule from "@web3-onboard/walletconnect";
+import walletLinkModule from "@web3-onboard/walletlink";
+  
+const MAINNET_RPC_URL = `${process.env.MAINNET_RPC_URL}`;
+
+const injected = injectedModule();
+const walletConnect = walletConnectModule();
+const walletLink = walletLinkModule();
+
+const onboard = Onboard({
+  wallets: [walletLink, walletConnect, injected],
+  chains: [
+    {
+      id: CHAINID_HEX, // chain ID must be in hexadecimel
+      token: "ETH", // main chain token
+      namespace: "evm",
+      label: "Ethereum Mainnet",
+      rpcUrl: RPC
+    }
+  ],
+  appMetadata: {
+    name: "GOATz",
+    icon: "https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg",
+    description: "My app using Onboard",
+    recommendedInjectedWallets: [
+      { name: "Coinbase", url: "https://wallet.coinbase.com/" },
+      { name: "MetaMask", url: "https://metamask.io" }
+    ]
+  },
+  accountCenter: {
+    desktop: {
+      enabled: false
+    }
+  }
+});
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -50,6 +89,9 @@ export default class MyApp extends App {
     stakingWeb3Inst: null,
     kidzWeb3Inst: null,
     goatzWeb3Inst: null,
+    error: '',
+    network: null,
+    isLoading: false
   }
 
   // componentDidMount() {
@@ -63,7 +105,6 @@ export default class MyApp extends App {
 
   async check() {
     await this.setState({ account: '0x6401694dbA7B91a105B0653Ce167cf5527B80456', isEnabled: true })
-    console.log(this.state)
   }
   async autoConnect() {
     try {
@@ -285,9 +326,30 @@ export default class MyApp extends App {
         kidzWeb3Inst: kidzWeb3Inst,
         goatzWeb3Inst: goatzWeb3Inst,
       });
-      console.log(this.state.isEnabled)
       toastr.success('Wallet connected successfully.');
     } else {
+    }
+  }
+
+
+  connectWalletOnboard = async () => {
+    try {
+      const wallets = await onboard.connectWallet();
+      this.setState({ isLoading: true })
+      const { accounts, chains, provider } = wallets[0];
+      // this.setState({
+      //   account: accounts[0].address,
+      //   chainId: chains[0].id,
+      //   isLoading: false,
+      //   isEnabled: true,
+      // });
+      this.setState({ account: accounts[0].address });
+      this.setState({ chainId: chains[0].id });
+      this.setState({ isEnabled: true });
+      this.setState({ isLoading: false });
+    } catch (err) {
+      // this.setState({ error: err })
+      console.log(err);
     }
   }
 
@@ -307,6 +369,7 @@ export default class MyApp extends App {
               <Component
                 {...pageProps}
                 {...this.state}
+                connectWallet={this.connectWalletOnboard}
                 connectToMetaMaskHandler={() => this.connectToMetaMaskNetwork()}
                 connectToCoinbaseWallet={() => this.connectToCoinbase()}
                 connectToConnectWalletHandler={() => this.connectToConnectWallet()}

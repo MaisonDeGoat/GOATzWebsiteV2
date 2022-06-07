@@ -1,4 +1,5 @@
 export const CHAINID = [1]
+export const CHAINID_HEX = '0x1';
 
 export const FORGE_SCREEN_STATUS = false;
 

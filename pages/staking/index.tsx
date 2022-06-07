@@ -1036,7 +1036,8 @@ export default class Stacking extends React.Component<any, any> {
           ) : (
             <Button
               onClick={() => {
-                this.showWalletList()
+                // this.showWalletList()
+                this.props.connectWallet()
               }}
             >
               <a className={style.connectButton}>Connect</a>

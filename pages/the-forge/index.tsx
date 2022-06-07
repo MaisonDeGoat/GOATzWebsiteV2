@@ -566,33 +566,19 @@ export default class Forge extends React.Component<any, any> {
                       : ''}
                     {this.state.secondSelectedGoat ?
                       <div className="list-item">
-                        <a><img src={this.state.secondSelectedGoat.image} alt="" /></a>
+                        <a><Image src={this.state.secondSelectedGoat.image} alt="" /></a>
                       </div>
                       : ''}
                   </div> : ''}
                   <div className="goat-single">
                     {/* <img src="images/b3.jpg" alt="" /> */}
-                    {
-                      this.state.background > 0 ? <img src={urls['Background'] + this.getImageParamFrom(this.state.background, 'Background')} /> : null
-                    }
-                    {
-                      this.state.fur > 0 ? <img src={urls['Fur'] + this.getImageParamFrom(this.state.fur, 'Fur')} /> : null
-                    }
-                    {
-                      this.state.outfit > 0 ? <img src={urls['Outfit'] + this.getImageParamFrom(this.state.outfit, 'Outfit')} /> : null
-                    }
-                    {
-                      this.state.earring > 0 ? <img src={urls['Earring'] + this.getImageParamFrom(this.state.earring, 'Earring')} /> : null
-                    }
-                    {
-                      this.state.eyes > 0 ? <img src={urls['Eyes'] + this.getImageParamFrom(this.state.eyes, 'Eyes')} /> : null
-                    }
-                    {
-                      this.state.mouth > 0 ? <img src={urls['Mouth'] + this.getImageParamFrom(this.state.mouth, 'Mouth')} /> : null
-                    }
-                    {
-                      this.state.horns > 0 ? <img src={urls['Horns'] + this.getImageParamFrom(this.state.horns, 'Horns')} /> : null
-                    }
+                    {this.state.background > 0 ? <Image src={urls['Background'] + this.getImageParamFrom(this.state.background, 'Background')} alt="" /> : null}
+                    {this.state.fur > 0 ? <Image src={urls['Fur'] + this.getImageParamFrom(this.state.fur, 'Fur')} alt="" /> : null}
+                    {this.state.outfit > 0 ? <Image src={urls['Outfit'] + this.getImageParamFrom(this.state.outfit, 'Outfit')} alt="" /> : null}
+                    {this.state.earring > 0 ? <Image src={urls['Earring'] + this.getImageParamFrom(this.state.earring, 'Earring')} alt="" /> : null}
+                    {this.state.eyes > 0 ? <Image src={urls['Eyes'] + this.getImageParamFrom(this.state.eyes, 'Eyes')} alt="" /> : null}
+                    {this.state.mouth > 0 ? <Image src={urls['Mouth'] + this.getImageParamFrom(this.state.mouth, 'Mouth')} alt="" /> : null}
+                    {this.state.horns > 0 ? <Image src={urls['Horns'] + this.getImageParamFrom(this.state.horns, 'Horns')} alt="" /> : null}
                   </div>
 
                 </div>
@@ -648,12 +634,36 @@ export default class Forge extends React.Component<any, any> {
                 <div className="col-lg-2 right-bg">
                   <h2 style={{ fontSize: 'calc((1.4 - 1) * 1.2vw + 1.6rem)' }}>GOATzVILLE</h2>
                   {this.state.isEnabled ? <div className="row sidebar-goat-list" style={{ textAlign: 'center' }}>
-                    <div className="col-md-12"><a onClick={() => this.setCustomState('ville', 'Cabin')}><img className="mb-4" style={{ width: '150px', marginTop: '10px', border: (this.state.ville == 'Cabin' ? 'solid 3px red' : 'none') }} src="https://goatz.mypinata.cloud/ipfs/QmdNSfejVBDH5hD4SPKHXsh6TyTmRD3hg4FoXimZtK6BS6/Cabin.png" alt="" /></a></div>
-                    <div className="col-md-12"><a onClick={() => this.setCustomState('ville', 'Cottage')}><img className="mb-4" style={{ width: '150px', border: (this.state.ville == 'Cottage' ? 'solid 3px red' : 'none') }} src="https://goatz.mypinata.cloud/ipfs/QmdNSfejVBDH5hD4SPKHXsh6TyTmRD3hg4FoXimZtK6BS6/Cottage.png" alt="" /></a></div>
-                    <div className="col-md-12"><a onClick={() => this.setCustomState('ville', 'Farmhouse')}><img className="mb-4" style={{ width: '150px', border: (this.state.ville == 'Farmhouse' ? 'solid 3px red' : 'none') }} src="https://goatz.mypinata.cloud/ipfs/QmdNSfejVBDH5hD4SPKHXsh6TyTmRD3hg4FoXimZtK6BS6/Farmhouse.png" alt="" /></a></div>
-                    <div className="col-md-12"><a onClick={() => this.setCustomState('ville', 'Modern')}><img className="mb-4" style={{ width: '150px', border: (this.state.ville == 'Modern' ? 'solid 3px red' : 'none') }} src="https://goatz.mypinata.cloud/ipfs/QmdNSfejVBDH5hD4SPKHXsh6TyTmRD3hg4FoXimZtK6BS6/Modern.png" alt="" /></a></div>
-                    <div className="col-md-12"><a onClick={() => this.setCustomState('ville', 'Spanish')}><img className="mb-4" style={{ width: '150px', border: (this.state.ville == 'Spanish' ? 'solid 3px red' : 'none') }} src="https://goatz.mypinata.cloud/ipfs/QmdNSfejVBDH5hD4SPKHXsh6TyTmRD3hg4FoXimZtK6BS6/Spanish.png" alt="" /></a></div>
-                    <div className="col-md-12"><a onClick={() => this.setCustomState('ville', 'Villa')}><img className="mb-4" style={{ width: '150px', border: (this.state.ville == 'Villa' ? 'solid 3px red' : 'none') }} src="https://goatz.mypinata.cloud/ipfs/QmdNSfejVBDH5hD4SPKHXsh6TyTmRD3hg4FoXimZtK6BS6/Villa.png" alt="" /></a></div>
+                    <div className="col-md-12">
+                      <a onClick={() => this.setCustomState('ville', 'Cabin')}>
+                        <img className="mb-4" style={{ width: '150px', marginTop: '10px', border: (this.state.ville == 'Cabin' ? 'solid 3px red' : 'none') }} src="https://goatz.mypinata.cloud/ipfs/QmdNSfejVBDH5hD4SPKHXsh6TyTmRD3hg4FoXimZtK6BS6/Cabin.png" alt="" />
+                      </a>
+                    </div>
+                    <div className="col-md-12">
+                      <a onClick={() => this.setCustomState('ville', 'Cottage')}>
+                        <img className="mb-4" style={{ width: '150px', border: (this.state.ville == 'Cottage' ? 'solid 3px red' : 'none') }} src="https://goatz.mypinata.cloud/ipfs/QmdNSfejVBDH5hD4SPKHXsh6TyTmRD3hg4FoXimZtK6BS6/Cottage.png" alt="" />
+                      </a>
+                    </div>
+                    <div className="col-md-12">
+                      <a onClick={() => this.setCustomState('ville', 'Farmhouse')}>
+                        <img className="mb-4" style={{ width: '150px', border: (this.state.ville == 'Farmhouse' ? 'solid 3px red' : 'none') }} src="https://goatz.mypinata.cloud/ipfs/QmdNSfejVBDH5hD4SPKHXsh6TyTmRD3hg4FoXimZtK6BS6/Farmhouse.png" alt="" />
+                      </a>
+                    </div>
+                    <div className="col-md-12">
+                      <a onClick={() => this.setCustomState('ville', 'Modern')}>
+                        <img className="mb-4" style={{ width: '150px', border: (this.state.ville == 'Modern' ? 'solid 3px red' : 'none') }} src="https://goatz.mypinata.cloud/ipfs/QmdNSfejVBDH5hD4SPKHXsh6TyTmRD3hg4FoXimZtK6BS6/Modern.png" alt="" />
+                      </a>
+                    </div>
+                    <div className="col-md-12">
+                      <a onClick={() => this.setCustomState('ville', 'Spanish')}>
+                        <img className="mb-4" style={{ width: '150px', border: (this.state.ville == 'Spanish' ? 'solid 3px red' : 'none') }} src="https://goatz.mypinata.cloud/ipfs/QmdNSfejVBDH5hD4SPKHXsh6TyTmRD3hg4FoXimZtK6BS6/Spanish.png" alt="" />
+                      </a>
+                    </div>
+                    <div className="col-md-12">
+                      <a onClick={() => this.setCustomState('ville', 'Villa')}>
+                        <img className="mb-4" style={{ width: '150px', border: (this.state.ville == 'Villa' ? 'solid 3px red' : 'none') }} src="https://goatz.mypinata.cloud/ipfs/QmdNSfejVBDH5hD4SPKHXsh6TyTmRD3hg4FoXimZtK6BS6/Villa.png" alt="" />
+                      </a>
+                    </div>
                   </div> : ''}
                 </div>
               </div>
