@@ -87,6 +87,11 @@ const Header = () => {
                   <Typography>STAKING</Typography>
                 </a>
               </Link>
+              <Link href="/marketplace">
+                <a className={style.link}>
+                  <Typography>MARKETPLACE</Typography>
+                </a>
+              </Link>
               <a href="https://www.goatzmerch.com" rel="noreferrer" target="_blank" className={style.link}>
                 <Typography>MERCH</Typography>
               </a>
@@ -117,6 +122,9 @@ const Header = () => {
           </ListItem>
           <ListItem button onClick={() => handleMobileLink("/staking")}>
             <ListItemText disableTypography className={style.listItemText} primary="STAKING" />
+          </ListItem>
+          <ListItem button onClick={() => handleMobileLink("/marketplace")}>
+            <ListItemText disableTypography className={style.listItemText} primary="MARKETPLACE" />
           </ListItem>
           <ListItem button onClick={() => handleMobileLink("https://www.goatzmerch.com")}>
             <ListItemText disableTypography className={style.listItemText} primary="MERCH" />

@@ -1,8 +1,8 @@
-const BASE_URL = "http://localhost:6000/api/";
+export const API_BASE_URL = "https://goatz-market-place.herokuapp.com/api/";
 
 // USER
 export const registerUser = async (dataToSend: any) => {
-    const res = await fetch(`${BASE_URL}user/register`, {
+    const res = await fetch(`${API_BASE_URL}user/register`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -16,19 +16,17 @@ export const registerUser = async (dataToSend: any) => {
 
 // PRODUCT
 export const fetchAllProduct = async () => {
-    // console.log('From API Handler File');
-
-    const res = await fetch(`${BASE_URL}product/getAllProduct`);
+    const res = await fetch(`${API_BASE_URL}product/getAllProduct`);
     const data = await res.json();
     console.log(data);
 }
 export const fetchProductById = async (id: string) => {
-    const res = await fetch(`${BASE_URL}product/getProduct/${id}`);
+    const res = await fetch(`${API_BASE_URL}product/getProduct/${id}`);
     const data = await res.json();
     console.log(data);
 }
 export const addProduct = async (dataToSend: any) => {
-    const res = await fetch(`${BASE_URL}user/uploadImage`, {
+    const res = await fetch(`${API_BASE_URL}user/uploadImage`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -40,7 +38,7 @@ export const addProduct = async (dataToSend: any) => {
     if (data.status !== 200) {
         console.log(data.error)
     } else {
-        const resToAddProduct = await fetch(`${BASE_URL}product/addProduct`, {
+        const resToAddProduct = await fetch(`${API_BASE_URL}product/addProduct`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -60,7 +58,7 @@ export const addProduct = async (dataToSend: any) => {
 export const updateProduct = async (dataToSend: string) => {
     console.log('From API Handler File', dataToSend);
 
-    const res = await fetch(`${BASE_URL}product/updateProduct`, {
+    const res = await fetch(`${API_BASE_URL}product/updateProduct`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -74,12 +72,12 @@ export const updateProduct = async (dataToSend: string) => {
 
 // PURCHASE
 export const getAllWalletByPurchaseId = async (walletId: string) => {
-    const res = await fetch(`${BASE_URL}purchase/getAllPurchaseByWalletId/${walletId}`);
+    const res = await fetch(`${API_BASE_URL}purchase/getAllPurchaseByWalletId/${walletId}`);
     const data = await res.json();
     console.log(data);
 }
 export const buyProduct = async (dataToSend: string) => {
-    const res = await fetch(`${BASE_URL}purchase/buyProduct`, {
+    const res = await fetch(`${API_BASE_URL}purchase/buyProduct`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

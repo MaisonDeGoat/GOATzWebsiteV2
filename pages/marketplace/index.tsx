@@ -6,7 +6,8 @@ import Link from "next/link";
 import style from "./marketplace.module.scss";
 import PilotGoatImg from "../../public/images/PilotGoat.png";
 import FilterIcon from "../../public/images/filterIcon.svg";
-import { fetchAllProduct, fetchProductById, getAllWalletByPurchaseId, registerUser } from "ApiHandler";
+import { API_BASE_URL } from "ApiHandler";
+import Loader from "../../components/common/Loader";
 
 const filterObj = [
     {view: 'latest first', filter: 'latestFirst'},
@@ -14,10 +15,13 @@ const filterObj = [
     {view: 'price low-high', filter: 'priceLowHigh'}
 ]
 
-const index = () => {
+const Index = (props: any) => {
     const [filter, setFilter] = useState({view: 'latest first', filter: 'latestFirst'});
     const [ListToShow, setListToShow] = useState(filterObj.filter(el => el.filter !== filter.filter));
     const [isFilterListVisible, setIsFilterListVisible] = useState(false);
+
+    const [isLoading, setIsLoading] = useState(false);
+    const [nftList, setNftList] = useState([]);
 
     const handleFilterListVisibility = () => setIsFilterListVisible(!isFilterListVisible);
     
@@ -30,11 +34,19 @@ const index = () => {
         setIsFilterListVisible(false);
     }
 
+    const fetchAllProduct = async () => {
+        setIsLoading(true)
+        const res = await fetch(`${API_BASE_URL}product/getAllProduct`);
+        const data = await res.json();
+        console.log(data);
+        if (data.status === 200) {
+            setNftList(data.data)
+        }
+        setIsLoading(false);
+    }
+
     useEffect(() => {
-        // fetchAllProduct();
-        // fetchProductById('0x0000000000');
-        // getAllWalletByPurchaseId('getAllWalletByPurchaseId');
-        // registerUser( {walletId: "12349jfoiwer239ri3rfr23o2rn3o2p"} )
+        fetchAllProduct();
     }, [])
     
 
@@ -57,7 +69,7 @@ const index = () => {
                 </Container>
             </div>
 
-            <Container>
+            {isLoading ? <Loader /> : <Container>
                 <div className={style["filter__btn--flex"]}>
                     <div />
                     <div className={`${style["filter__btn--wrapper"]} ${isFilterListVisible && style.relat}`}>
@@ -75,21 +87,21 @@ const index = () => {
                 </div>
                 
                 <div className={style.nft__grid}>
-                    {[1, 2 , 3, 4, 5, 6].map((elm, i) => <div className={style['nft__grid--card']} key={i}>
+                    {nftList?.map((elm: any) => <div className={style['nft__grid--card']} key={elm._id}>
                         <div className={style.item__img}>
                             <Image src={PilotGoatImg} alt="" />
                             {/* <div className={style["item__img--wrap"]}></div> */}
                         </div>
-                        <div className={style.item__title}>NAME YOUR GOATZ</div>
+                        <div className={style.item__title}>{elm.title}</div>
                         <div className={style.item__price}>
-                            <span>10,000 GMILK</span>
-                            <Link href={`/marketplace/0x0000`}>BUY</Link>
+                            <span>{elm.gMilkPrice} GMILK</span>
+                            <Link href={`/marketplace/${elm._id}`}>BUY</Link>
                         </div>
                     </div> )}
                 </div>
-            </Container>
+            </Container>}
         </div>
     )
 }
 
-export default index
+export default Index

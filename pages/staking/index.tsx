@@ -886,6 +886,7 @@ export default class Stacking extends React.Component<any, any> {
   render() {
     return (
       <div className={style.wrapper}>
+        {console.log(this.state)}
         <Head>
           <title>GOATz - Staking</title>
         </Head>
