@@ -6,14 +6,22 @@ import style from "./marketplace.module.scss";
 import PilotGoatImg from "../../public/images/PilotGoat.png";
 import BackIcon from "../../public/images/backIcon.svg";
 import { useRouter } from "next/router"
-import { API_BASE_URL } from "ApiHandler";
+import { API_BASE_URL, API_IMG_URL } from "ApiHandler";
 import Loader from "../../components/common/Loader";
+import toastr from "toastr";
+import BigNumber from "bignumber.js";
 
 const SingleMarketplaceDetails = (props: any) => {
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
+    const [isLoadingDuringBuy, setIsLoadingDuringBuy] = useState(false);
     const [nftDetails, setNftDetails] = useState<any>({});
+    const [quantity, setQuantity] = useState<any>();
+    const [mintedGoatzIdList, setMintedGoatzIdList] = useState<any>([]);
+    const [mintedGoatzObjList, setMintedGoatzObjList] = useState<any>([]);
     const { id } = router.query;
+
+    // console.log("gmilkWeb3Inst: ", props.gmilkWeb3Inst?.methods);
 
     const fetchProductById = async () => {
         setIsLoading(true);
@@ -26,6 +34,84 @@ const SingleMarketplaceDetails = (props: any) => {
         setIsLoading(false);
     }
 
+    const getMintedGoatz = async () => {
+        // console.log(props, props.goatzWeb3Inst.methods);
+        if (props.isEnabled) {
+            console.log(props.goatzWeb3Inst);
+            let totalGoatz = await props.goatzWeb3Inst?.methods.balanceOf(props.account).call();
+            if (totalGoatz > 0) {
+                let list: any[] = [];
+                getMintedGoatzList(list, totalGoatz, 0);
+            }
+        }
+    }
+
+    const getMintedGoatzList = async (list: any[], totalGoatz: number, index: number) => {
+        // console.log(list, totalGoatz, index);
+        if (index <= totalGoatz - 1) {
+            let temp = await props.goatzWeb3Inst?.methods.tokenOfOwnerByIndex(props.account, index).call();
+            list.push(temp)
+
+            getMintedGoatzList(list, totalGoatz, index + 1);
+        } else if (index > totalGoatz - 1) {
+            setMintedGoatzIdList(list)
+            if (list && list.length > 0) {
+                getMintedGoatzObj([], 0, list.length, list)
+            }
+        }
+    }
+
+    const getMintedGoatzObj = async (goatzList: any[], index: number, totalLength: number, list: string[]) => {
+        // console.log(goatzList, index, totalLength, list)
+        if (index <= totalLength - 1) {
+            let url = await props.goatzWeb3Inst?.methods.tokenURI(list[index]).call();
+            fetch(url)
+                .then(res => res.json())
+                .then(
+                    (result) => {
+                        for (let attr of result?.attributes) {
+                            result[attr.trait_type] = attr.value;
+                        }
+                        result['id'] = list[index];
+                        goatzList.push(result);
+                        getMintedGoatzObj(goatzList, index + 1, totalLength, list)
+                        // console.log(result);
+                    },
+                    (error) => {
+                        getMintedGoatzObj(goatzList, index, totalLength, list)
+                    }
+                )
+        } else if (index > totalLength - 1) {
+            setMintedGoatzObjList(goatzList)
+        }
+    }
+
+    const getLeftPanelGoatz = () => {
+        if (mintedGoatzObjList && mintedGoatzObjList.length > 0) {
+            return mintedGoatzObjList.map((e: any, key: any) => {
+                return <li className={style["image__list--wrapper-img"]} key={key}>
+                    <>
+                        <style jsx>{`
+                            .mintedGoatzObjList__border { border: ${e.selected ? 'solid 3px red' : 'none'} }
+                        `}</style>
+                        <img
+                            className="mb-4 mintedGoatzObjList__border"
+                            src={e.image}
+                            // onClick={() => {
+                            //     imageSelection(e);
+                            // }}
+                            alt=""
+                        />
+                    </>
+                </li>
+            })
+        }
+    }
+
+    useEffect(() => {
+        getMintedGoatz()
+    }, [props.isEnabled])
+
     useEffect(() => {
         fetchProductById()
     }, [])
@@ -33,6 +119,70 @@ const SingleMarketplaceDetails = (props: any) => {
     const getShortAccountId = () => {
         let address = "" + (props.account ? props.account : "");
         return address.slice(0, 3) + "..." + address.slice(address.length - 5, address.length);
+    }
+
+    const handleBuy = async () => {
+        setIsLoadingDuringBuy(true);
+        if (!props.isEnabled) {
+            toastr.warning("Please Connect With Wallet!");
+            props.connectWallet();
+        } else if (!quantity) {
+            toastr.error("Quantity Must Be 1 Or More Than 1.")
+        } else if (quantity < 1) {
+            toastr.error("Quantity Must Be 1 Or More Than 1.")
+        } else if (quantity >= nftDetails.qtyAvailable) {
+            toastr.error(`Quantity Must Be Less Than ${nftDetails.qtyAvailable}.`)
+        } else {
+            let balance = await props.gmilkWeb3Inst.methods.balanceOf(props.account);
+            let totalPrice = (new BigNumber(nftDetails.gMilkPrice).multipliedBy(new BigNumber(quantity))).multipliedBy(new BigNumber(10).toExponential(18));
+            // console.log("quantity", quantity);
+            // console.log("nft price", nftDetails.gMilkPrice);
+            // console.log("totalPrice:", totalPrice);
+            if (balance < totalPrice) {
+                toastr.error("Insufficient GMILk for transaction");
+            }
+            try {
+                let gaslimit = await props.gmilkWeb3Inst.methods.transfer(props.account, totalPrice).estimateGas({
+                    from: props.account,
+                });
+
+                let gasPriceAsync = await props.web3.eth.getGasPrice();
+
+                gasPriceAsync = Number(gasPriceAsync) + Number(10000000000);
+                props.gmilkWeb3Inst.methods.transfer(props.account, totalPrice)
+                    .send({
+                        from: props.account,
+                        gasLimit: props.web3.utils.toHex(gaslimit.toString()),
+                        gasPrice: props.web3.utils.toHex(gasPriceAsync.toString())
+                    });
+                    
+                const res = await fetch(`${API_BASE_URL}purchase/buyProduct`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        walletId: props.account,
+                        productId: id,
+                        quantity: quantity
+                    })
+                });
+                const data = await res.json();
+
+                if (data.status === 200) {
+                    toastr.success(data.message);
+                } else {
+                    toastr.error(data.message);
+                }
+            } catch (e: any) {
+                if (e.code === 4001) {
+                    toastr.error(e.message);
+                } else {
+                    toastr.error("Oops! Something went wrong. Please try again");
+                }
+            }
+        }
+        setIsLoadingDuringBuy(false);
     }
 
     return (
@@ -56,10 +206,10 @@ const SingleMarketplaceDetails = (props: any) => {
 
             {isLoading ? <Loader /> : <Container>
                 <div className={style["filter__btn--flex"]}>
-                    {props.isEnabled 
-                    ? <button className={style.btn}>{getShortAccountId()}</button>
-                    : ' '}
-                    
+                    {props.isEnabled
+                        ? <button className={style.btn}>{getShortAccountId()}</button>
+                        : ' '}
+
                     <button className={style.btn} onClick={() => router.push('/marketplace')}>
                         <Image src={BackIcon} width={36} height={36} objectFit="contain" alt="" />
                         <span>GO BACK</span>
@@ -70,8 +220,15 @@ const SingleMarketplaceDetails = (props: any) => {
 
                 <div className={style["goatz__details--flex"]}>
                     <div className={style["goatz__details--img"]}>
-                        <Image src={PilotGoatImg} alt="" objectFit="contain" layout="intrinsic" />
-                        <button>BUY</button>
+                        <img
+                            src={`${API_IMG_URL}${nftDetails?.imagePath}`}
+                            alt={nftDetails?.title}
+                            style={{ width: '100%', objectFit: "contain" }}
+                        />
+                        {!isLoadingDuringBuy
+                            ? <button onClick={handleBuy}>BUY</button>
+                            : <button disabled style={{ opacity: '0.4', cursor: 'not-allowed', color: '#fff' }}>BUYING...</button>}
+
                     </div>
 
                     <div className={style["goatz__details--details"]}>
@@ -82,20 +239,23 @@ const SingleMarketplaceDetails = (props: any) => {
 
                         <div className={style["image__list--wrapper"]}>
                             <ul>
-                                {(Array.from(Array(20).keys())).map((elm, i) => <li className={style["image__list--wrapper-img"]} key={i}>
+                                {getLeftPanelGoatz()}
+                                {/* {(Array.from(Array(20).keys())).map((elm, i) => <li className={style["image__list--wrapper-img"]} key={i}>
                                     <Image
                                         src={PilotGoatImg}
                                         objectFit="contain"
                                         alt=""
                                     />
-                                </li>)}
+                                </li>)} */}
                             </ul>
                         </div>
 
                         {props.isEnabled && <input
-                            type="text"
-                            placeholder="ENTER NAME HERE"
-                            className={style.name__input}
+                            type="number"
+                            placeholder="ENTER QUANTITY"
+                            className={style.number__input}
+                            value={quantity}
+                            onChange={e => setQuantity(e.target.value)}
                         />}
                     </div>
                 </div>
@@ -103,5 +263,6 @@ const SingleMarketplaceDetails = (props: any) => {
         </div>
     )
 }
+    
 
-export default SingleMarketplaceDetails
+export default SingleMarketplaceDetails;

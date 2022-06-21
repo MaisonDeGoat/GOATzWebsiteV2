@@ -13,4 +13,7 @@ module.exports = {
     // !! WARN !!
     ignoreBuildErrors: true,
   },
+  images: {
+    domains: ['goatz.mypinata.cloud','ipfs.io'],
+  },
 };

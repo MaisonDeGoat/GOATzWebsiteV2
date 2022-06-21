@@ -6,7 +6,7 @@ import Link from "next/link";
 import style from "./marketplace.module.scss";
 import PilotGoatImg from "../../public/images/PilotGoat.png";
 import FilterIcon from "../../public/images/filterIcon.svg";
-import { API_BASE_URL } from "ApiHandler";
+import { API_BASE_URL, API_IMG_URL } from "ApiHandler";
 import Loader from "../../components/common/Loader";
 
 const filterObj = [
@@ -89,8 +89,11 @@ const Index = (props: any) => {
                 <div className={style.nft__grid}>
                     {nftList?.map((elm: any) => <div className={style['nft__grid--card']} key={elm._id}>
                         <div className={style.item__img}>
-                            <Image src={PilotGoatImg} alt="" />
-                            {/* <div className={style["item__img--wrap"]}></div> */}
+                            <img
+                                src={`${API_IMG_URL}${elm?.imagePath}`}
+                                alt={elm.title}
+                                style={{ width: '100%', height: '212px', objectFit: "cover" }}
+                            />
                         </div>
                         <div className={style.item__title}>{elm.title}</div>
                         <div className={style.item__price}>

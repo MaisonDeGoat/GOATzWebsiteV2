@@ -173,7 +173,7 @@ export default class Forge extends React.Component<any, any> {
               <style jsx>{`
                 .mintedGoatzObjList__border { border: ${e.selected ? 'solid 3px red' : 'none'} }
               `}</style>
-              <Image
+              <img
                 className="mb-4 mintedGoatzObjList__border"
                 src={e.image}
                 onClick={() => {
@@ -469,9 +469,6 @@ export default class Forge extends React.Component<any, any> {
     return address.slice(0, 8) + "....." + address.slice(address.length - 3, address.length);
   }
 
-  showWalletList = () => this.setState({ isWalletList: true })
-  hideWalletList = () => this.setState({ isWalletList: false })
-
   render() {
 
     return (
@@ -480,15 +477,6 @@ export default class Forge extends React.Component<any, any> {
           <Head>
             <title>GOATz - Forge</title>
           </Head>
-
-          <WalletList
-            {...this.state}
-            connectToMetaMask={this.props.connectToMetaMaskHandler}
-            connectToCoinbaseWallet={this.props.connectToCoinbaseWallet}
-            connectToConnectWalletHandler={this.props.connectToConnectWalletHandler}
-            hideWalletListHandler={this.hideWalletList}
-            updateWalletDataHandler={this.props.updateWalletDataHandler}
-          />
 
           {!this.state.isForgeActive ? <Container>
             <Image src={ForgeCover} layout="responsive" alt="staking" />
@@ -542,7 +530,7 @@ export default class Forge extends React.Component<any, any> {
                   {
                     this.state.isEnabled ? <a className="w-100 btn btn-wlt" style={{ fontSize: 'calc((1.4 - 1) * 1.2vw + 1.6rem)' }}>{this.getShortAccountId()} </a>
                       :
-                      <a className="w-100 btn btn-wlt" style={{ fontSize: 'calc(0.08vw + 1.6rem)' }} onClick={() => { this.showWalletList() }}>CONNECT WALLET &nbsp;
+                      <a className="w-100 btn btn-wlt" style={{ fontSize: 'calc(0.08vw + 1.6rem)' }} onClick={() => { this.props.connectWallet() }}>CONNECT WALLET &nbsp;
                         <i className="fas fa-angle-right"></i>
                       </a>
                   }
@@ -561,24 +549,24 @@ export default class Forge extends React.Component<any, any> {
                   {(this.state.firstSelectedGoat && this.state.secondSelectedGoat) ? <div className="goat-list">
                     {this.state.firstSelectedGoat ?
                       <div className="list-item">
-                        <a><Image src={this.state.firstSelectedGoat.image} alt="" /></a>
+                        <a><img src={this.state.firstSelectedGoat.image} alt="" /></a>
                       </div>
                       : ''}
                     {this.state.secondSelectedGoat ?
                       <div className="list-item">
-                        <a><Image src={this.state.secondSelectedGoat.image} alt="" /></a>
+                        <a><img src={this.state.secondSelectedGoat.image} alt="" /></a>
                       </div>
                       : ''}
                   </div> : ''}
                   <div className="goat-single">
                     {/* <img src="images/b3.jpg" alt="" /> */}
-                    {this.state.background > 0 ? <Image src={urls['Background'] + this.getImageParamFrom(this.state.background, 'Background')} alt="" /> : null}
-                    {this.state.fur > 0 ? <Image src={urls['Fur'] + this.getImageParamFrom(this.state.fur, 'Fur')} alt="" /> : null}
-                    {this.state.outfit > 0 ? <Image src={urls['Outfit'] + this.getImageParamFrom(this.state.outfit, 'Outfit')} alt="" /> : null}
-                    {this.state.earring > 0 ? <Image src={urls['Earring'] + this.getImageParamFrom(this.state.earring, 'Earring')} alt="" /> : null}
-                    {this.state.eyes > 0 ? <Image src={urls['Eyes'] + this.getImageParamFrom(this.state.eyes, 'Eyes')} alt="" /> : null}
-                    {this.state.mouth > 0 ? <Image src={urls['Mouth'] + this.getImageParamFrom(this.state.mouth, 'Mouth')} alt="" /> : null}
-                    {this.state.horns > 0 ? <Image src={urls['Horns'] + this.getImageParamFrom(this.state.horns, 'Horns')} alt="" /> : null}
+                    {this.state.background > 0 ? <img src={urls['Background'] + this.getImageParamFrom(this.state.background, 'Background')} alt="" /> : null}
+                    {this.state.fur > 0 ? <img src={urls['Fur'] + this.getImageParamFrom(this.state.fur, 'Fur')} alt="" /> : null}
+                    {this.state.outfit > 0 ? <img src={urls['Outfit'] + this.getImageParamFrom(this.state.outfit, 'Outfit')} alt="" /> : null}
+                    {this.state.earring > 0 ? <img src={urls['Earring'] + this.getImageParamFrom(this.state.earring, 'Earring')} alt="" /> : null}
+                    {this.state.eyes > 0 ? <img src={urls['Eyes'] + this.getImageParamFrom(this.state.eyes, 'Eyes')} alt="" /> : null}
+                    {this.state.mouth > 0 ? <img src={urls['Mouth'] + this.getImageParamFrom(this.state.mouth, 'Mouth')} alt="" /> : null}
+                    {this.state.horns > 0 ? <img src={urls['Horns'] + this.getImageParamFrom(this.state.horns, 'Horns')} alt="" /> : null}
                   </div>
 
                 </div>

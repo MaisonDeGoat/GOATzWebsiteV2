@@ -10,7 +10,6 @@
     "post-update": "echo \"codesandbox preview only, need an update\" && yarn upgrade --latest"
   },
   "dependencies": {
-    "@coinbase/wallet-sdk": "^3.0.11",
     "@emotion/cache": "latest",
     "@emotion/react": "latest",
     "@emotion/server": "latest",
@@ -18,7 +17,6 @@
     "@mui/icons-material": "latest",
     "@mui/material": "latest",
     "@types/toastr": "^2.1.39",
-    "@walletconnect/web3-provider": "^1.7.8",
     "@web3-onboard/core": "^2.2.11",
     "@web3-onboard/injected-wallets": "^2.0.7",
     "@web3-onboard/walletconnect": "^2.0.1",

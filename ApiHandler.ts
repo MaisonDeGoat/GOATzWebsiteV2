@@ -1,4 +1,5 @@
 export const API_BASE_URL = "https://goatz-market-place.herokuapp.com/api/";
+export const API_IMG_URL  = "https://goatz-market-place.herokuapp.com/static/uploads/";
 
 // USER
 export const registerUser = async (dataToSend: any) => {

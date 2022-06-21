@@ -14,7 +14,6 @@ import toastr from "toastr";
 import { STAKING_ABI_ADDRESS } from "@config/abi-config";
 import { Util } from "util/util";
 import BigNumber from "bignumber.js";
-import WalletList from "@components/home/Stacking/WalletList";
 
 interface Props {
   children?: ReactChild | ReactChild[];
@@ -58,7 +57,6 @@ export default class Stacking extends React.Component<any, any> {
       stakedKidzLoading: false,
 
       transactionStatus: "start",
-      isWalletList: false
     };
     toastr.options = {
       // positionClass: 'toast-top-full-width',
@@ -231,7 +229,7 @@ export default class Stacking extends React.Component<any, any> {
                 border: ${e.selected ? "7px solid #17fe00" : "none"}
               }
             `}</style>
-            <Image
+            <img
               className="mb-4 allStakedKidz"
               key={key}
               src={e.image}
@@ -248,7 +246,7 @@ export default class Stacking extends React.Component<any, any> {
     } else if (this.state.unstakedGoatzLoading) {
       return (
         <h4 style={{ textAlign: "center", margin: "0px" }}>
-          <Image src={loadingImg.src} width="50px" height="50px" alt="" />
+          <img src={loadingImg.src} style={{height:'50px',width:'50px'}} alt="" />
           <div>Loading...</div>
         </h4>
       );
@@ -326,7 +324,7 @@ export default class Stacking extends React.Component<any, any> {
                 border: ${e.selected ? "7px solid #17fe00" : "none"}
               }
             `}</style>
-            <Image
+            <img
               className="mb-4 allUnstakedKidz__border"
               key={key}
               src={e.image}
@@ -343,7 +341,7 @@ export default class Stacking extends React.Component<any, any> {
     } else if (this.state.unstakedKidzLoading) {
       return (
         <h4 style={{ textAlign: "center", margin: "0px" }}>
-          <Image src={loadingImg.src} width="50px" height="50px" alt="" />
+          <img src={loadingImg.src} style={{height:'50px',width:'50px'}} alt="" />
           <div>Loading...</div>
         </h4>
       );
@@ -437,7 +435,7 @@ export default class Stacking extends React.Component<any, any> {
                 border: ${e.selected ? "7px solid #17fe00" : "none"}
               }
             `}</style>
-            <Image
+            <img
               className="mb-4 allStakedKidz__border"
               key={key}
               src={e.image}
@@ -454,7 +452,7 @@ export default class Stacking extends React.Component<any, any> {
     } else if (this.state.stakedKidzLoading) {
       return (
         <h4 style={{ textAlign: "center", margin: "0px" }}>
-          <Image src={loadingImg.src} width="50px" height="50px" alt="" />
+          <img src={loadingImg.src} style={{height:'50px',width:'50px'}} alt="" />
           <div>Loading...</div>
         </h4>
       );
@@ -880,9 +878,6 @@ export default class Stacking extends React.Component<any, any> {
     }
   }
 
-  showWalletList = () => this.setState({ isWalletList: true })
-  hideWalletList = () => this.setState({ isWalletList: false })
-
   render() {
     return (
       <div className={style.wrapper}>
@@ -891,14 +886,6 @@ export default class Stacking extends React.Component<any, any> {
           <title>GOATz - Staking</title>
         </Head>
 
-        <WalletList
-          {...this.state}
-          connectToMetaMask={this.props.connectToMetaMaskHandler}
-          connectToCoinbaseWallet={this.props.connectToCoinbaseWallet}
-          connectToConnectWalletHandler={this.props.connectToConnectWalletHandler}
-          hideWalletListHandler={this.hideWalletList}
-          updateWalletDataHandler={this.props.updateWalletDataHandler}
-        />
         <>
           {this.isAnyTransactionInProgress() ? (
             <div id="toast-container" className="toast-top-right">
@@ -1022,7 +1009,7 @@ export default class Stacking extends React.Component<any, any> {
         )}
 
         <Container>
-          {/* <Image src={StakingCover} layout="responsive" alt="staking" /> */}
+          {/* <img src={StakingCover} layout="responsive" alt="staking" /> */}
           <p className={style.content}>
             Welcome to the KIDz Academy where KIDz are staked to earn $GMILK and GOATz can claim it! Before staking or
             claiming please read our terms of use. Be sure to claim your GMILK prior to unstaking any KIDZ. GOATz that
@@ -1037,7 +1024,6 @@ export default class Stacking extends React.Component<any, any> {
           ) : (
             <Button
               onClick={() => {
-                // this.showWalletList()
                 this.props.connectWallet()
               }}
             >

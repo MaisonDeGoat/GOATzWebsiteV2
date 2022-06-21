@@ -155,6 +155,8 @@
     font-size: 30px;
     color: #fff;
     font-weight: 800;
+    text-transform: capitalize;
+    @include md {text-align: center;font-size: 28px;}
 }
 
 .goatz__details--flex {
@@ -199,6 +201,7 @@
                 padding: 0;
                 margin: 0;
                 overflow: auto;
+                overflow-y: hidden;
                 white-space: nowrap;
                 
                 li {
@@ -208,10 +211,18 @@
                 }
             }
 
-            // .image__list--wrapper-img {width: 200px;display: inline;}
+            .image__list--wrapper-img {
+                width: 150px;
+                height: 150px;
+                img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: contain;
+                }
+            }
         }
 
-        .name__input {
+        .number__input {
             margin: 16px 0;
             border: none;
             outline: transparent;
@@ -223,6 +234,12 @@
             border-radius: 12px;
             color: #000;
             &::placeholder {color: #333;}
+            &::-webkit-outer-spin-button,
+            &::-webkit-inner-spin-button {
+                -webkit-appearance: none;
+                margin: 0;
+            }
+            -moz-appearance: textfield;
         }
     }
 

@@ -1,32 +1,53 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import Container from "@mui/material/Container";
 import Head from "next/head";
 import Image from "next/image";
-import style from "../marketplace/marketplace.module.scss";
-import BackIcon from "../../public/images/backIcon.svg";
+import style from "../../marketplace/marketplace.module.scss";
+import BackIcon from "../../../public/images/backIcon.svg";
 import { useRouter } from "next/router"
-// import { addProduct } from "ApiHandler";
 import { API_BASE_URL } from "ApiHandler";
 import toastr from "toastr";
+import Loader from "../../../components/common/Loader";
 
-const Add = (props: any) => {
+const WalletId = (props: any) => {
     const router = useRouter();
     const dragDropRef: any = useRef(null);
     const [fileList, setFileList] = useState<any>();
 
     const [isLoading, setIsLoading] = useState(false);
+    const [isUserAdminLoading, setIsUserAdminLoading] = useState(false);
 
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
-    const [qtyAvailable, setQtyAvailable] = useState('');
-    const [gMilkPrice, setGMilkPrice] = useState('');
+    const [qtyAvailable, setQtyAvailable] = useState(0);
+    const [gMilkPrice, setGMilkPrice] = useState(0);
     const [imgReview, setImgReview] = useState<any>();
+
+    const fetchUser = async () => {
+        setIsUserAdminLoading(true);
+        // const res = await fetch(`${API_BASE_URL}user/getUserByWalletId/12349jfoiwer239ri3rfr23o2rn3o2p`, {
+        const res = await fetch(`${API_BASE_URL}user/getUserByWalletId/${router.query.walletId}`, {
+            method: 'GET',
+            headers: {
+                "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjkxMWJjYzIwYjIwNzJiNTNhZjVlNTUiLCJ3YWxsZXRJZCI6IjEyMzQ5amZvaXdlcjIzOXJpM3JmcjIzbzJybjNvMnAiLCJpYXQiOjE2NTM2NzcwMDR9.ryMQEMMC84mDd0h-6bbwn3knX5DzC32tVAIvKmNsjNI"
+            }
+        });
+        const data = await res.json();
+        setIsUserAdminLoading(false);
+        console.log(data)
+
+        if (data.status !== 200) {
+            router.push("/")
+        }
+    }
+
+    useEffect(() => {
+        fetchUser()
+    }, [])
 
     const onDragEnter = () => dragDropRef.current.classList.add('border_on_drag');
     const onDragLeave = () => dragDropRef.current.classList.remove('border_on_drag');
     const onDrop = () => dragDropRef.current.classList.remove('border_on_drag');
-
-    console.log(props);
 
     const onFileDrop = (e: any) => {
         const newFile = e.target.files[0];
@@ -47,31 +68,33 @@ const Add = (props: any) => {
         }
     }
 
-    const submitHandler = async () => {
+    const submitNftHandler = async () => {
         setIsLoading(true);
         if (!fileList) {
             toastr.error('Please Select Your Image');
         } else if (!title || !description || !qtyAvailable || !gMilkPrice) {
             toastr.error('Please Fill All The Fields Correctly');
+        } else if (qtyAvailable < 1 || gMilkPrice < 1) {
+            toastr.error('Quantity And Price Must Be In Positive')
         } else {
-            // toastr.success(`${title} ${description} ${qtyAvailable} ${gMilkPrice}`)
-            // addProduct({ title, description, qtyAvailable, gMilkPrice });
+            const formdata = new FormData();
+            formdata.append("image", fileList)
+            
             const res = await fetch(`${API_BASE_URL}user/uploadImage`, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
-                    Authentication: "Bearer"
+                    "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjkxMWJjYzIwYjIwNzJiNTNhZjVlNTUiLCJ3YWxsZXRJZCI6IjEyMzQ5amZvaXdlcjIzOXJpM3JmcjIzbzJybjNvMnAiLCJpYXQiOjE2NTM2NzcwMDR9.ryMQEMMC84mDd0h-6bbwn3knX5DzC32tVAIvKmNsjNI"
                 },
-                body: JSON.stringify({ image: imgReview })
+                body: formdata
             });
             const data = await res.json();
-            console.log(data);
+            console.log(data, data.data.imagePath);
 
             if (data.status !== 200) {
                 toastr.error(data.message)
             } else {
                 const resToAddProduct = await fetch(`${API_BASE_URL}product/addProduct`, {
-                    method: 'POST',
+                    method: "POST",
                     headers: {
                         'Content-Type': 'application/json',
                     },
@@ -80,20 +103,43 @@ const Add = (props: any) => {
                         description,
                         gMilkPrice,
                         qtyAvailable,
-                        image: data.data.imagePath
+                        imagePath: data.data.imagePath
                     })
                 });
                 const dataToAddProduct = await resToAddProduct.json();
                 console.log(dataToAddProduct);
+
+                if (dataToAddProduct.status !== 200) {
+                    toastr.error(dataToAddProduct.message)
+                } else {
+                    toastr.success(dataToAddProduct.message);
+                    setFileList();
+                    setTitle('');
+                    setDescription('');
+                    setQtyAvailable(0);
+                    setGMilkPrice(0);
+                    setImgReview();
+                }
             }
         }
         setIsLoading(false);
     }
 
+    if (isUserAdminLoading) {
+        return <div className={style.wrapper}>
+            <Loader />
+        </div>;
+    }
+
+    const getShortAccountId = () => {
+        let address = "" + (router.query.walletId ? router.query.walletId : "");
+        return address.slice(0, 3) + "..." + address.slice(address.length - 5, address.length);
+    }
+
     return (
         <div className={style.wrapper}>
             <Head>
-                <title>GOATz - Marketplace</title>
+                <title>GOATz - Add Product To Marketplace</title>
             </Head>
 
             <div className={style.welcome__header}>
@@ -108,7 +154,7 @@ const Add = (props: any) => {
 
             <Container>
                 <div className={style["filter__btn--flex"]}>
-                    <button className={style.btn}>...00000</button>
+                    <button className={style.btn}>{getShortAccountId()}</button>
                     <button className={style.btn} onClick={() => router.push('/admin/marketplace')}>
                         <Image src={BackIcon} width={36} height={36} objectFit="contain" alt="" />
                         <span>GO BACK</span>
@@ -149,7 +195,9 @@ const Add = (props: any) => {
                                 setImgReview('');
                             }}
                         /> }
-                        <button>LIST</button>
+                        {!isLoading
+                        ? <button onClick={submitNftHandler}>LIST</button>
+                        : <button disabled style={{ opacity: '0.4', cursor: 'not-allowed', color: '#fff' }}>LIST</button>}
                     </div>
 
                     <div className={style.form__right}>
@@ -168,7 +216,7 @@ const Add = (props: any) => {
                                 type="number"
                                 placeholder="Enter QTY"
                                 value={qtyAvailable}
-                                onChange={e => setQtyAvailable(e.target.value)}
+                                onChange={(e: any) => setQtyAvailable(e.target.value)}
                             />
                         </div>
 
@@ -178,11 +226,13 @@ const Add = (props: any) => {
                                 type="number"
                                 placeholder="Enter Price"
                                 value={gMilkPrice}
-                                onChange={e => setGMilkPrice(e.target.value)}
+                                onChange={(e: any) => setGMilkPrice(e.target.value)}
                             />
                         </div>
 
-                        {!isLoading ? <button onClick={submitHandler}>LIST</button> : <button disabled style={{ opacity: '0.4', cursor: 'not-allowed', color: '#fff' }}>LIST</button>}
+                        {!isLoading
+                        ? <button onClick={submitNftHandler}>LIST</button>
+                        : <button disabled style={{ opacity: '0.4', cursor: 'not-allowed', color: '#fff' }}>LIST</button>}
 
                     </div>
                 </div>
@@ -191,4 +241,4 @@ const Add = (props: any) => {
     )
 }
 
-export default Add
+export default WalletId;
