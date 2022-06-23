@@ -5,7 +5,7 @@ import Image from "next/image";
 import style from "../../marketplace/marketplace.module.scss";
 import BackIcon from "../../../public/images/backIcon.svg";
 import { useRouter } from "next/router"
-import { API_BASE_URL } from "ApiHandler";
+import { API_BASE_URL, AUTH_TOKEN } from "ApiHandler";
 import toastr from "toastr";
 import Loader from "../../../components/common/Loader";
 
@@ -25,11 +25,10 @@ const WalletId = (props: any) => {
 
     const fetchUser = async () => {
         setIsUserAdminLoading(true);
-        // const res = await fetch(`${API_BASE_URL}user/getUserByWalletId/12349jfoiwer239ri3rfr23o2rn3o2p`, {
         const res = await fetch(`${API_BASE_URL}user/getUserByWalletId/${router.query.walletId}`, {
             method: 'GET',
             headers: {
-                "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjkxMWJjYzIwYjIwNzJiNTNhZjVlNTUiLCJ3YWxsZXRJZCI6IjEyMzQ5amZvaXdlcjIzOXJpM3JmcjIzbzJybjNvMnAiLCJpYXQiOjE2NTM2NzcwMDR9.ryMQEMMC84mDd0h-6bbwn3knX5DzC32tVAIvKmNsjNI"
+                "Authorization": `Bearer ${AUTH_TOKEN}`
             }
         });
         const data = await res.json();
@@ -83,7 +82,7 @@ const WalletId = (props: any) => {
             const res = await fetch(`${API_BASE_URL}user/uploadImage`, {
                 method: 'POST',
                 headers: {
-                    "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjkxMWJjYzIwYjIwNzJiNTNhZjVlNTUiLCJ3YWxsZXRJZCI6IjEyMzQ5amZvaXdlcjIzOXJpM3JmcjIzbzJybjNvMnAiLCJpYXQiOjE2NTM2NzcwMDR9.ryMQEMMC84mDd0h-6bbwn3knX5DzC32tVAIvKmNsjNI"
+                    "Authorization": `Bearer ${AUTH_TOKEN}`
                 },
                 body: formdata
             });

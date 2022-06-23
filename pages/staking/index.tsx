@@ -246,7 +246,7 @@ export default class Stacking extends React.Component<any, any> {
     } else if (this.state.unstakedGoatzLoading) {
       return (
         <h4 style={{ textAlign: "center", margin: "0px" }}>
-          <img src={loadingImg.src} style={{height:'50px',width:'50px'}} alt="" />
+          <img src={loadingImg.src} style={{ height: '50px', width: '50px' }} alt="" />
           <div>Loading...</div>
         </h4>
       );
@@ -337,11 +337,11 @@ export default class Stacking extends React.Component<any, any> {
         );
       });
     } else if (!this.state.unstakedKidzLoading) {
-      return <h4 style={{ textAlign: "center", width: "1400px" }}>No UNSTAKED KIDz!</h4>;
+      return <h4 style={{ textAlign: "center" }}>No UNSTAKED KIDz!</h4>;
     } else if (this.state.unstakedKidzLoading) {
       return (
         <h4 style={{ textAlign: "center", margin: "0px" }}>
-          <img src={loadingImg.src} style={{height:'50px',width:'50px'}} alt="" />
+          <img src={loadingImg.src} style={{ height: '50px', width: '50px' }} alt="" />
           <div>Loading...</div>
         </h4>
       );
@@ -452,7 +452,7 @@ export default class Stacking extends React.Component<any, any> {
     } else if (this.state.stakedKidzLoading) {
       return (
         <h4 style={{ textAlign: "center", margin: "0px" }}>
-          <img src={loadingImg.src} style={{height:'50px',width:'50px'}} alt="" />
+          <img src={loadingImg.src} style={{ height: '50px', width: '50px' }} alt="" />
           <div>Loading...</div>
         </h4>
       );

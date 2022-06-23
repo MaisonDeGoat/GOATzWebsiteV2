@@ -58,6 +58,9 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    @include md {
+        display: block;
+    }
     .filter__btn--wrapper {
         background-color: #FFCC33;
         border-radius: 6px;
@@ -76,6 +79,11 @@
             border-bottom-left-radius: 6px;
             border-bottom-right-radius: 6px;
         }
+    }
+    .btn {
+        width: 200px;
+        margin-bottom: 12px;
+        padding: 8px 16px;
     }
 }
 .filter__btn {
@@ -126,7 +134,7 @@
                 font-size: 1.6rem;
                 font-weight: 800;
             }
-            a {
+            a, button {
                 background-color: #06D202;
                 font-weight: 800;
                 color: #000;
@@ -195,6 +203,14 @@
             margin-top: 32px;
             margin-bottom: 16px;
             padding-top: 16px;
+
+            .message {
+                text-align: center;
+                color: #fff;
+                font-size: 24px;
+                font-weight: bold;
+                padding-bottom: 12px;
+            }
 
             ul {
                 list-style: none;

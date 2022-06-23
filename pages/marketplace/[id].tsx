@@ -10,8 +10,9 @@ import { API_BASE_URL, API_IMG_URL } from "ApiHandler";
 import Loader from "../../components/common/Loader";
 import toastr from "toastr";
 import BigNumber from "bignumber.js";
+import loadingImg from "../../public/images/Spin.gif";
 
-const SingleMarketplaceDetails = (props: any) => {
+const SingleNftDetails = (props: any) => {
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
     const [isLoadingDuringBuy, setIsLoadingDuringBuy] = useState(false);
@@ -19,6 +20,7 @@ const SingleMarketplaceDetails = (props: any) => {
     const [quantity, setQuantity] = useState<any>();
     const [mintedGoatzIdList, setMintedGoatzIdList] = useState<any>([]);
     const [mintedGoatzObjList, setMintedGoatzObjList] = useState<any>([]);
+    const [isGoatzLoading, setIsGoatzLoading] = useState(false);
     const { id } = router.query;
 
     // console.log("gmilkWeb3Inst: ", props.gmilkWeb3Inst?.methods);
@@ -37,12 +39,13 @@ const SingleMarketplaceDetails = (props: any) => {
     const getMintedGoatz = async () => {
         // console.log(props, props.goatzWeb3Inst.methods);
         if (props.isEnabled) {
-            console.log(props.goatzWeb3Inst);
+            setIsGoatzLoading(true)
             let totalGoatz = await props.goatzWeb3Inst?.methods.balanceOf(props.account).call();
             if (totalGoatz > 0) {
                 let list: any[] = [];
                 getMintedGoatzList(list, totalGoatz, 0);
             }
+            setIsGoatzLoading(false)
         }
     }
 
@@ -57,6 +60,8 @@ const SingleMarketplaceDetails = (props: any) => {
             setMintedGoatzIdList(list)
             if (list && list.length > 0) {
                 getMintedGoatzObj([], 0, list.length, list)
+            } else {
+                setIsGoatzLoading(false)
             }
         }
     }
@@ -64,6 +69,7 @@ const SingleMarketplaceDetails = (props: any) => {
     const getMintedGoatzObj = async (goatzList: any[], index: number, totalLength: number, list: string[]) => {
         // console.log(goatzList, index, totalLength, list)
         if (index <= totalLength - 1) {
+            setIsGoatzLoading(true)
             let url = await props.goatzWeb3Inst?.methods.tokenURI(list[index]).call();
             fetch(url)
                 .then(res => res.json())
@@ -81,8 +87,12 @@ const SingleMarketplaceDetails = (props: any) => {
                         getMintedGoatzObj(goatzList, index, totalLength, list)
                     }
                 )
+            setIsGoatzLoading(false);
         } else if (index > totalLength - 1) {
             setMintedGoatzObjList(goatzList)
+            setIsGoatzLoading(false)
+        } else {
+            getMintedGoatzObj(goatzList, index + 1, totalLength, list);
         }
     }
 
@@ -113,6 +123,9 @@ const SingleMarketplaceDetails = (props: any) => {
     }, [props.isEnabled])
 
     useEffect(() => {
+        if (!props.isEnabled) {
+            router.push('/marketplace')
+        }
         fetchProductById()
     }, [])
 
@@ -133,11 +146,13 @@ const SingleMarketplaceDetails = (props: any) => {
         } else if (quantity >= nftDetails.qtyAvailable) {
             toastr.error(`Quantity Must Be Less Than ${nftDetails.qtyAvailable}.`)
         } else {
-            let balance = await props.gmilkWeb3Inst.methods.balanceOf(props.account);
+            let balance = await props.gmilkWeb3Inst.methods.balanceOf(props.account).call();
             let totalPrice = (new BigNumber(nftDetails.gMilkPrice).multipliedBy(new BigNumber(quantity))).multipliedBy(new BigNumber(10).toExponential(18));
-            // console.log("quantity", quantity);
-            // console.log("nft price", nftDetails.gMilkPrice);
-            // console.log("totalPrice:", totalPrice);
+            console.log("quantity", quantity);
+            console.log("nft price", nftDetails.gMilkPrice);
+            console.log("totalPrice:", totalPrice.toString());
+            console.log('balance', balance);
+
             if (balance < totalPrice) {
                 toastr.error("Insufficient GMILk for transaction");
             }
@@ -154,26 +169,40 @@ const SingleMarketplaceDetails = (props: any) => {
                         from: props.account,
                         gasLimit: props.web3.utils.toHex(gaslimit.toString()),
                         gasPrice: props.web3.utils.toHex(gasPriceAsync.toString())
-                    });
-                    
-                const res = await fetch(`${API_BASE_URL}purchase/buyProduct`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        walletId: props.account,
-                        productId: id,
-                        quantity: quantity
                     })
-                });
-                const data = await res.json();
+                    .on('transactionHash', async (hash: any) => {
+                        console.log("Transaction hash::", hash)
+                        // sending data to database
+                        const res = await fetch(`${API_BASE_URL}purchase/buyProduct`, {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify({
+                                walletId: props.account,
+                                productId: id,
+                                quantity: quantity,
+                                txHash: hash
+                            })
+                        });
+                        const data = await res.json();
 
-                if (data.status === 200) {
-                    toastr.success(data.message);
-                } else {
-                    toastr.error(data.message);
-                }
+                        if (data.status === 200) {
+                            toastr.success(data.message);
+                            // transaction send to the blockchain
+                        } else {
+                            toastr.error(data.message);
+                        }
+                    })
+                    .on('receipt', (receipt: any) => {
+                        console.log(receipt);
+                        // Add one API
+                    })
+                    .on('error', (error: any, receipt: any) => {
+                        toastr.error(error)
+                        // Add one API
+                    })
+
             } catch (e: any) {
                 if (e.code === 4001) {
                     toastr.error(e.message);
@@ -238,16 +267,18 @@ const SingleMarketplaceDetails = (props: any) => {
                         </div>
 
                         <div className={style["image__list--wrapper"]}>
-                            <ul>
-                                {getLeftPanelGoatz()}
-                                {/* {(Array.from(Array(20).keys())).map((elm, i) => <li className={style["image__list--wrapper-img"]} key={i}>
-                                    <Image
-                                        src={PilotGoatImg}
-                                        objectFit="contain"
-                                        alt=""
-                                    />
-                                </li>)} */}
-                            </ul>
+                            {isGoatzLoading ? <div style={{ textAlign: "center", margin: "0px", paddingBottom: '16px' }}>
+                                <img src={loadingImg.src} style={{ height: '50px', width: '50px' }} alt="" />
+                                <div style={{ color: '#fff', fontSize: '20px', fontWeight: 'bold' }}>Loading...</div>
+                            </div> : (<>
+                                {mintedGoatzObjList.length === 0 ? (
+                                    <div className={style.message}>No GOATz</div>
+                                ) : (
+                                    <ul>
+                                        {getLeftPanelGoatz()}
+                                    </ul>
+                                )}
+                            </>)}
                         </div>
 
                         {props.isEnabled && <input
@@ -263,6 +294,6 @@ const SingleMarketplaceDetails = (props: any) => {
         </div>
     )
 }
-    
 
-export default SingleMarketplaceDetails;
+
+export default SingleNftDetails;
