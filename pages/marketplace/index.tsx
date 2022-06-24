@@ -33,7 +33,6 @@ const Index = (props: any) => {
     const handleFilter = (filter: any) => {
         setFilter(filter);
         setIsFilterListVisible(false);
-        console.log(filter.filter);
         if (filter.filter === "priceHighLow") {
             fetchAllProduct('product/getAllProduct?page=1&limit=24&sort=gMilkPrice&sortBy=-1');
         } else if (filter.filter === "priceLowHigh") {
@@ -110,7 +109,7 @@ const Index = (props: any) => {
                     {nftList?.map((elm: any) => <div className={style['nft__grid--card']} key={elm._id}>
                         <div className={style.item__img}>
                             <img
-                                src={`${API_IMG_URL}${elm?.imagePath}`}
+                                src={elm?.imagePath}
                                 alt={elm.title}
                                 style={{ width: '100%', height: '212px', objectFit: "cover" }}
                             />

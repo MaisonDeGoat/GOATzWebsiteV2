@@ -44,13 +44,15 @@ const SingleNftDetails = (props: any) => {
             if (totalGoatz > 0) {
                 let list: any[] = [];
                 getMintedGoatzList(list, totalGoatz, 0);
+            } else {
+                setIsGoatzLoading(false)
             }
-            setIsGoatzLoading(false)
         }
     }
 
     const getMintedGoatzList = async (list: any[], totalGoatz: number, index: number) => {
         // console.log(list, totalGoatz, index);
+        setIsGoatzLoading(true)
         if (index <= totalGoatz - 1) {
             let temp = await props.goatzWeb3Inst?.methods.tokenOfOwnerByIndex(props.account, index).call();
             list.push(temp)
@@ -60,16 +62,15 @@ const SingleNftDetails = (props: any) => {
             setMintedGoatzIdList(list)
             if (list && list.length > 0) {
                 getMintedGoatzObj([], 0, list.length, list)
-            } else {
-                setIsGoatzLoading(false)
             }
+        } else {
+            setIsGoatzLoading(false)
         }
     }
 
     const getMintedGoatzObj = async (goatzList: any[], index: number, totalLength: number, list: string[]) => {
         // console.log(goatzList, index, totalLength, list)
         if (index <= totalLength - 1) {
-            setIsGoatzLoading(true)
             let url = await props.goatzWeb3Inst?.methods.tokenURI(list[index]).call();
             fetch(url)
                 .then(res => res.json())
@@ -87,7 +88,6 @@ const SingleNftDetails = (props: any) => {
                         getMintedGoatzObj(goatzList, index, totalLength, list)
                     }
                 )
-            setIsGoatzLoading(false);
         } else if (index > totalLength - 1) {
             setMintedGoatzObjList(goatzList)
             setIsGoatzLoading(false)
@@ -148,10 +148,6 @@ const SingleNftDetails = (props: any) => {
         } else {
             let balance = await props.gmilkWeb3Inst.methods.balanceOf(props.account).call();
             let totalPrice = (new BigNumber(nftDetails.gMilkPrice).multipliedBy(new BigNumber(quantity))).multipliedBy(new BigNumber(10).toExponential(18));
-            console.log("quantity", quantity);
-            console.log("nft price", nftDetails.gMilkPrice);
-            console.log("totalPrice:", totalPrice.toString());
-            console.log('balance', balance);
 
             if (balance < totalPrice) {
                 toastr.error("Insufficient GMILk for transaction");
@@ -233,7 +229,7 @@ const SingleNftDetails = (props: any) => {
                 </Container>
             </div>
 
-            {isLoading ? <Loader /> : <Container>
+            <Container>
                 <div className={style["filter__btn--flex"]}>
                     {props.isEnabled
                         ? <button className={style.btn}>{getShortAccountId()}</button>
@@ -244,13 +240,15 @@ const SingleNftDetails = (props: any) => {
                         <span>GO BACK</span>
                     </button>
                 </div>
+            </Container>
 
+            {isLoading ? <Loader /> : <Container>
                 <div className={style.goatz__heading}>{nftDetails?.title}</div>
 
                 <div className={style["goatz__details--flex"]}>
                     <div className={style["goatz__details--img"]}>
                         <img
-                            src={`${API_IMG_URL}${nftDetails?.imagePath}`}
+                            src={nftDetails?.imagePath}
                             alt={nftDetails?.title}
                             style={{ width: '100%', objectFit: "contain" }}
                         />
