@@ -107,12 +107,12 @@ export default class MyApp extends App {
         provider.request({
           method: "wallet_switchEthereumChain",
           params: [{ chainId: ETH_NETWORKS[chainId].chainId }],
-        }).then((res:any)=>{
+        }).then((res: any) => {
           console.log("YES:::")
           this.connectWalletOnboard();
-        }).catch((err:any)=>{
+        }).catch((err: any) => {
 
-        });;
+        });
       } catch (error: any) {
         if (error.code === 4902) {
           try {

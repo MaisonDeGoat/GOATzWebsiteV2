@@ -60,7 +60,7 @@ const WalletId = (props: any) => {
                 newFileExt === 'jpeg'
             ) {
                 setFileList(newFile);
-                setImgReview( URL.createObjectURL(newFile) )
+                setImgReview(URL.createObjectURL(newFile))
             } else {
                 toastr.error("We Support Only svg, png, gif,jpg, jpeg");
             }
@@ -78,7 +78,7 @@ const WalletId = (props: any) => {
         } else {
             const formdata = new FormData();
             formdata.append("image", fileList)
-            
+
             const res = await fetch(`${API_BASE_URL}user/uploadImage`, {
                 method: 'POST',
                 headers: {
@@ -112,12 +112,12 @@ const WalletId = (props: any) => {
                     toastr.error(dataToAddProduct.message)
                 } else {
                     toastr.success(dataToAddProduct.message);
-                    setFileList();
+                    setFileList('');
                     setTitle('');
                     setDescription('');
                     setQtyAvailable(0);
                     setGMilkPrice(0);
-                    setImgReview();
+                    setImgReview('');
                 }
             }
         }
@@ -180,7 +180,7 @@ const WalletId = (props: any) => {
                             onDrop={onDrop}
                         >
                             <p className={style.rotate__text}>Upload Image</p>
-                            <input 
+                            <input
                                 type="file" value="" onChange={onFileDrop}
                                 accept="image/png, image/gif, image/jpeg, image/svg"
                             />
@@ -193,10 +193,10 @@ const WalletId = (props: any) => {
                                 setFileList('');
                                 setImgReview('');
                             }}
-                        /> }
+                        />}
                         {!isLoading
-                        ? <button onClick={submitNftHandler}>LIST</button>
-                        : <button disabled style={{ opacity: '0.4', cursor: 'not-allowed', color: '#fff' }}>LIST</button>}
+                            ? <button onClick={submitNftHandler}>LIST</button>
+                            : <button disabled style={{ opacity: '0.4', cursor: 'not-allowed', color: '#fff' }}>LIST</button>}
                     </div>
 
                     <div className={style.form__right}>
@@ -230,8 +230,8 @@ const WalletId = (props: any) => {
                         </div>
 
                         {!isLoading
-                        ? <button onClick={submitNftHandler}>LIST</button>
-                        : <button disabled style={{ opacity: '0.4', cursor: 'not-allowed', color: '#fff' }}>LIST</button>}
+                            ? <button onClick={submitNftHandler}>LIST</button>
+                            : <button disabled style={{ opacity: '0.4', cursor: 'not-allowed', color: '#fff' }}>LIST</button>}
 
                     </div>
                 </div>
