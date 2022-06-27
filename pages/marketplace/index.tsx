@@ -6,18 +6,12 @@ import Link from "next/link";
 import style from "./marketplace.module.scss";
 import PilotGoatImg from "../../public/images/PilotGoat.png";
 import FilterIcon from "../../public/images/filterIcon.svg";
-import { API_BASE_URL, API_IMG_URL } from "ApiHandler";
+import { API_BASE_URL, fetchAllProduct, filterObj } from "ApiHandler";
 import Loader from "../../components/common/Loader";
 import toastr from "toastr";
 
-const filterObj = [
-    { view: 'latest first', filter: 'latestFirst' },
-    { view: 'price high-low', filter: 'priceHighLow' },
-    { view: 'price low-high', filter: 'priceLowHigh' }
-]
-
 const Index = (props: any) => {
-    const [filter, setFilter] = useState({ view: 'latest first', filter: 'latestFirst' });
+    const [filter, setFilter] = useState({ view: 'latest first', filter: 'latestFirst', urlParam: "product/getAllProduct" });
     const [ListToShow, setListToShow] = useState(filterObj.filter(el => el.filter !== filter.filter));
     const [isFilterListVisible, setIsFilterListVisible] = useState(false);
 
@@ -30,31 +24,26 @@ const Index = (props: any) => {
         setListToShow(filterObj.filter(el => el.filter !== filter.filter));
     }, [filter]);
 
-    const handleFilter = (filter: any) => {
+    const handleFilter = async (filter: any) => {
         setFilter(filter);
         setIsFilterListVisible(false);
-        if (filter.filter === "priceHighLow") {
-            fetchAllProduct('product/getAllProduct?page=1&limit=24&sort=gMilkPrice&sortBy=-1');
-        } else if (filter.filter === "priceLowHigh") {
-            fetchAllProduct('product/getAllProduct?page=1&limit=24&sort=gMilkPrice&sortBy=1');
-        } else {
-            fetchAllProduct('product/getAllProduct');
-        }
-    }
+        let data = [];
 
-    const fetchAllProduct = async (urlParam: any) => {
-        setIsLoading(true)
-        const res = await fetch(`${API_BASE_URL}${urlParam}`);
-        const data = await res.json();
-        console.log(data.data[0].data);
-        if (data.status === 200) {
-            setNftList(data.data[0].data)
+        if (filter.filter === "priceHighLow") {
+            data = await fetchAllProduct("gMilkPrice", -1);
+        } else if (filter.filter === "priceLowHigh") {
+            data = await fetchAllProduct("gMilkPrice", 1);
+        } else {
+            data = await fetchAllProduct("createdAt", -1);
         }
-        setIsLoading(false);
+        setNftList(data)
     }
 
     useEffect(() => {
-        fetchAllProduct('product/getAllProduct');
+        (async () => {
+            const data = await fetchAllProduct("createdAt", 1);
+            setNftList(data);
+        })();
     }, [])
 
     const connectWallet = () => props.connectWallet();

@@ -3,6 +3,12 @@ export const API_IMG_URL  = "https://goatz-market-place.herokuapp.com/static/upl
 export const API_SHEET_BASE_URL = "https://v1.nocodeapi.com/maisondegoat/google_sheets/";
 export const AUTH_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjkxMWJjYzIwYjIwNzJiNTNhZjVlNTUiLCJ3YWxsZXRJZCI6IjEyMzQ5amZvaXdlcjIzOXJpM3JmcjIzbzJybjNvMnAiLCJpYXQiOjE2NTM2NzcwMDR9.ryMQEMMC84mDd0h-6bbwn3knX5DzC32tVAIvKmNsjNI";
 
+export const filterObj = [
+    { view: 'latest first', filter: 'latestFirst' },
+    { view: 'price high-low', filter: 'priceHighLow' },
+    { view: 'price low-high', filter: 'priceLowHigh' }
+]
+
 // USER
 export const registerUser = async (dataToSend: any) => {
     const res = await fetch(`${API_BASE_URL}user/register`, {
@@ -18,10 +24,10 @@ export const registerUser = async (dataToSend: any) => {
 
 
 // PRODUCT
-export const fetchAllProduct = async () => {
-    const res = await fetch(`${API_BASE_URL}product/getAllProduct`);
+export const fetchAllProduct = async (sort: string, sortBy: number) => {
+    const res = await fetch(`${API_BASE_URL}product/getAllProduct?sort=${sort}&sortBy=${sortBy}`);
     const data = await res.json();
-    console.log(data);
+    return data.data[0].data;
 }
 export const fetchProductById = async (id: string) => {
     const res = await fetch(`${API_BASE_URL}product/getProduct/${id}`);
