@@ -26,7 +26,7 @@ export const ACCESSTOKEN_ABI_ADDRESS = '0xa1c68bf0105968c5045b241120b616175b1c5d
 export const RPC = 'https://rpc.ankr.com/eth';
 
 //Following list used in admin/add screen where we compare that is that the right user to call API
-export const ADMIN_ADDRESS_LIST = ['0x8B14BEb458b885de64A16e5e9576729da38A28D0', '0xfaF77F3b7bc5a98C79805244eA8cdbB6E29bBd6a'];
+export const ADMIN_ADDRESS_LIST = ['0x6401694dbA7B91a105B0653Ce167cf5527B80456', '0x8B14BEb458b885de64A16e5e9576729da38A28D0', '0xfaF77F3b7bc5a98C79805244eA8cdbB6E29bBd6a'];
 
 export const LIST_ABI_GMILK_ERC20 = [
 	{
