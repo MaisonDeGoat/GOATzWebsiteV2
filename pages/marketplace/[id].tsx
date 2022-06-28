@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, Fragment } from "react";
 import Container from "@mui/material/Container";
 import Head from "next/head";
 import Image from "next/image";
@@ -23,6 +23,8 @@ const SingleNftDetails = (props: any) => {
     const [mintedGoatzIdList, setMintedGoatzIdList] = useState<any>([]);
     const [mintedGoatzObjList, setMintedGoatzObjList] = useState<any>([]);
     const [isGoatzLoading, setIsGoatzLoading] = useState(false);
+    const [firstSelectedGoat, setFirstSelectedGoat] = useState<any>(null);
+    const [secondSelectedGoat, setSecondSelectedGoat] = useState<any>(null);
     const { id } = router.query;
 
     // console.log("gmilkWeb3Inst: ", props.gmilkWeb3Inst?.methods);
@@ -109,9 +111,9 @@ const SingleNftDetails = (props: any) => {
                         <img
                             className="mb-4 mintedGoatzObjList__border"
                             src={e.image}
-                            // onClick={() => {
-                            //     imageSelection(e);
-                            // }}
+                            onClick={() => {
+                                imageSelection(e)
+                            }}
                             alt=""
                         />
                     </>
@@ -120,7 +122,17 @@ const SingleNftDetails = (props: any) => {
         }
     }
 
+    const imageSelection = (goatzObj: any) => {
+        if (!firstSelectedGoat) {
+            goatzObj['selected'] = true;
+            setFirstSelectedGoat(goatzObj);
+        } else if (!secondSelectedGoat && goatzObj['id'] != firstSelectedGoat['id']) {
+            goatzObj['selected'] = true;
+        }
+    }
+
     useEffect(() => {
+        setFirstSelectedGoat(null)
         getMintedGoatz()
     }, [props.isEnabled])
 
@@ -139,20 +151,30 @@ const SingleNftDetails = (props: any) => {
     const handleBuy = async () => {
         setIsLoadingDuringBuy(true);
         if (!props.isEnabled) {
+            setIsLoadingDuringBuy(false);
             toastr.warning("Please Connect With Wallet!");
             props.connectWallet();
         } else if (!quantity) {
-            toastr.error("Quantity Must Be 1 Or More Than 1.")
+            setIsLoadingDuringBuy(false);
+            toastr.error("Quantity Must Be 1 Or More Than 1.");
+            return;
         } else if (quantity < 1) {
-            toastr.error("Quantity Must Be 1 Or More Than 1.")
+            setIsLoadingDuringBuy(false);
+            toastr.error("Quantity Must Be 1 Or More Than 1.");
+            return;
         } else if (quantity >= nftDetails.qtyAvailable) {
-            toastr.error(`Quantity Must Be Less Than ${nftDetails.qtyAvailable}.`)
+            setIsLoadingDuringBuy(false);
+            toastr.error(`Quantity Must Be Less Than ${nftDetails.qtyAvailable}.`);
+            return;
         } else {
             let balance = await props.gmilkWeb3Inst.methods.balanceOf(props.account).call();
-            let totalPrice = (new BigNumber(nftDetails.gMilkPrice).multipliedBy(new BigNumber(quantity))).multipliedBy(new BigNumber(10).toExponential(18));
+            let totalPrice = (new BigNumber(nftDetails.gMilkPrice).multipliedBy(new BigNumber(quantity)))
+                .multipliedBy(10 ** 18);
 
-            if (balance < totalPrice) {
+            if (Number(balance) < Number(totalPrice)) {
+                setIsLoadingDuringBuy(false);
                 toastr.error("Insufficient GMILk for transaction");
+                return;
             }
             try {
                 let gaslimit = await props.gmilkWeb3Inst.methods.transfer(props.account, totalPrice).estimateGas({
@@ -188,7 +210,8 @@ const SingleNftDetails = (props: any) => {
                         const data = await res.json();
                         console.log(data)
                         if (data.status === 200) {
-                            toastr.success(data.message);
+                            setIsLoadingDuringBuy(false);
+                            toastr.success("Tx has been sent to the blockchain");
                             let buyItemObj: any = [[
                                 data.data.walletId,
                                 data.data.productId,
@@ -196,28 +219,39 @@ const SingleNftDetails = (props: any) => {
                                 data.data.txHash,
                                 'In Progress'
                             ]]
-                            await onSetBuyRecordToSheet(buyItemObj)
+                            await onSetBuyRecordToSheet(buyItemObj);
+                            return;
                             // transaction send to the blockchain
                         } else {
+                            setIsLoadingDuringBuy(false);
                             toastr.error(data.message);
+                            return;
                         }
                     })
                     .on('receipt', (receipt: any) => {
+                        setIsLoadingDuringBuy(false);
                         console.log(receipt);//receipt.transactionHash
                         // Add one API
-                        onSetSuccessFailureRecordToSheet(txHash, 'SUCCESS')
+                        onSetSuccessFailureRecordToSheet(txHash, 'SUCCESS');
+                        return;
                     })
                     .on('error', (error: any, receipt: any) => {
+                        setIsLoadingDuringBuy(false);
                         toastr.error(error)
                         // Add one API
-                        onSetSuccessFailureRecordToSheet(txHash, 'FAILED')
+                        onSetSuccessFailureRecordToSheet(txHash, 'FAILED');
+                        return;
                     })
 
             } catch (e: any) {
                 if (e.code === 4001) {
+                    setIsLoadingDuringBuy(false);
                     toastr.error(e.message);
+                    return;
                 } else {
+                    setIsLoadingDuringBuy(false);
                     toastr.error("Oops! Something went wrong. Please try again");
+                    return;
                 }
             }
         }
@@ -300,9 +334,14 @@ const SingleNftDetails = (props: any) => {
                             alt={nftDetails?.title}
                             style={{ width: '100%', objectFit: "contain" }}
                         />
-                        {!isLoadingDuringBuy
-                            ? <button onClick={handleBuy}>BUY</button>
-                            : <button disabled style={{ opacity: '0.4', cursor: 'not-allowed', color: '#fff' }}>BUYING...</button>}
+
+                        {firstSelectedGoat ? <Fragment>
+                            {(!isLoadingDuringBuy) ? (
+                                <button onClick={handleBuy}>BUY</button>
+                            ) : (
+                                <button disabled style={{ opacity: '0.4', cursor: 'not-allowed', color: '#fff' }}>BUYING...</button>
+                            )}
+                        </Fragment> : <button disabled style={{ opacity: '0.4', cursor: 'not-allowed', color: '#fff' }}>Select GOATz</button>}
 
                     </div>
 
@@ -327,7 +366,7 @@ const SingleNftDetails = (props: any) => {
                             </>)}
                         </div>
 
-                        {props.isEnabled && <input
+                        {firstSelectedGoat && <input
                             type="number"
                             placeholder="ENTER QUANTITY"
                             className={style.number__input}

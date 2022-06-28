@@ -1,4 +1,4 @@
-export const CHAINID = [1]
+export const CHAINID = [4]
 export const CHAINID_HEX = '0x1';
 
 export const FORGE_SCREEN_STATUS = false;
@@ -17,10 +17,10 @@ export const PRIVATE_KEY = "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0
 export const PRODUCT_LIST_TAB = 'product_list';
 export const BUY_ORDER_TAB = 'buy_order';
 
-export const GMILK_ABI_ADDRESS = '0x7FeDF391467448177C7AB87934E408BDF11A2418';
+export const GMILK_ABI_ADDRESS = '0x35886b36D14Ae87eb6d636D840622762D394Af28';
 export const STAKING_ABI_ADDRESS = '0xF7d67FD31907D1876b49FE8f3c5B790ec747A9C8';
 export const KIDZ_ABI_ADDRESS = '0xDA1011bb5a16b4032172b1CBC45Db31fDaAA18d0';
-export const GOATZ_ABI_ADDRESS = '0x3EAcf2D8ce91b35c048C6Ac6Ec36341aaE002FB9';
+export const GOATZ_ABI_ADDRESS = '0x30b5713383507cC3650dd7aa8Ae401890A985C7e';
 export const ACCESSTOKEN_ABI_ADDRESS = '0xa1c68bf0105968c5045b241120b616175b1c5d81';
 
 export const RPC = 'https://rpc.ankr.com/eth';
