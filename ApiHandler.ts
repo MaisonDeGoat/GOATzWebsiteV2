@@ -19,14 +19,23 @@ export const registerUser = async (dataToSend: any) => {
         body: JSON.stringify(dataToSend)
     });
     const data = await res.json();
-    console.log(data);
 }
 
 // admin/getAllProduct?page=1&limit=24&sort=gMilkPrice&sortBy=-1
 export const fetchAllProductAdmin = async (sort: string, sortBy: number) => {
     const res = await fetch(`${API_BASE_URL}admin/getAllProduct?page=1&limit=24&sort=${sort}&sortBy=${sortBy}`);
     const data = await res.json();
-    return data.data[0].totalCount.totalRecords > 0 ? data.data[0].data : [];
+    if (data.status === 401) {
+        return {
+            status: false,
+            data: data.message
+        }
+    } else {
+        return {
+            status: true,
+            data: data.data[0].totalCount.totalRecords > 0 ? data.data[0].data : []
+        }
+    }
 }
 
 // PRODUCT

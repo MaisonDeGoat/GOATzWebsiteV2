@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import style from "../marketplace/marketplace.module.scss";
 import FilterIcon from "../../public/images/filterIcon.svg";
-import {fetchAllProductAdmin, filterObj } from "ApiHandler";
+import { fetchAllProductAdmin, filterObj } from "ApiHandler";
 import Loader from "../../components/common/Loader";
 import toastr from "toastr";
 import { ADMIN_ADDRESS_LIST } from "@config/abi-config";
@@ -28,8 +28,11 @@ const Admin = (props: any) => {
     const fetchUser = async () => {
         if (props.isEnabled && isValidUserToAccess()) {
             setIsAdmin(true);
-            const data = await fetchAllProductAdmin("createdAt", -1);
-            setNftList(data);
+            const { status, data } = await fetchAllProductAdmin("createdAt", -1);
+            if (status)
+                setNftList(data);
+            else
+                toastr.error(data)
         } else {
             setIsAdmin(false);
         }
@@ -48,16 +51,19 @@ const Admin = (props: any) => {
     const handleFilter = async (filter: any) => {
         setFilter(filter);
         setIsFilterListVisible(false);
-        let data = [];
+        let response
 
         if (filter.filter === "priceHighLow") {
-            data = await fetchAllProductAdmin("gMilkPrice", -1);
+            response = await fetchAllProductAdmin("gMilkPrice", -1);
         } else if (filter.filter === "priceLowHigh") {
-            data = await fetchAllProductAdmin("gMilkPrice", 1);
+            response = await fetchAllProductAdmin("gMilkPrice", 1);
         } else {
-            data = await fetchAllProductAdmin("createdAt", -1);
+            response = await fetchAllProductAdmin("createdAt", -1);
         }
-        setNftList(data)
+        if (response.status)
+            setNftList(response.data);
+        else
+            toastr.error(response.data)
     }
 
     useEffect(() => { fetchUser() }, [props.isEnabled]);
