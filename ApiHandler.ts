@@ -1,5 +1,5 @@
 export const API_BASE_URL = "https://goatz-market-place.herokuapp.com/api/";
-export const API_IMG_URL  = "https://goatz-market-place.herokuapp.com/static/uploads/";
+export const API_IMG_URL = "https://goatz-market-place.herokuapp.com/static/uploads/";
 export const API_SHEET_BASE_URL = "https://v1.nocodeapi.com/maisondegoat/google_sheets/";
 export const AUTH_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjkxMWJjYzIwYjIwNzJiNTNhZjVlNTUiLCJ3YWxsZXRJZCI6IjEyMzQ5amZvaXdlcjIzOXJpM3JmcjIzbzJybjNvMnAiLCJpYXQiOjE2NTM2NzcwMDR9.ryMQEMMC84mDd0h-6bbwn3knX5DzC32tVAIvKmNsjNI";
 
@@ -22,12 +22,18 @@ export const registerUser = async (dataToSend: any) => {
     console.log(data);
 }
 
+// admin/getAllProduct?page=1&limit=24&sort=gMilkPrice&sortBy=-1
+export const fetchAllProductAdmin = async (sort: string, sortBy: number) => {
+    const res = await fetch(`${API_BASE_URL}admin/getAllProduct?page=1&limit=24&sort=${sort}&sortBy=${sortBy}`);
+    const data = await res.json();
+    return data.data[0].totalCount.totalRecords > 0 ? data.data[0].data : [];
+}
 
 // PRODUCT
 export const fetchAllProduct = async (sort: string, sortBy: number) => {
     const res = await fetch(`${API_BASE_URL}product/getAllProduct?sort=${sort}&sortBy=${sortBy}`);
     const data = await res.json();
-    return data.data[0].data;
+    return data.data[0].totalCount.totalRecords > 0 ? data.data[0].data : [];
 }
 export const fetchProductById = async (id: string) => {
     const res = await fetch(`${API_BASE_URL}product/getProduct/${id}`);

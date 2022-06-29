@@ -108,7 +108,6 @@ export default class MyApp extends App {
           method: "wallet_switchEthereumChain",
           params: [{ chainId: ETH_NETWORKS[chainId].chainId }],
         }).then((res: any) => {
-          console.log("YES:::")
           this.connectWalletOnboard();
         }).catch((err: any) => {
 
@@ -120,7 +119,7 @@ export default class MyApp extends App {
               .request({
                 method: 'wallet_addEthereumChain',
                 params: [ETH_NETWORKS[chainId]],
-              })
+              });
           } catch (error: any) {
             toastr.error(error.message);
           }
@@ -132,38 +131,39 @@ export default class MyApp extends App {
   connectWalletOnboard = async () => {
     try {
       const wallets = await onboard.connectWallet();
-      this.setState({ isLoading: true })
-      const { accounts, chains, provider }: any = wallets[0];
+      if (wallets.length) {
+        this.setState({ isLoading: true })
+        const { accounts, chains, provider }: any = wallets[0];
 
-      if (CHAINID.indexOf(Number(chains[0].id)) == -1) {
-        toastr.info('Wrong network choosen. Please choose Ethereum Mainnet');
+        if (CHAINID.indexOf(Number(chains[0].id)) == -1) {
+          this.switchNetworkToMainnet(provider, CHAINID[0]);
+          // toastr.info('Wrong network choosen. Please choose Ethereum Mainnet');
+          // this.setState({
+          //   isEnabled: false,
+          //   isConnecting: false,
+          // });
+          return;
+        }
+
+        let web3 = new Web3(provider);
+        let gmilkWeb3Inst = new web3.eth.Contract(LIST_ABI_GMILK_ERC20 as any, GMILK_ABI_ADDRESS);
+        let stakingWeb3Inst = new web3.eth.Contract(LIST_ABI_STAKING as any, STAKING_ABI_ADDRESS);
+        let kidzWeb3Inst = new web3.eth.Contract(LIST_ABI_KIDZ as any, KIDZ_ABI_ADDRESS);
+        let goatzWeb3Inst = new web3.eth.Contract(LIST_ABI_GOATZ as any, GOATZ_ABI_ADDRESS);
+
+        this.setState({ web3: web3 });
+        this.setState({ account: accounts[0].address });
+        // this.setState({ account: "0xf72c755ebffdf3c042709c21cc151c6136c9c51b" });
+        this.setState({ chainId: chains[0].id });
         this.setState({
-          isEnabled: false,
-          isConnecting: false,
+          isLoading: false,
+          gmilkWeb3Inst: gmilkWeb3Inst,
+          stakingWeb3Inst: stakingWeb3Inst,
+          kidzWeb3Inst: kidzWeb3Inst,
+          goatzWeb3Inst: goatzWeb3Inst,
         });
-        // this.switchNetworkToMainnet(provider,CHAINID[0])
-        return;
+        this.setState({ isEnabled: true });
       }
-
-      let web3 = new Web3(provider);
-      let gmilkWeb3Inst = new web3.eth.Contract(LIST_ABI_GMILK_ERC20 as any, GMILK_ABI_ADDRESS);
-      let stakingWeb3Inst = new web3.eth.Contract(LIST_ABI_STAKING as any, STAKING_ABI_ADDRESS);
-      let kidzWeb3Inst = new web3.eth.Contract(LIST_ABI_KIDZ as any, KIDZ_ABI_ADDRESS);
-      let goatzWeb3Inst = new web3.eth.Contract(LIST_ABI_GOATZ as any, GOATZ_ABI_ADDRESS);
-
-      this.setState({ web3: web3 });
-      this.setState({ account: accounts[0].address });
-      // this.setState({ account: "0x6401694dbA7B91a105B0653Ce167cf5527B80456" });
-      this.setState({ chainId: chains[0].id });
-      this.setState({
-        isLoading: false,
-        gmilkWeb3Inst: gmilkWeb3Inst,
-        stakingWeb3Inst: stakingWeb3Inst,
-        kidzWeb3Inst: kidzWeb3Inst,
-        goatzWeb3Inst: goatzWeb3Inst,
-      });
-      this.setState({ isEnabled: true });
-
     } catch (err) {
       // this.setState({ error: err })
       console.log(err);

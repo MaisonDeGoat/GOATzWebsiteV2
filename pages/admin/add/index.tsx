@@ -50,7 +50,7 @@ const AddProduct = (props: any) => {
             setIsAdmin(false);
         }
     }
-    useEffect(() => { fetchUser() }, [props.isEnabled])
+    useEffect(() => { fetchUser() }, [props.isEnabled]);
 
     const onDragEnter = () => dragDropRef.current.classList.add('border_on_drag');
     const onDragLeave = () => dragDropRef.current.classList.remove('border_on_drag');
