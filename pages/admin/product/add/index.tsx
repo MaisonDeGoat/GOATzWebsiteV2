@@ -105,7 +105,7 @@ const AddProduct = (props: any) => {
                         title,
                         description,
                         gMilkPrice,
-                        qtyAvailable,
+                        initialSupply: qtyAvailable,
                         imagePath: data.data.imagePath
                     });
                     console.log(status, dataToAddProduct)
