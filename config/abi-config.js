@@ -25,6 +25,9 @@ export const KIDZ_ABI_ADDRESS = '0xDA1011bb5a16b4032172b1CBC45Db31fDaAA18d0';
 export const GOATZ_ABI_ADDRESS = '0x3EAcf2D8ce91b35c048C6Ac6Ec36341aaE002FB9';
 export const ACCESSTOKEN_ABI_ADDRESS = '0xa1c68bf0105968c5045b241120b616175b1c5d81';
 
+//thi saddress will receive GMILK when item purchased from marketplace
+export const GMILK_RECEIVER = '0x6401694dbA7B91a105B0653Ce167cf5527B80456';
+
 export const RPC = 'https://rpc.ankr.com/eth';
 
 //Following list used in admin/add screen where we compare that is that the right user to call API

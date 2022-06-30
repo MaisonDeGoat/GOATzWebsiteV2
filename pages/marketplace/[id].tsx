@@ -3,7 +3,6 @@ import Container from "@mui/material/Container";
 import Head from "next/head";
 import Image from "next/image";
 import style from "./marketplace.module.scss";
-import PilotGoatImg from "../../public/images/PilotGoat.png";
 import BackIcon from "../../public/images/backIcon.svg";
 import { useRouter } from "next/router"
 import { API_BASE_URL, API_SHEET_BASE_URL, fetchProductById, getAllWalletByPurchaseId } from "ApiHandler";
@@ -11,7 +10,7 @@ import Loader from "../../components/common/Loader";
 import toastr from "toastr";
 import BigNumber from "bignumber.js";
 import loadingImg from "../../public/images/Spin.gif";
-import { BUY_ORDER_TAB } from "@config/abi-config";
+import { BUY_ORDER_TAB, GMILK_RECEIVER } from "@config/abi-config";
 import axios from "axios";
 
 const SingleNftDetails = (props: any) => {
@@ -169,7 +168,7 @@ const SingleNftDetails = (props: any) => {
                 return;
             }
             try {
-                let gaslimit = await props.gmilkWeb3Inst.methods.transfer(props.account, totalPrice).estimateGas({
+                let gaslimit = await props.gmilkWeb3Inst.methods.transfer(GMILK_RECEIVER, totalPrice).estimateGas({
                     from: props.account,
                 });
 
@@ -177,7 +176,7 @@ const SingleNftDetails = (props: any) => {
 
                 gasPriceAsync = Number(gasPriceAsync) + Number(10000000000);
                 let txHash: any = null;
-                props.gmilkWeb3Inst.methods.transfer(props.account, totalPrice)
+                props.gmilkWeb3Inst.methods.transfer(GMILK_RECEIVER, totalPrice)
                     .send({
                         from: props.account,
                         gasLimit: props.web3.utils.toHex(gaslimit.toString()),
@@ -198,7 +197,7 @@ const SingleNftDetails = (props: any) => {
                                 data.data.walletId,
                                 data.data.productId,
                                 data.data.quantity,
-                                data.data.txHash,
+                                hash,
                                 'In Progress',
                                 firstSelectedGoat.id
                             ]]
@@ -216,10 +215,11 @@ const SingleNftDetails = (props: any) => {
                         // console.log(receipt);
                         // Call success API
                         onSetSuccessFailureRecordToSheet(receipt.transactionHash, 'SUCCESS');
+                        toastr.success("Last purchase was successful");
                         return;
                     })
                     .on('error', (error: any, receipt: any) => {
-                        if (receipt) {
+                        if (receipt.transactionHash) {
                             onSetSuccessFailureRecordToSheet(receipt.transactionHash, 'FAILED');
                         }
                         if (error.code === 4001) {
@@ -266,7 +266,6 @@ const SingleNftDetails = (props: any) => {
             let res = await axios.get(
                 `${API_SHEET_BASE_URL}yAfhPYEVCwrlgHmz/search?tabId=${BUY_ORDER_TAB}&searchKey=txHash&searchValue=${txHash}`
             )
-            console.log(res)
             if (res && res.status == 200 && res.data && res.data.length == 1 && res.data[0].row_id > 0) {
                 let putObj = {
                     row_id: res.data[0].row_id,
