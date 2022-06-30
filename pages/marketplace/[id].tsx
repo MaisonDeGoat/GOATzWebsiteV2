@@ -6,7 +6,7 @@ import style from "./marketplace.module.scss";
 import PilotGoatImg from "../../public/images/PilotGoat.png";
 import BackIcon from "../../public/images/backIcon.svg";
 import { useRouter } from "next/router"
-import { API_BASE_URL, API_SHEET_BASE_URL } from "ApiHandler";
+import { API_BASE_URL, API_SHEET_BASE_URL, fetchProductById, getAllWalletByPurchaseId } from "ApiHandler";
 import Loader from "../../components/common/Loader";
 import toastr from "toastr";
 import BigNumber from "bignumber.js";
@@ -19,28 +19,28 @@ const SingleNftDetails = (props: any) => {
     const [isLoading, setIsLoading] = useState(false);
     const [isLoadingDuringBuy, setIsLoadingDuringBuy] = useState(false);
     const [nftDetails, setNftDetails] = useState<any>({});
+    const [nftListStatus, setNftListStatus] = useState({ is: false, message: '' });
     const [quantity, setQuantity] = useState<any>();
     const [mintedGoatzIdList, setMintedGoatzIdList] = useState<any>([]);
     const [mintedGoatzObjList, setMintedGoatzObjList] = useState<any>([]);
     const [isGoatzLoading, setIsGoatzLoading] = useState(false);
     const [firstSelectedGoat, setFirstSelectedGoat] = useState<any>(null);
-    const { id } = router.query;
+    const { id }: any = router.query;
 
-    // console.log("gmilkWeb3Inst: ", props.gmilkWeb3Inst?.methods);
-
-    const fetchProductById = async () => {
+    const fetchProductByIdHandler = async () => {
         setIsLoading(true);
-        const res = await fetch(`${API_BASE_URL}product/getProduct/${id}`);
-        const data = await res.json();
-        // console.log(data);
-        if (data.status === 200) {
+        const { status, data } = await fetchProductById(id);
+        if (status) {
             setNftDetails(data.data);
+            setNftListStatus({ is: status, message: data?.message });
+        } else {
+            toastr.error(data);
+            setNftListStatus({ is: status, message: data })
         }
         setIsLoading(false);
     }
 
     const getMintedGoatz = async () => {
-        // console.log(props, props.goatzWeb3Inst.methods);
         if (props.isEnabled) {
             setIsGoatzLoading(true)
             let totalGoatz = await props.goatzWeb3Inst?.methods.balanceOf(props.account).call();
@@ -132,7 +132,7 @@ const SingleNftDetails = (props: any) => {
         if (!props.isEnabled) {
             router.push('/marketplace')
         }
-        fetchProductById()
+        fetchProductByIdHandler()
     }, [])
 
     const getShortAccountId = () => {
@@ -184,23 +184,14 @@ const SingleNftDetails = (props: any) => {
                         gasPrice: props.web3.utils.toHex(gasPriceAsync.toString())
                     })
                     .on('transactionHash', async (hash: any) => {
-                        console.log("Transaction hash::", hash)
                         txHash = hash;
-                        // sending data to database
-                        const res = await fetch(`${API_BASE_URL}purchase/buyProduct`, {
-                            method: "POST",
-                            headers: {
-                                "Content-Type": "application/json"
-                            },
-                            body: JSON.stringify({
-                                walletId: props.account,
-                                productId: id,
-                                quantity: quantity,
-                                txHash: hash
-                            })
-                        });
-                        const data = await res.json();
-                        if (data.status === 200) {
+                        const { status, data } = await getAllWalletByPurchaseId({
+                            walletId: props.account,
+                            productId: id,
+                            quantity: quantity,
+                            txHash: hash
+                        })
+                        if (status) {
                             setIsLoadingDuringBuy(false);
                             toastr.success("Tx has been sent to the blockchain");
                             let buyItemObj: any = [[
@@ -216,7 +207,7 @@ const SingleNftDetails = (props: any) => {
                             // transaction send to the blockchain
                         } else {
                             setIsLoadingDuringBuy(false);
-                            toastr.error(data.message);
+                            toastr.error(data);
                             return;
                         }
                     })
@@ -323,7 +314,10 @@ const SingleNftDetails = (props: any) => {
                 </div>
             </Container>
 
-            {isLoading ? <Loader /> : <Container>
+            {isLoading ? <Loader /> : <Fragment>
+                {!nftListStatus.is ? (
+                    <h1 className={style.h1_title}>{nftListStatus.message}</h1>
+                ): <Container>
                 <div className={style.goatz__heading}>{nftDetails?.title}</div>
 
                 <div className={style["goatz__details--flex"]}>
@@ -375,6 +369,64 @@ const SingleNftDetails = (props: any) => {
                     </div>
                 </div>
             </Container>}
+            </Fragment>}
+
+            {/* {isLoading ? <Loader /> : <Fragment>
+                {!nftDetailsSuccess ? <Container>
+                    <h1 className={style.h1_title}>{nftDetails?.message}</h1>
+                </Container> : <Container>
+                    <div className={style.goatz__heading}>{nftDetails?.title}</div>
+
+                    <div className={style["goatz__details--flex"]}>
+                        <div className={style["goatz__details--img"]}>
+                            <img
+                                src={nftDetails?.imagePath}
+                                alt={nftDetails?.title}
+                                style={{ width: '100%', objectFit: "contain" }}
+                            />
+
+                            {firstSelectedGoat ? <Fragment>
+                                {(!isLoadingDuringBuy) ? (
+                                    <button onClick={handleBuy}>BUY</button>
+                                ) : (
+                                    <button disabled style={{ opacity: '0.4', cursor: 'not-allowed', color: '#fff' }}>BUYING...</button>
+                                )}
+                            </Fragment> : <button disabled style={{ opacity: '0.4', cursor: 'not-allowed', color: '#fff' }}>Select GOATz</button>}
+
+                        </div>
+
+                        <div className={style["goatz__details--details"]}>
+                            <div className={style.description}>
+                                <p>ITEM DESCRIPTION:</p>
+                                <p>{nftDetails?.description}</p>
+                            </div>
+
+                            <div className={style["image__list--wrapper"]}>
+                                {isGoatzLoading ? <div style={{ textAlign: "center", margin: "0px", paddingBottom: '16px' }}>
+                                    <img src={loadingImg.src} style={{ height: '50px', width: '50px' }} alt="" />
+                                    <div style={{ color: '#fff', fontSize: '20px', fontWeight: 'bold' }}>Loading...</div>
+                                </div> : (<>
+                                    {mintedGoatzObjList.length === 0 ? (
+                                        <div className={style.message}>No GOATz</div>
+                                    ) : (
+                                        <ul>
+                                            {getLeftPanelGoatz()}
+                                        </ul>
+                                    )}
+                                </>)}
+                            </div>
+
+                            {firstSelectedGoat && <input
+                                type="number"
+                                placeholder="ENTER QUANTITY"
+                                className={style.number__input}
+                                value={quantity}
+                                onChange={e => setQuantity(e.target.value)}
+                            />}
+                        </div>
+                    </div>
+                </Container>}
+            </Fragment>} */}
         </div>
     )
 }

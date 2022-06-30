@@ -2,20 +2,25 @@ import { useRef, useState, useEffect } from "react";
 import Container from "@mui/material/Container";
 import Head from "next/head";
 import Image from "next/image";
-import style from "../../marketplace/marketplace.module.scss";
+import axios from "axios";
+
+import style from "../../../marketplace/marketplace.module.scss";
 import BackIcon from "../../../public/images/backIcon.svg";
 import { useRouter } from "next/router"
-import { API_BASE_URL, AUTH_TOKEN } from "ApiHandler";
+import { addProduct, API_BASE_URL, API_SHEET_BASE_URL, AUTH_TOKEN, uploadImageOnAddProduct } from "ApiHandler";
 import toastr from "toastr";
-import Loader from "../../../components/common/Loader";
+import Loader from "../../../../components/common/Loader";
+import { ADMIN_ADDRESS_LIST, PRODUCT_LIST_TAB } from "@config/abi-config";
 
-const WalletId = (props: any) => {
+
+const AddProduct = (props: any) => {
     const router = useRouter();
     const dragDropRef: any = useRef(null);
     const [fileList, setFileList] = useState<any>();
 
     const [isLoading, setIsLoading] = useState(false);
     const [isUserAdminLoading, setIsUserAdminLoading] = useState(false);
+    const [isAdmin, setIsAdmin] = useState(false);
 
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
@@ -24,29 +29,42 @@ const WalletId = (props: any) => {
     const [imgReview, setImgReview] = useState<any>();
 
     const fetchUser = async () => {
-        setIsUserAdminLoading(true);
-        const res = await fetch(`${API_BASE_URL}user/getUserByWalletId/${router.query.walletId}`, {
-            method: 'GET',
-            headers: {
-                "Authorization": `Bearer ${AUTH_TOKEN}`
-            }
-        });
-        const data = await res.json();
-        setIsUserAdminLoading(false);
-        console.log(data)
+        if (props.isEnabled && isValidUserToAccess()) {
+            // setIsUserAdminLoading(true);
+            // const res = await fetch(`${API_BASE_URL}user/getUserByWalletId/${props.account}`, {
+            //     method: 'GET',
+            //     headers: {
+            //         "Authorization": `Bearer ${AUTH_TOKEN}`
+            //     }
+            // });
+            // const data = await res.json();
+            // setIsUserAdminLoading(false);
 
-        if (data.status !== 200) {
-            router.push("/")
+            // if (data.status !== 200) {
+            //     // router.push("/")
+            //     setIsAdmin(false)
+            // } else {
+            setIsAdmin(true);
+            // }
+        } else {
+            setIsAdmin(false);
         }
     }
-
-    useEffect(() => {
-        fetchUser()
-    }, [])
+    useEffect(() => { fetchUser() }, [props.isEnabled]);
 
     const onDragEnter = () => dragDropRef.current.classList.add('border_on_drag');
     const onDragLeave = () => dragDropRef.current.classList.remove('border_on_drag');
     const onDrop = () => dragDropRef.current.classList.remove('border_on_drag');
+
+    const isValidUserToAccess = () => {
+        let index = -1;
+        if (props.isEnabled) {
+            index = ADMIN_ADDRESS_LIST.findIndex(element => {
+                return element.toLowerCase() === props.account.toLowerCase();
+            });
+        }
+        return index >= 0 ? true : false;
+    }
 
     const onFileDrop = (e: any) => {
         const newFile = e.target.files[0];
@@ -68,71 +86,81 @@ const WalletId = (props: any) => {
     }
 
     const submitNftHandler = async () => {
-        setIsLoading(true);
-        if (!fileList) {
-            toastr.error('Please Select Your Image');
-        } else if (!title || !description || !qtyAvailable || !gMilkPrice) {
-            toastr.error('Please Fill All The Fields Correctly');
-        } else if (qtyAvailable < 1 || gMilkPrice < 1) {
-            toastr.error('Quantity And Price Must Be In Positive')
-        } else {
-            const formdata = new FormData();
-            formdata.append("image", fileList)
-
-            const res = await fetch(`${API_BASE_URL}user/uploadImage`, {
-                method: 'POST',
-                headers: {
-                    "Authorization": `Bearer ${AUTH_TOKEN}`
-                },
-                body: formdata
-            });
-            const data = await res.json();
-            console.log(data, data.data.imagePath);
-
-            if (data.status !== 200) {
-                toastr.error(data.message)
+        if (props.isEnabled && isValidUserToAccess()) {
+            setIsLoading(true);
+            if (!fileList) {
+                toastr.error('Please Select Your Image');
+            } else if (!title || !description || !qtyAvailable || !gMilkPrice) {
+                toastr.error('Please Fill All The Fields Correctly');
+            } else if (qtyAvailable < 1 || gMilkPrice < 1) {
+                toastr.error('Quantity And Price Must Be In Positive')
             } else {
-                const resToAddProduct = await fetch(`${API_BASE_URL}product/addProduct`, {
-                    method: "POST",
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
+                const formdata = new FormData();
+                formdata.append("image", fileList)
+                const { status: statusOnImage, data } = await uploadImageOnAddProduct(formdata);
+                if (!statusOnImage) {
+                    toastr.error(data)
+                } else {
+                    const { status, data: dataToAddProduct, message } = await addProduct({
                         title,
                         description,
                         gMilkPrice,
                         qtyAvailable,
                         imagePath: data.data.imagePath
-                    })
-                });
-                const dataToAddProduct = await resToAddProduct.json();
-                console.log(dataToAddProduct);
-
-                if (dataToAddProduct.status !== 200) {
-                    toastr.error(dataToAddProduct.message)
-                } else {
-                    toastr.success(dataToAddProduct.message);
-                    setFileList('');
-                    setTitle('');
-                    setDescription('');
-                    setQtyAvailable(0);
-                    setGMilkPrice(0);
-                    setImgReview('');
+                    });
+                    console.log(status, dataToAddProduct)
+                    if (!status) {
+                        toastr.error(dataToAddProduct?.message)
+                        setIsLoading(false);
+                    } else {
+                        console.log(dataToAddProduct);
+                        let productObj: any = [[
+                            dataToAddProduct.title,
+                            dataToAddProduct.description,
+                            dataToAddProduct.gMilkPrice,
+                            dataToAddProduct.qtyAvailable,
+                            dataToAddProduct.imagePath,
+                            dataToAddProduct._id
+                        ]]
+                        await onSetRecordToSheet(productObj)
+                        toastr.success(message);
+                        setFileList('');
+                        setTitle('');
+                        setDescription('');
+                        setQtyAvailable(0);
+                        setGMilkPrice(0);
+                        setImgReview('');
+                    }
                 }
             }
+            setIsLoading(false);
         }
-        setIsLoading(false);
+    }
+
+    const onSetRecordToSheet = async (data: any) => {
+        try {
+            let res = await axios.post(
+                `${API_SHEET_BASE_URL}yAfhPYEVCwrlgHmz`,
+                data,
+                { params: { tabId: PRODUCT_LIST_TAB } }
+            )
+            return res.data;
+        } catch (e) {
+            return null;
+        }
+    }
+
+    const connectWallet = () => props.connectWallet();
+
+    const getShortAccountId = () => {
+        let address = "" + (props.account ? props.account : "");
+        return address.slice(0, 3) + "..." + address.slice(address.length - 5, address.length);
     }
 
     if (isUserAdminLoading) {
         return <div className={style.wrapper}>
             <Loader />
         </div>;
-    }
-
-    const getShortAccountId = () => {
-        let address = "" + (router.query.walletId ? router.query.walletId : "");
-        return address.slice(0, 3) + "..." + address.slice(address.length - 5, address.length);
     }
 
     return (
@@ -153,13 +181,18 @@ const WalletId = (props: any) => {
 
             <Container>
                 <div className={style["filter__btn--flex"]}>
-                    <button className={style.btn}>{getShortAccountId()}</button>
-                    <button className={style.btn} onClick={() => router.push('/admin/marketplace')}>
+                    {props.isEnabled ? (
+                        <button className={style.btn}>{getShortAccountId()}</button>
+                    ) : <button className={style.btn} onClick={connectWallet}>Connect Wallet</button>}
+
+                    {/* <button className={style.btn} onClick={() => router.push('/admin/marketplace')}>
                         <Image src={BackIcon} width={36} height={36} objectFit="contain" alt="" />
                         <span>GO BACK</span>
-                    </button>
+                    </button> */}
                 </div>
+            </Container>
 
+            {isAdmin && isValidUserToAccess() ? <Container>
                 <div className={style["add__item--input-name-container"]}>
                     <input
                         type="text"
@@ -236,8 +269,13 @@ const WalletId = (props: any) => {
                     </div>
                 </div>
             </Container>
+                :
+                <Container>
+                    <h1 className={style.h1_title}>Unauthorized to access</h1>
+                </Container>
+            }
         </div>
     )
 }
 
-export default WalletId;
+export default AddProduct

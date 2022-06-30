@@ -17,6 +17,7 @@ const Index = (props: any) => {
 
     const [isLoading, setIsLoading] = useState(false);
     const [nftList, setNftList] = useState([]);
+    const [nftListStatus, setNftListStatus] = useState({ is: false, message: '' });
 
     const handleFilterListVisibility = () => setIsFilterListVisible(!isFilterListVisible);
 
@@ -24,26 +25,34 @@ const Index = (props: any) => {
         setListToShow(filterObj.filter(el => el.filter !== filter.filter));
     }, [filter]);
 
+    const fetchAllProductHandler = async (sort: string, sortBy: number) => {
+        setIsLoading(true)
+        const { status, data } = await fetchAllProduct(sort, sortBy);
+        if (status) {
+            setNftList(data);
+            setNftListStatus({ is: status, message: data?.message });
+        } else {
+            toastr.error(data);
+            setNftListStatus({ is: status, message: data })
+        }
+        setIsLoading(false)
+    }
+
     const handleFilter = async (filter: any) => {
         setFilter(filter);
         setIsFilterListVisible(false);
-        let data = [];
 
         if (filter.filter === "priceHighLow") {
-            data = await fetchAllProduct("gMilkPrice", -1);
+            await fetchAllProductHandler("gMilkPrice", -1);
         } else if (filter.filter === "priceLowHigh") {
-            data = await fetchAllProduct("gMilkPrice", 1);
+            await fetchAllProductHandler("gMilkPrice", 1);
         } else {
-            data = await fetchAllProduct("createdAt", -1);
+            await fetchAllProductHandler("createdAt", -1);
         }
-        setNftList(data)
     }
 
     useEffect(() => {
-        (async () => {
-            const data = await fetchAllProduct("createdAt", 1);
-            setNftList(data);
-        })();
+        fetchAllProductHandler("createdAt", 1);
     }, [])
 
     const connectWallet = () => props.connectWallet();
@@ -95,6 +104,7 @@ const Index = (props: any) => {
                 </div>
 
                 <div className={style.nft__grid}>
+                    {!nftListStatus.is && <h1 className={style.h1_title}>{nftListStatus.message}</h1>}
                     {nftList?.map((elm: any) => <div className={style['nft__grid--card']} key={elm._id}>
                         <div className={style.item__img}>
                             <img
@@ -109,7 +119,7 @@ const Index = (props: any) => {
                             {props.isEnabled ? (
                                 <Link href={`/marketplace/${elm._id}`}>BUY</Link>
                             ) : (
-                                <button onClick={() => toastr.info('You have to connect wallet first')}>BUY</button>
+                                <button onClick={() => toastr.info('Not Connected With Wallet')}>BUY</button>
                             )}
                         </div>
                     </div>)}

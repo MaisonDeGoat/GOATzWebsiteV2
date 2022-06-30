@@ -22,10 +22,14 @@ export const registerUser = async (dataToSend: any) => {
 }
 
 // admin/getAllProduct?page=1&limit=24&sort=gMilkPrice&sortBy=-1
-export const fetchAllProductAdmin = async (sort: string, sortBy: number) => {
-    const res = await fetch(`${API_BASE_URL}admin/getAllProduct?page=1&limit=24&sort=${sort}&sortBy=${sortBy}`);
+export const fetchAllProductAdmin = async (sort: string, sortBy: number, walletAddress: string) => {
+    const res = await fetch(`${API_BASE_URL}admin/getAllProduct?page=1&limit=24&sort=${sort}&sortBy=${sortBy}`, {
+        headers: {
+            walletId: walletAddress
+        }
+    });
     const data = await res.json();
-    if (data.status === 401) {
+    if (data.status !== 200) {
         return {
             status: false,
             data: data.message
@@ -33,7 +37,7 @@ export const fetchAllProductAdmin = async (sort: string, sortBy: number) => {
     } else {
         return {
             status: true,
-            data: data.data[0].totalCount.totalRecords > 0 ? data.data[0].data : []
+            data: data.data[0]?.totalCount.totalRecords > 0 ? data.data[0].data : []
         }
     }
 }
@@ -42,48 +46,78 @@ export const fetchAllProductAdmin = async (sort: string, sortBy: number) => {
 export const fetchAllProduct = async (sort: string, sortBy: number) => {
     const res = await fetch(`${API_BASE_URL}product/getAllProduct?sort=${sort}&sortBy=${sortBy}`);
     const data = await res.json();
-    return data.data[0].totalCount.totalRecords > 0 ? data.data[0].data : [];
+    if (data.status !== 200) {
+        return {
+            status: false,
+            data: data.message
+        }
+    } else {
+        return {
+            status: true,
+            data: data.data[0]?.totalCount.totalRecords > 0 ? data.data[0].data : []
+        }
+    }
 }
+
 export const fetchProductById = async (id: string) => {
     const res = await fetch(`${API_BASE_URL}product/getProduct/${id}`);
     const data = await res.json();
-    console.log(data);
+    if (data.status !== 200) {
+        return {
+            status: false,
+            data: data.message
+        }
+    } else {
+        return {
+            status: true,
+            data: data
+        }
+    }
 }
-export const addProduct = async (dataToSend: any) => {
+
+export const uploadImageOnAddProduct = async (formdata: any) => {
     const res = await fetch(`${API_BASE_URL}user/uploadImage`, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json',
+            "Authorization": `Bearer ${AUTH_TOKEN}`
         },
-        body: JSON.stringify(dataToSend)
+        body: formdata
     });
     const data = await res.json();
 
     if (data.status !== 200) {
-        console.log(data.error)
+        return { status: false, data: data.message }
     } else {
-        const resToAddProduct = await fetch(`${API_BASE_URL}product/addProduct`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                title: dataToSend.title,
-                description: dataToSend.description,
-                gMilkPrice: dataToSend.gMilkPrice,
-                qtyAvailable: dataToSend.qtyAvailable,
-                image: data.data.imagePath
-            })
-        });
-        const dataToAddProduct = await resToAddProduct.json();
-        console.log(dataToAddProduct);
+        return { status: true, data: data }
     }
 }
-export const updateProduct = async (dataToSend: string) => {
-    console.log('From API Handler File', dataToSend);
 
+export const addProduct = async (dataToSend: any) => {
+    const res = await fetch(`${API_BASE_URL}product/addProduct`, {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(dataToSend)
+    });
+    const data = await res.json();
+    if (data.status !== 200) {
+        return {
+            status: false,
+            data: data.message
+        }
+    } else {
+        return {
+            status: true,
+            data: data,
+            message: data.message
+        }
+    }
+}
+
+export const updateProduct = async (dataToSend: any) => {
     const res = await fetch(`${API_BASE_URL}product/updateProduct`, {
-        method: 'POST',
+        method: "PUT",
         headers: {
             'Content-Type': 'application/json',
         },
@@ -91,23 +125,41 @@ export const updateProduct = async (dataToSend: string) => {
     });
     const data = await res.json();
     console.log(data);
+    if (data.status !== 200) {
+        return {
+            status: false,
+            data: data.message
+        }
+    } else {
+        return {
+            status: true,
+            data: data,
+            message: data.message
+        }
+    }
 }
 
 
 // PURCHASE
-export const getAllWalletByPurchaseId = async (walletId: string) => {
-    const res = await fetch(`${API_BASE_URL}purchase/getAllPurchaseByWalletId/${walletId}`);
-    const data = await res.json();
-    console.log(data);
-}
-export const buyProduct = async (dataToSend: string) => {
+export const getAllWalletByPurchaseId = async (dataToSend: any) => {
     const res = await fetch(`${API_BASE_URL}purchase/buyProduct`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json"
         },
         body: JSON.stringify(dataToSend)
     });
     const data = await res.json();
     console.log(data);
+    if (data.status !== 200) {
+        return {
+            status: false,
+            data: data.message
+        }
+    } else {
+        return {
+            status: true,
+            data: data
+        }
+    }
 }

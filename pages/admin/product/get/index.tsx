@@ -3,40 +3,24 @@ import Container from "@mui/material/Container";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
-import style from "../marketplace/marketplace.module.scss";
-import FilterIcon from "../../public/images/filterIcon.svg";
+import style from "../../../marketplace/marketplace.module.scss";
+import FilterIcon from "../../../../public/images/filterIcon.svg";
 import { fetchAllProductAdmin, filterObj } from "ApiHandler";
-import Loader from "../../components/common/Loader";
+import Loader from "../../../../components/common/Loader";
 import toastr from "toastr";
 import { ADMIN_ADDRESS_LIST } from "@config/abi-config";
+import { useRouter } from "next/router";
 
 const Admin = (props: any) => {
+    const router = useRouter()
     const [filter, setFilter] = useState({ view: 'latest first', filter: 'latestFirst', urlParam: "product/getAllProduct" });
     const [ListToShow, setListToShow] = useState(filterObj.filter(el => el.filter !== filter.filter));
     const [isFilterListVisible, setIsFilterListVisible] = useState(false);
 
     const [isLoading, setIsLoading] = useState(false);
-    const [nftList, setNftList] = useState([]);
+    const [nftList, setNftList] = useState<any>([]);
+    const [nftListStatus, setNftListStatus] = useState({ is: false, message: '' });
     const [isAdmin, setIsAdmin] = useState(false);
-
-    const handleFilterListVisibility = () => setIsFilterListVisible(!isFilterListVisible);
-
-    useEffect(() => {
-        setListToShow(filterObj.filter(el => el.filter !== filter.filter));
-    }, [filter]);
-
-    const fetchUser = async () => {
-        if (props.isEnabled && isValidUserToAccess()) {
-            setIsAdmin(true);
-            const { status, data } = await fetchAllProductAdmin("createdAt", -1);
-            if (status)
-                setNftList(data);
-            else
-                toastr.error(data)
-        } else {
-            setIsAdmin(false);
-        }
-    }
 
     const isValidUserToAccess = () => {
         let index = -1;
@@ -48,25 +32,65 @@ const Admin = (props: any) => {
         return index >= 0 ? true : false;
     }
 
+    useEffect(() => {
+        if (!props.isEnabled || !isValidUserToAccess()) {
+            setIsAdmin(false);
+        } else {
+            setIsAdmin(true)
+        }
+    }, [props.isEnabled]);
+
+    const handleFilterListVisibility = () => setIsFilterListVisible(!isFilterListVisible);
+
+    useEffect(() => {
+        setListToShow(filterObj.filter(el => el.filter !== filter.filter));
+    }, [filter]);
+
+    const fetchAllProductHandler = async (sort: string, sortBy: number) => {
+        if (props.isEnabled && isValidUserToAccess()) {
+            setIsLoading(true)
+            const { status, data } = await fetchAllProductAdmin(sort, sortBy, props.account);
+            if (status) {
+                setNftList(data);
+                setNftListStatus({ is: status, message: data?.message });
+            } else {
+                toastr.error(data);
+                setNftListStatus({ is: status, message: data })
+            }
+            setIsLoading(false)
+        }
+    }
+
+    // const fetchUser = async () => {
+    //     if (props.isEnabled && isValidUserToAccess()) {
+    //         setIsAdmin(true);
+    //         const { status, data } = await fetchAllProductAdmin("createdAt", -1, props.account);
+    //         if (status) {
+    //             setNftList(data);
+    //             setNftListStatus({ is: status, message: data?.message });
+    //         } else {
+    //             toastr.error(data);
+    //             setNftListStatus({ is: status, message: data })
+    //         }
+    //     } else {
+    //         setIsAdmin(false);
+    //     }
+    // }
+
     const handleFilter = async (filter: any) => {
         setFilter(filter);
         setIsFilterListVisible(false);
-        let response
 
         if (filter.filter === "priceHighLow") {
-            response = await fetchAllProductAdmin("gMilkPrice", -1);
+            await fetchAllProductHandler("gMilkPrice", -1);
         } else if (filter.filter === "priceLowHigh") {
-            response = await fetchAllProductAdmin("gMilkPrice", 1);
+            await fetchAllProductHandler("gMilkPrice", 1);
         } else {
-            response = await fetchAllProductAdmin("createdAt", -1);
+            await fetchAllProductHandler("createdAt", -1);
         }
-        if (response.status)
-            setNftList(response.data);
-        else
-            toastr.error(response.data)
     }
 
-    useEffect(() => { fetchUser() }, [props.isEnabled]);
+    useEffect(() => { fetchAllProductHandler("createdAt", 1); }, [props.isEnabled]);
 
     const connectWallet = () => props.connectWallet();
     const getShortAccountId = () => {
@@ -74,10 +98,39 @@ const Admin = (props: any) => {
         return address.slice(0, 3) + "..." + address.slice(address.length - 5, address.length);
     }
 
+    // When user is not admin
+    if (!isAdmin) {
+        return <div className={style.wrapper}>
+            <Head>
+                <title>GOATz - Admin</title>
+            </Head>
+
+            <div className={style.welcome__header}>
+                <Container>
+                    <div className={style["welcome__header--flex"]}>
+                        <div className={style['welcome__header--heading']}>
+                            WELCOME TO THE <br />MARKETPLACE
+                        </div>
+                    </div>
+                </Container>
+            </div>
+            <Container style={{ marginTop: '16px' }}>
+                {!props.isEnabled && <div className={style["filter__btn--flex"]}>
+                    <button
+                        className={style.btn}
+                        onClick={() => props.connectWallet()}
+                    >Connect Wallet</button>
+                </div>}
+
+                <h1 className={style.h1_title}>Unauthorized to access</h1>
+            </Container>
+        </div>
+    }
+    
     return (
         <div className={style.wrapper}>
             <Head>
-                <title>GOATz - Marketplace</title>
+                <title>GOATz - Admin</title>
             </Head>
 
             <div className={style.welcome__header}>
@@ -116,6 +169,7 @@ const Admin = (props: any) => {
                 </div>
 
                 <div className={style.nft__grid}>
+                    {!nftListStatus.is && <h1 className={style.h1_title}>{nftListStatus.message}</h1>}
                     {nftList?.map((elm: any) => <div className={style['nft__grid--card']} key={elm._id}>
                         <div className={style.item__img}>
                             <img
@@ -128,7 +182,7 @@ const Admin = (props: any) => {
                         <div className={style.item__price}>
                             <span>{elm.gMilkPrice} GMILK</span>
                             {props.isEnabled ? (
-                                <Link href={`/admin/update/${elm._id}`}>View</Link>
+                                <Link href={`/admin/product/update/${elm._id}`}>View</Link>
                             ) : (
                                 <button onClick={() => toastr.info('You have to connect wallet first')}>View</button>
                             )}
