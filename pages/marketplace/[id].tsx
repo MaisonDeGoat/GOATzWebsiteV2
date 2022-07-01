@@ -4,6 +4,7 @@ import Head from "next/head";
 import Image from "next/image";
 import style from "./marketplace.module.scss";
 import BackIcon from "../../public/images/backIcon.svg";
+import prodImage from "../../public/images/placeholder_img.png";
 import { useRouter } from "next/router"
 import { API_BASE_URL, API_SHEET_BASE_URL, fetchProductById, getAllWalletByPurchaseId } from "ApiHandler";
 import Loader from "../../components/common/Loader";
@@ -295,7 +296,8 @@ const SingleNftDetails = (props: any) => {
                             WELCOME TO THE <br />MARKETPLACE
                         </div>
                         <div className={style['welcome__header--box']}>
-                            PRODUCT IMAGE <br />PLACEHOLDER
+                            {/* PRODUCT IMAGE <br />PLACEHOLDER */}
+                            <Image src={prodImage} width={'100%'} height={'100%'} objectFit="contain" alt="" />
                         </div>
                     </div>
                 </Container>
