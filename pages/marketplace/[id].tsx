@@ -8,7 +8,6 @@ import { useRouter } from "next/router"
 import { API_BASE_URL, API_SHEET_BASE_URL, fetchProductById, getAllWalletByPurchaseId } from "ApiHandler";
 import Loader from "../../components/common/Loader";
 import toastr from "toastr";
-import BigNumber from "bignumber.js";
 import loadingImg from "../../public/images/Spin.gif";
 import { BUY_ORDER_TAB, GMILK_RECEIVER } from "@config/abi-config";
 import axios from "axios";
@@ -159,9 +158,9 @@ const SingleNftDetails = (props: any) => {
             return;
         } else {
             let balance = await props.gmilkWeb3Inst.methods.balanceOf(props.account).call();
-            let totalPrice = (new BigNumber(nftDetails.gMilkPrice).multipliedBy(new BigNumber(quantity)))
-                .multipliedBy(10 ** 18);
-            console.log(Number(balance), Number(totalPrice))
+            const DIVIDER = Math.pow(10, 18);
+            const BN = props.web3.utils.BN;
+            let totalPrice = (new BN(nftDetails.gMilkPrice).mul(new BN(quantity))).mul(new BN(DIVIDER.toString()));
             if (Number(balance) < Number(totalPrice)) {
                 setIsLoadingDuringBuy(false);
                 toastr.error("Insufficient GMILK for transaction");
@@ -220,7 +219,6 @@ const SingleNftDetails = (props: any) => {
                         return;
                     })
                     .on('error', (error: any, receipt: any) => {
-                        console.log("error",error)
                         if (receipt && receipt.transactionHash) {
                             onSetSuccessFailureRecordToSheet(receipt.transactionHash, 'FAILED');
                         }
@@ -236,13 +234,11 @@ const SingleNftDetails = (props: any) => {
                     });
 
             } catch (e: any) {
-                console.log("error", e)
+                setIsLoadingDuringBuy(false);
                 if (e.code === 4001) {
-                    setIsLoadingDuringBuy(false);
                     toastr.error(e.message);
                     return;
                 } else {
-                    setIsLoadingDuringBuy(false);
                     toastr.error("Oops! Something went wrong. Please try again");
                     return;
                 }
