@@ -118,7 +118,7 @@ const AddProduct = (props: any) => {
                             dataToAddProduct?.data?.title,
                             dataToAddProduct?.data?.description,
                             dataToAddProduct?.data?.gMilkPrice,
-                            dataToAddProduct?.data?.qtyAvailable,
+                            dataToAddProduct?.data?.initialSupply,
                             dataToAddProduct?.data?.imagePath,
                             dataToAddProduct?.data?._id
                         ]]
