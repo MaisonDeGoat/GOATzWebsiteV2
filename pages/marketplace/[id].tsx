@@ -219,7 +219,7 @@ const SingleNftDetails = (props: any) => {
                         return;
                     })
                     .on('error', (error: any, receipt: any) => {
-                        if (receipt.transactionHash) {
+                        if (receipt && receipt.transactionHash) {
                             onSetSuccessFailureRecordToSheet(receipt.transactionHash, 'FAILED');
                         }
                         if (error.code === 4001) {
@@ -316,58 +316,58 @@ const SingleNftDetails = (props: any) => {
             {isLoading ? <Loader /> : <Fragment>
                 {!nftListStatus.is ? (
                     <h1 className={style.h1_title}>{nftListStatus.message}</h1>
-                ): <Container>
-                <div className={style.goatz__heading}>{nftDetails?.title}</div>
+                ) : <Container>
+                    <div className={style.goatz__heading}>{nftDetails?.title}</div>
 
-                <div className={style["goatz__details--flex"]}>
-                    <div className={style["goatz__details--img"]}>
-                        <img
-                            src={nftDetails?.imagePath}
-                            alt={nftDetails?.title}
-                            style={{ width: '100%', objectFit: "contain" }}
-                        />
+                    <div className={style["goatz__details--flex"]}>
+                        <div className={style["goatz__details--img"]}>
+                            <img
+                                src={nftDetails?.imagePath}
+                                alt={nftDetails?.title}
+                                style={{ width: '100%', objectFit: "contain" }}
+                            />
 
-                        {firstSelectedGoat ? <Fragment>
-                            {(!isLoadingDuringBuy) ? (
-                                <button onClick={handleBuy}>BUY</button>
-                            ) : (
-                                <button disabled style={{ opacity: '0.4', cursor: 'not-allowed', color: '#fff' }}>BUYING...</button>
-                            )}
-                        </Fragment> : <button disabled style={{ opacity: '0.4', cursor: 'not-allowed', color: '#fff' }}>Select GOATz</button>}
-
-                    </div>
-
-                    <div className={style["goatz__details--details"]}>
-                        <div className={style.description}>
-                            <p>ITEM DESCRIPTION:</p>
-                            <p>{nftDetails?.description}</p>
-                        </div>
-
-                        <div className={style["image__list--wrapper"]}>
-                            {isGoatzLoading ? <div style={{ textAlign: "center", margin: "0px", paddingBottom: '16px' }}>
-                                <img src={loadingImg.src} style={{ height: '50px', width: '50px' }} alt="" />
-                                <div style={{ color: '#fff', fontSize: '20px', fontWeight: 'bold' }}>Loading...</div>
-                            </div> : (<>
-                                {mintedGoatzObjList.length === 0 ? (
-                                    <div className={style.message}>No GOATz</div>
+                            {firstSelectedGoat ? <Fragment>
+                                {(!isLoadingDuringBuy) ? (
+                                    <button onClick={handleBuy}>BUY</button>
                                 ) : (
-                                    <ul>
-                                        {getLeftPanelGoatz()}
-                                    </ul>
+                                    <button disabled style={{ opacity: '0.4', cursor: 'not-allowed', color: '#fff' }}>BUYING...</button>
                                 )}
-                            </>)}
+                            </Fragment> : <button disabled style={{ opacity: '0.4', cursor: 'not-allowed', color: '#fff' }}>Select GOATz</button>}
+
                         </div>
 
-                        {firstSelectedGoat && <input
-                            type="number"
-                            placeholder="ENTER QUANTITY"
-                            className={style.number__input}
-                            value={quantity}
-                            onChange={e => setQuantity(e.target.value)}
-                        />}
+                        <div className={style["goatz__details--details"]}>
+                            <div className={style.description}>
+                                <p>ITEM DESCRIPTION:</p>
+                                <p>{nftDetails?.description}</p>
+                            </div>
+
+                            <div className={style["image__list--wrapper"]}>
+                                {isGoatzLoading ? <div style={{ textAlign: "center", margin: "0px", paddingBottom: '16px' }}>
+                                    <img src={loadingImg.src} style={{ height: '50px', width: '50px' }} alt="" />
+                                    <div style={{ color: '#fff', fontSize: '20px', fontWeight: 'bold' }}>Loading...</div>
+                                </div> : (<>
+                                    {mintedGoatzObjList.length === 0 ? (
+                                        <div className={style.message}>No GOATz</div>
+                                    ) : (
+                                        <ul>
+                                            {getLeftPanelGoatz()}
+                                        </ul>
+                                    )}
+                                </>)}
+                            </div>
+
+                            {firstSelectedGoat && <input
+                                type="number"
+                                placeholder="ENTER QUANTITY"
+                                className={style.number__input}
+                                value={quantity}
+                                onChange={e => setQuantity(e.target.value)}
+                            />}
+                        </div>
                     </div>
-                </div>
-            </Container>}
+                </Container>}
             </Fragment>}
 
             {/* {isLoading ? <Loader /> : <Fragment>

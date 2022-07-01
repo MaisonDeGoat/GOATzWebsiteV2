@@ -153,7 +153,7 @@ export default class MyApp extends App {
 
         this.setState({ web3: web3 });
         this.setState({ account: accounts[0].address });
-        // this.setState({ account: "0xf72c755ebffdf3c042709c21cc151c6136c9c51b" });
+        // this.setState({ account: "0xa2095eA8ea0D24860b3c2138D5B1A5214e3731D9" });
         this.setState({ chainId: chains[0].id });
         this.setState({
           isLoading: false,
