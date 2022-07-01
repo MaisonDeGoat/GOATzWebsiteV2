@@ -73,7 +73,7 @@ const Index = (props: any) => {
                 <Container>
                     <div className={style["welcome__header--flex"]}>
                         <div className={style['welcome__header--heading']}>
-                            WELCOME TO THE <br />MARKETPLACE
+                            WELCOME TO THE <br />GOATZ MARKETPLACE<br /> Alpha Release
                         </div>
                         <div className={style['welcome__header--box']}>
                             {/* PRODUCT IMAGE <br />PLACEHOLDER */}
