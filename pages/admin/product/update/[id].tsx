@@ -1,12 +1,13 @@
 import { Container } from "@mui/material";
-import { API_BASE_URL, AUTH_TOKEN, fetchProductById, updateProduct, uploadImageOnAddProduct } from "ApiHandler";
+import { API_BASE_URL, AUTH_TOKEN, API_SHEET_BASE_URL, fetchProductById, updateProduct, uploadImageOnAddProduct } from "ApiHandler";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { Fragment, useEffect, useRef, useState } from "react";
 import style from "../../../marketplace/marketplace.module.scss";
 import Loader from "../../../../components/common/Loader";
-import { ADMIN_ADDRESS_LIST } from "@config/abi-config";
+import { ADMIN_ADDRESS_LIST, PRODUCT_LIST_TAB } from "@config/abi-config";
 import toastr from "toastr";
+import axios from "axios";
 
 const UpdateNft = (props: any) => {
     const router = useRouter();
@@ -52,7 +53,6 @@ const UpdateNft = (props: any) => {
     }
 
     const fetchUser = async () => {
-        console.log(props.isEnabled && isValidUserToAccess(), props.isEnabled, isValidUserToAccess())
         if (props.isEnabled && isValidUserToAccess()) {
             setIsAdmin(true);
             fetchProductByIdHandler();
@@ -99,10 +99,31 @@ const UpdateNft = (props: any) => {
             ...dataToSend,
             productId: id
         })
-        console.log(status, data, message);
         if (!status) {
             toastr.error(data)
         } else {
+            try {
+                let res = await axios.get(
+                    `${API_SHEET_BASE_URL}yAfhPYEVCwrlgHmz/search?tabId=${PRODUCT_LIST_TAB}&searchKey=product_id&searchValue=${id}`
+                );
+
+                if (res && res.status == 200 && res.data && res.data.length == 1 && res.data[0].row_id > 0) {
+                    let putObj = {
+                        row_id: res.data[0].row_id,
+                        title: dataToSend.title,
+                        description: dataToSend.description,
+                        gMilkPrice: dataToSend.gMilkPrice,
+                        quantity: dataToSend.initialSupply,
+                        image: dataToSend.image_path
+                    }
+                    await axios.put(
+                        `${API_SHEET_BASE_URL}yAfhPYEVCwrlgHmz?tabId=${PRODUCT_LIST_TAB}`,
+                        putObj
+                    )
+                }
+            } catch (e) {
+                return null;
+            }
             toastr.success(message);
         }
     }
@@ -118,24 +139,21 @@ const UpdateNft = (props: any) => {
                     const formdata = new FormData();
                     formdata.append("image", fileList)
 
-                    console.log(formdata);
-                    
                     const { status, data } = await uploadImageOnAddProduct(formdata);
-                    console.log(status, data);
                     if (!status) {
                         toastr.error(data)
                     } else {
                         const imgAddr = data.data.imagePath;
                         await updateNFT({
-                            title, description, gMilkPrice, qtyAvailable,
+                            title, description, gMilkPrice, initialSupply,
                             image_path: imgAddr
-                        })
+                        });
                     }
                 }
             } else {
                 imageToUpdate = fetchedImage;
                 await updateNFT({
-                    title, description, gMilkPrice, qtyAvailable,
+                    title, description, gMilkPrice, initialSupply,
                     image_path: imageToUpdate
                 })
             }
@@ -170,7 +188,7 @@ const UpdateNft = (props: any) => {
             <br />
 
             {isLoading ? <Loader /> : <Fragment>
-                 {!nftListStatus.is ? <Container>
+                {!nftListStatus.is ? <Container>
                     <h1 className={style.h1_title}>{nftListStatus?.message}</h1>
                 </Container> : <Container>
                     <div className={style["add__item--input-name-container"]}>

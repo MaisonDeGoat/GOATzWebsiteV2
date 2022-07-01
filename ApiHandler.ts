@@ -124,7 +124,6 @@ export const updateProduct = async (dataToSend: any) => {
         body: JSON.stringify(dataToSend)
     });
     const data = await res.json();
-    console.log(data);
     if (data.status !== 200) {
         return {
             status: false,
@@ -150,7 +149,6 @@ export const getAllWalletByPurchaseId = async (dataToSend: any) => {
         body: JSON.stringify(dataToSend)
     });
     const data = await res.json();
-    console.log(data);
     if (data.status !== 200) {
         return {
             status: false,

@@ -108,12 +108,10 @@ const AddProduct = (props: any) => {
                         initialSupply: qtyAvailable,
                         imagePath: data.data.imagePath
                     });
-                    console.log(status, dataToAddProduct)
                     if (!status) {
                         toastr.error(dataToAddProduct?.message)
                         setIsLoading(false);
                     } else {
-                        console.log(dataToAddProduct);
                         let productObj: any = [[
                             dataToAddProduct?.data?.title,
                             dataToAddProduct?.data?.description,
