@@ -145,16 +145,24 @@ const UpdateNft = (props: any) => {
                     } else {
                         const imgAddr = data.data.imagePath;
                         await updateNFT({
-                            title, description, gMilkPrice, initialSupply,
-                            image_path: imgAddr
+                            title,
+                            description,
+                            gMilkPrice,
+                            initialSupply,
+                            image_path: imgAddr,
+                            active: isNftActive
                         });
                     }
                 }
             } else {
                 imageToUpdate = fetchedImage;
                 await updateNFT({
-                    title, description, gMilkPrice, initialSupply,
-                    image_path: imageToUpdate
+                    title,
+                    description,
+                    gMilkPrice,
+                    initialSupply,
+                    image_path: imageToUpdate,
+                    active: isNftActive
                 })
             }
 

@@ -1,5 +1,4 @@
-export const API_BASE_URL = "https://goatz-market-place.herokuapp.com/api/";
-export const API_IMG_URL = "https://goatz-market-place.herokuapp.com/static/uploads/";
+export const API_BASE_URL = "https://api-goatz-marketplace.herokuapp.com/api/";
 export const API_SHEET_BASE_URL = "https://v1.nocodeapi.com/maisondegoat/google_sheets/";
 export const AUTH_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjkxMWJjYzIwYjIwNzJiNTNhZjVlNTUiLCJ3YWxsZXRJZCI6IjEyMzQ5amZvaXdlcjIzOXJpM3JmcjIzbzJybjNvMnAiLCJpYXQiOjE2NTM2NzcwMDR9.ryMQEMMC84mDd0h-6bbwn3knX5DzC32tVAIvKmNsjNI";
 
