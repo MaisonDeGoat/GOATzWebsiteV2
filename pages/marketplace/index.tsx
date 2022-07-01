@@ -77,7 +77,7 @@ const Index = (props: any) => {
                         </div>
                         <div className={style['welcome__header--box']}>
                             {/* PRODUCT IMAGE <br />PLACEHOLDER */}
-                            <Image src={prodImage} width={'100%'} height={'100%'} objectFit="contain" alt="" />
+                            <Image src={prodImage} width={'300%'} height={'300%'} objectFit="contain" alt="" />
                         </div>
                     </div>
                 </Container>
