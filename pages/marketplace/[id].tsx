@@ -176,6 +176,7 @@ const SingleNftDetails = (props: any) => {
 
                 gasPriceAsync = Number(gasPriceAsync) + Number(10000000000);
                 let txHash: any = null;
+                console.log("tx started");
                 props.gmilkWeb3Inst.methods.transfer(GMILK_RECEIVER, totalPrice)
                     .send({
                         from: props.account,
@@ -219,6 +220,7 @@ const SingleNftDetails = (props: any) => {
                         return;
                     })
                     .on('error', (error: any, receipt: any) => {
+                        console.log("error",error)
                         if (receipt && receipt.transactionHash) {
                             onSetSuccessFailureRecordToSheet(receipt.transactionHash, 'FAILED');
                         }
@@ -234,6 +236,7 @@ const SingleNftDetails = (props: any) => {
                     });
 
             } catch (e: any) {
+                console.log("error", e)
                 if (e.code === 4001) {
                     setIsLoadingDuringBuy(false);
                     toastr.error(e.message);
