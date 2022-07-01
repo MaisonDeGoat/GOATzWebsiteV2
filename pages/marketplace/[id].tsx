@@ -158,30 +158,30 @@ const SingleNftDetails = (props: any) => {
             return;
         } else {
             let balance = await props.gmilkWeb3Inst.methods.balanceOf(props.account).call();
-            const DIVIDER = Math.pow(10, 18);
+            const MULTIPLIER = Math.pow(10, 18);
             const BN = props.web3.utils.BN;
-            let totalPrice = (new BN(nftDetails.gMilkPrice).mul(new BN(quantity))).mul(new BN(DIVIDER.toString()));
+            let totalPrice = (new BN(nftDetails.gMilkPrice).mul(new BN(quantity))).mul(new BN(MULTIPLIER.toString()));
             if (Number(balance) < Number(totalPrice)) {
                 setIsLoadingDuringBuy(false);
                 toastr.error("Insufficient GMILK for transaction");
                 return;
             }
             try {
-                let gaslimit = await props.gmilkWeb3Inst.methods.transfer(GMILK_RECEIVER, totalPrice).estimateGas({
-                    from: props.account,
-                });
+                const args = [GMILK_RECEIVER, totalPrice];
+                const sendObj: any = {
+                    from: props.account
+                };
+
+                const gasLimit = await props.gmilkWeb3Inst.methods.transfer(...args).estimateGas(sendObj);
+                sendObj["gasLimit"] = props.web3.utils.toHex(gasLimit.toString());
 
                 let gasPriceAsync = await props.web3.eth.getGasPrice();
-
                 gasPriceAsync = Number(gasPriceAsync) + Number(10000000000);
+                sendObj["gasPrice"] = props.web3.utils.toHex(gasPriceAsync.toString());
+
                 let txHash: any = null;
-                console.log("tx started");
-                props.gmilkWeb3Inst.methods.transfer(GMILK_RECEIVER, totalPrice)
-                    .send({
-                        from: props.account,
-                        gasLimit: props.web3.utils.toHex(gaslimit.toString()),
-                        gasPrice: props.web3.utils.toHex(gasPriceAsync.toString())
-                    })
+                props.gmilkWeb3Inst.methods.transfer(...args)
+                    .send(sendObj)
                     .on('transactionHash', async (hash: any) => {
                         txHash = hash;
                         const { status, data } = await getAllWalletByPurchaseId({
@@ -192,7 +192,7 @@ const SingleNftDetails = (props: any) => {
                         })
                         if (status) {
                             setIsLoadingDuringBuy(false);
-                            toastr.success("Tx has been sent to the blockchain");
+                            toastr.success("Purchased request sent to the blockchain");
                             let buyItemObj: any = [[
                                 data.data.walletId,
                                 data.data.productId,
@@ -202,6 +202,7 @@ const SingleNftDetails = (props: any) => {
                                 firstSelectedGoat.id
                             ]]
                             await onSetBuyRecordToSheet(buyItemObj);
+                            router.push('/marketplace');
                             return;
                             // transaction send to the blockchain
                         } else {
@@ -215,11 +216,11 @@ const SingleNftDetails = (props: any) => {
                         // console.log(receipt);
                         // Call success API
                         onSetSuccessFailureRecordToSheet(receipt.transactionHash, 'SUCCESS');
-                        toastr.success("Last purchase was successful");
+                        toastr.success("Last purchase successful");
                         return;
                     })
                     .on('error', (error: any, receipt: any) => {
-                        if (receipt && receipt.transactionHash) {
+                        if (receipt.transactionHash) {
                             onSetSuccessFailureRecordToSheet(receipt.transactionHash, 'FAILED');
                         }
                         if (error.code === 4001) {
@@ -234,11 +235,12 @@ const SingleNftDetails = (props: any) => {
                     });
 
             } catch (e: any) {
-                setIsLoadingDuringBuy(false);
                 if (e.code === 4001) {
+                    setIsLoadingDuringBuy(false);
                     toastr.error(e.message);
                     return;
                 } else {
+                    setIsLoadingDuringBuy(false);
                     toastr.error("Oops! Something went wrong. Please try again");
                     return;
                 }

@@ -115,12 +115,12 @@ const AddProduct = (props: any) => {
                     } else {
                         console.log(dataToAddProduct);
                         let productObj: any = [[
-                            dataToAddProduct.title,
-                            dataToAddProduct.description,
-                            dataToAddProduct.gMilkPrice,
-                            dataToAddProduct.qtyAvailable,
-                            dataToAddProduct.imagePath,
-                            dataToAddProduct._id
+                            dataToAddProduct?.data?.title,
+                            dataToAddProduct?.data?.description,
+                            dataToAddProduct?.data?.gMilkPrice,
+                            dataToAddProduct?.data?.qtyAvailable,
+                            dataToAddProduct?.data?.imagePath,
+                            dataToAddProduct?.data?._id
                         ]]
                         await onSetRecordToSheet(productObj)
                         toastr.success(message);
