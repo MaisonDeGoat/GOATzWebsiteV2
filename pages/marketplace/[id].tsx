@@ -384,20 +384,20 @@ const SingleNftDetails = (props: any) => {
             </Fragment>}
 
             {isComment && <Container>
-                <div className={style.goatz__heading} style={{ textAlign: 'left' }}>Comment</div>
+                <div className={style.goatz__heading} style={{ textAlign: 'left' }}>User Input</div>
 
                 <div className={style.comment__box}>
                     <textarea
-                        placeholder="What is your thoughts?"
+                        placeholder="Type your entry here"
                         value={comment}
                         onChange={e => setComment(e.target.value)}
                     ></textarea>
-                    <div className={style.btns}>
+                    {/* <div className={style.btns}>
                         <div>
                             <button className={style.cancel__btn}>Cancel</button>
                             <button className={style.ok__btn}>Comment</button>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </Container>}
 
