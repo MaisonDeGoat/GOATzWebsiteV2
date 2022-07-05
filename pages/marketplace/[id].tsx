@@ -24,6 +24,11 @@ const SingleNftDetails = (props: any) => {
     const [mintedGoatzObjList, setMintedGoatzObjList] = useState<any>([]);
     const [isGoatzLoading, setIsGoatzLoading] = useState(false);
     const [firstSelectedGoat, setFirstSelectedGoat] = useState<any>(null);
+
+    const [isComment, setisComment] = useState(true);
+    const [comment, setComment] = useState('');
+
+
     const { id }: any = router.query;
 
     const fetchProductByIdHandler = async () => {
@@ -200,7 +205,8 @@ const SingleNftDetails = (props: any) => {
                                 data.data.quantity,
                                 hash,
                                 'In Progress',
-                                firstSelectedGoat.id
+                                firstSelectedGoat.id,
+                                comment
                             ]]
                             await onSetBuyRecordToSheet(buyItemObj);
                             router.push('/marketplace');
@@ -341,8 +347,12 @@ const SingleNftDetails = (props: any) => {
                         </div>
 
                         <div className={style["goatz__details--details"]}>
+                            <div className={style.description} style={{ paddingBottom: '12px' }}>
+                                <b>Quantity Available:</b> {nftDetails?.qtyAvailable}
+                            </div>
+                            <br />
                             <div className={style.description}>
-                                <p>ITEM DESCRIPTION:</p>
+                                <p><b>ITEM DESCRIPTION:</b></p>
                                 <p>{nftDetails?.description}</p>
                             </div>
 
@@ -373,62 +383,24 @@ const SingleNftDetails = (props: any) => {
                 </Container>}
             </Fragment>}
 
-            {/* {isLoading ? <Loader /> : <Fragment>
-                {!nftDetailsSuccess ? <Container>
-                    <h1 className={style.h1_title}>{nftDetails?.message}</h1>
-                </Container> : <Container>
-                    <div className={style.goatz__heading}>{nftDetails?.title}</div>
+            {isComment && <Container>
+                <div className={style.goatz__heading} style={{ textAlign: 'left' }}>Comment</div>
 
-                    <div className={style["goatz__details--flex"]}>
-                        <div className={style["goatz__details--img"]}>
-                            <img
-                                src={nftDetails?.imagePath}
-                                alt={nftDetails?.title}
-                                style={{ width: '100%', objectFit: "contain" }}
-                            />
-
-                            {firstSelectedGoat ? <Fragment>
-                                {(!isLoadingDuringBuy) ? (
-                                    <button onClick={handleBuy}>BUY</button>
-                                ) : (
-                                    <button disabled style={{ opacity: '0.4', cursor: 'not-allowed', color: '#fff' }}>BUYING...</button>
-                                )}
-                            </Fragment> : <button disabled style={{ opacity: '0.4', cursor: 'not-allowed', color: '#fff' }}>Select GOATz</button>}
-
-                        </div>
-
-                        <div className={style["goatz__details--details"]}>
-                            <div className={style.description}>
-                                <p>ITEM DESCRIPTION:</p>
-                                <p>{nftDetails?.description}</p>
-                            </div>
-
-                            <div className={style["image__list--wrapper"]}>
-                                {isGoatzLoading ? <div style={{ textAlign: "center", margin: "0px", paddingBottom: '16px' }}>
-                                    <img src={loadingImg.src} style={{ height: '50px', width: '50px' }} alt="" />
-                                    <div style={{ color: '#fff', fontSize: '20px', fontWeight: 'bold' }}>Loading...</div>
-                                </div> : (<>
-                                    {mintedGoatzObjList.length === 0 ? (
-                                        <div className={style.message}>No GOATz</div>
-                                    ) : (
-                                        <ul>
-                                            {getLeftPanelGoatz()}
-                                        </ul>
-                                    )}
-                                </>)}
-                            </div>
-
-                            {firstSelectedGoat && <input
-                                type="number"
-                                placeholder="ENTER QUANTITY"
-                                className={style.number__input}
-                                value={quantity}
-                                onChange={e => setQuantity(e.target.value)}
-                            />}
+                <div className={style.comment__box}>
+                    <textarea
+                        placeholder="What is your thoughts?"
+                        value={comment}
+                        onChange={e => setComment(e.target.value)}
+                    ></textarea>
+                    <div className={style.btns}>
+                        <div>
+                            <button className={style.cancel__btn}>Cancel</button>
+                            <button className={style.ok__btn}>Comment</button>
                         </div>
                     </div>
-                </Container>}
-            </Fragment>} */}
+                </div>
+            </Container>}
+
         </div>
     )
 }
