@@ -162,11 +162,11 @@
     span {margin-left: 8px;}
 }
 .goatz__heading {
-    font-size: 30px;
+    font-size: 36px;
     color: #fff;
     font-weight: 800;
     text-transform: capitalize;
-    @include md {text-align: center;font-size: 28px;}
+    @include md {text-align: center;font-size: 30px;}
 }
 
 .goatz__details--flex {
@@ -404,6 +404,54 @@
         
         .form__left,
         .form__right {width: 100%;}
+    }
+}
+
+.comment__box {
+    padding: 12px;
+    margin-top: 15px;
+    background-color: #fff;
+    max-width: 768px;
+    border-radius: 6px;
+    border: 3px solid #FFCC33;
+    // box-shadow: 0 0 2px #fff,
+    //             0 0 .2rem #fff,
+    //             0 0 2rem #FFCC33,
+    //             0 0 0.8rem #FFCC33,
+    //             0 0 0.8rem #FFCC33,
+    //             inset 0 0 0.6rem #FFCC33;
+
+    textarea {
+        border: none;
+        outline: none;
+        width: 100%;
+        height: 100px;
+        resize: none;
+        font-size: 20px;
+        border-bottom: 1px solid #cdcdcd;
+    }
+    .btns {
+        display: flex;
+        justify-content: flex-end;
+        padding-top: 12px;
+        .cancel__btn {
+            border: none;
+            outline: none;
+            padding: 0;
+            margin: 0;
+            background: transparent;
+            margin-right: 20px;
+            font-size: 18px;
+        }
+        .ok__btn {
+            border: none;
+            outline: none;
+            background: #FFCC33;
+            font-size: 18px;
+            padding: 8px 12px;
+            border-radius: 6px;
+            &:hover {background: crimson;color: #fff;}
+        }
     }
 }
 

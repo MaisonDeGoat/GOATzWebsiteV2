@@ -121,7 +121,7 @@ const Index = (props: any) => {
                             {props.isEnabled ? (
                                 <Link href={`/marketplace/${elm._id}`}>BUY</Link>
                             ) : (
-                                <button onClick={() => toastr.info('Not Connected With Wallet')}>BUY</button>
+                                <button onClick={() => toastr.info('Please connect your wallet')}>BUY</button>
                             )}
                         </div>
                     </div>)}
