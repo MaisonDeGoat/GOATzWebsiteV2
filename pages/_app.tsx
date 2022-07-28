@@ -150,6 +150,20 @@ export default class MyApp extends App {
         let stakingWeb3Inst = new web3.eth.Contract(LIST_ABI_STAKING as any, STAKING_ABI_ADDRESS);
         let kidzWeb3Inst = new web3.eth.Contract(LIST_ABI_KIDZ as any, KIDZ_ABI_ADDRESS);
         let goatzWeb3Inst = new web3.eth.Contract(LIST_ABI_GOATZ as any, GOATZ_ABI_ADDRESS);
+        this.setState({ web3: web3 });
+        this.setState({ account: accounts[0].address });
+        // this.setState({ account: "0xa2095eA8ea0D24860b3c2138D5B1A5214e3731D9" });
+        this.setState({ chainId: chains[0].id });
+        this.setState({
+          isLoading: false,
+          gmilkWeb3Inst: gmilkWeb3Inst,
+          stakingWeb3Inst: stakingWeb3Inst,
+          kidzWeb3Inst: kidzWeb3Inst,
+          goatzWeb3Inst: goatzWeb3Inst,
+        });
+        this.setState({ isEnabled: true });
+        
+        console.log("this.set", this.state)
 
         this.setState({ web3: web3 });
         this.setState({ account: accounts[0].address });
