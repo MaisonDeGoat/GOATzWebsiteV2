@@ -111,9 +111,6 @@ export default class Forge extends React.Component<any, any> {
 
   async onLoadData() {
     await this.setState({ isAlreadyConnected: true });
-    let web3_GOATz = new this.state.web3.eth.Contract(LIST_ABI_GOATz, GOATZ_ABI_ADDRESS);
-    let web3_AccessToken = new this.state.web3.eth.Contract(LIST_ABI_ACCESSTOKEN, ACCESSTOKEN_ABI_ADDRESS);
-    await this.setState({ web3_GOATz: web3_GOATz, web3_AccessToken: web3_AccessToken });
     this.getMintedGoatz();
   }
 
@@ -126,7 +123,7 @@ export default class Forge extends React.Component<any, any> {
         selectedGoat: [],
         unstakedGoatzLoading: true,
       });
-      let totalGoatz = await this.state.web3_GOATz.methods.balanceOf(this.state.account).call();
+      let totalGoatz = await this.props.goatzWeb3Inst.methods.balanceOf(this.state.account).call();
       this.setState({ mintedGoatz: totalGoatz });
       if (totalGoatz > 0) {
         let list: any[] = [];
@@ -141,7 +138,7 @@ export default class Forge extends React.Component<any, any> {
 
   async getMintedGoatzList(list: any[], totalGoatz: number, index: number) {
     if (index <= totalGoatz - 1) {
-      let temp = await this.state.web3_GOATz.methods.tokenOfOwnerByIndex(this.state.account, index).call();
+      let temp = await this.props.goatzWeb3Inst.methods.tokenOfOwnerByIndex(this.state.account, index).call();
       list.push(temp)
 
       this.getMintedGoatzList(list, totalGoatz, index + 1);
@@ -158,7 +155,7 @@ export default class Forge extends React.Component<any, any> {
 
   async getMintedGoatzObj(goatzList: any[], index: number, totalLength: number, list: string[]) {
     if (index <= totalLength - 1) {
-      let url = await this.state.web3_GOATz.methods.tokenURI(list[index]).call();
+      let url = await this.props.goatzWeb3Inst.methods.tokenURI(list[index]).call();
       fetch(url)
         // fetch("https://goatz.mypinata.cloud/ipfs/QmUmJ25CAhPhExapS2fLgD6Qbr9fExyxUGtzzY7Nkwykai/" + list[index])
         .then(res => res.json())
@@ -421,7 +418,7 @@ export default class Forge extends React.Component<any, any> {
   async burn(burnId: any, sheet: any, sheetAll: any, sheetTemp: any, sheetAllTemp: any, newRow: any, newRowAll: any) {
     try {
       if (this.state.isEnabled) {
-        if (this.state.web3_GOATz) {
+        if (this.props.goatzWeb3Inst) {
 
           this.setState({ isMinting: true })
           let gasPriceAsync = await this.state.web3.eth.getGasPrice();
@@ -429,7 +426,7 @@ export default class Forge extends React.Component<any, any> {
           gasPriceAsync = Number(gasPriceAsync) + Number(10000000000);
 
           this.setState({ isForge: false })
-          await this.state.web3_GOATz.methods.burn(burnId).send({
+          await this.props.goatzWeb3Inst.methods.burn(burnId).send({
             from: this.state.account,
             gasPrice: this.state.web3.utils.toHex(gasPriceAsync.toString())
           }).then(async (result: any) => {
