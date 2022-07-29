@@ -67,7 +67,8 @@ export default class Forge extends React.Component<any, any> {
       horns: 0,
       id: 0,
       ville: '',
-      isWalletList: false
+      isWalletList: false,
+      unstakedGoatzLoading: false,
     };
     toastr.options = {
       // positionClass: 'toast-top-full-width',
@@ -117,11 +118,24 @@ export default class Forge extends React.Component<any, any> {
   }
 
   async getMintedGoatz() {
-    let totalGoatz = await this.state.web3_GOATz.methods.balanceOf(this.state.account).call();
-    this.setState({ mintedGoatz: totalGoatz });
-    if (totalGoatz > 0) {
-      let list: any[] = [];
-      this.getMintedGoatzList(list, totalGoatz, 0);
+    try {
+      this.setState({
+        totalGoatz: "",
+        mintedGoatzIdList: null,
+        mintedGoatzObjList: [],
+        selectedGoat: [],
+        unstakedGoatzLoading: true,
+      });
+      let totalGoatz = await this.state.web3_GOATz.methods.balanceOf(this.state.account).call();
+      this.setState({ mintedGoatz: totalGoatz });
+      if (totalGoatz > 0) {
+        let list: any[] = [];
+        this.getMintedGoatzList(list, totalGoatz, 0);
+      } else {
+        this.setState({ unstakedGoatzLoading: false });
+      }
+    } catch (e) {
+      console.error(e);
     }
   }
 
@@ -136,6 +150,8 @@ export default class Forge extends React.Component<any, any> {
       this.setState({ mintedGoatzIdList: list });
       if (list && list.length > 0) {
         this.getMintedGoatzObj([], 0, list.length, list)
+      } else {
+        this.setState({ mintedGoatzObjList: [], unstakedGoatzLoading: false });
       }
     }
   }
@@ -185,8 +201,15 @@ export default class Forge extends React.Component<any, any> {
           </div>
         );
       });
-    } else {
-      return;
+    } else if (!this.state.unstakedGoatzLoading) {
+      return <h4 style={{ textAlign: "center" }}>No GOATz to FORGE!</h4>;
+    } else if (this.state.unstakedGoatzLoading) {
+      return (
+        <h4 style={{ textAlign: "center", margin: "0px" }}>
+          <img src={loadingImg.src} style={{ height: '50px', width: '50px' }} alt="" />
+          <div>Loading...</div>
+        </h4>
+      );
     }
   }
 
