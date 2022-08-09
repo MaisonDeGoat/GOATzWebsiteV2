@@ -198,7 +198,7 @@ const SingleNftDetails = (props: any) => {
                         })
                         if (status) {
                             setIsLoadingDuringBuy(false);
-                            toastr.success("Purchased request sent to the blockchain");
+                            toastr.success("please do not REFRESH. Request has ben sent to the blockchain");
                             let buyItemObj: any = [[
                                 data.data.walletId,
                                 data.data.productId,
