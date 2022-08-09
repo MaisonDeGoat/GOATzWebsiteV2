@@ -501,7 +501,7 @@ export default class Forge extends React.Component<any, any> {
           {!this.state.isForgeActive ? <Container>
             <Image src={ForgeCover} layout="responsive" alt="staking" />
             <p className={style.content}>
-              <b>Forge SZN 11 is on the Horizon!</b>
+              <b>Forge SZN 11 is now closed!</b>
               <br />
               <br />
               <b>The What</b>
@@ -592,8 +592,8 @@ export default class Forge extends React.Component<any, any> {
                 </div>
                 <div className="col-lg-3 right-bg">
                   <h2 style={{ fontSize: 'calc(1.7vw + 1.6rem)', margin: '0px' }}>Personalization</h2>
-                  <span style={{ fontSize: 'calc((1.4 - 1) * 1vw + 1rem)', color: 'red' }}>Warning: </span>
-                  <span style={{ fontSize: 'calc((1.4 - 1) * 1vw + 1rem)' }}>the token ID you do NOT select will be burned; the token ID you do select will be updated in 24 hours with the new combined traits!</span>
+                  <span style={{ fontSize: 'calc((1.4 - 1) * 1vw + 1rem)', color: 'red' }}>MUST READ: </span>
+                  <span style={{ fontSize: 'calc((1.4 - 1) * 1vw + 1rem)' }}>You may not see v2 traits in the preview, but they Will transfer over. The token ID you do NOT select will be burned; the token ID you do select will be updated ON MONDAY 8/1 with the new combined traits!</span>
 
                   {/* <p className="updated-time">Last Updated: 20:59 UTC</p> */}
                   {(this.state.firstSelectedGoat && this.state.secondSelectedGoat) ? <div>
