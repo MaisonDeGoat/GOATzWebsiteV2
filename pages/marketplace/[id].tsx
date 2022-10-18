@@ -303,7 +303,7 @@ const SingleNftDetails = (props: any) => {
                         </div>
                         <div className={style['welcome__header--box']}>
                             {/* PRODUCT IMAGE <br />PLACEHOLDER */}
-                            <Image src={prodImage} width={'100%'} height={'100%'} objectFit="contain" alt="" />
+                            <Image src={prodImage} width={'350px'} height={'212px'} objectFit="contain" alt="" />
                         </div>
                     </div>
                 </Container>
@@ -317,7 +317,7 @@ const SingleNftDetails = (props: any) => {
 
                     <button className={style.btn} onClick={() => router.push('/marketplace')}>
                         <Image src={BackIcon} width={36} height={36} objectFit="contain" alt="" />
-                        <span>GO BACK</span>
+                        <span>GOBACK</span>
                     </button>
                 </div>
             </Container>

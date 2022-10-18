@@ -1,19 +1,410 @@
 .container {
-  background-color: #5e0012;
+  background-color:  #000000;;
   overflow: hidden;
+}
+
+.marqback{
+  background:  #D8C200 ;
+  display: flex;
+  margin-bottom: 16px;
+  height: 48px;
+  width: auto; 
+}
+.marq{
+  color: #000000;
+  font-weight: 800;
+  font-size: 20px;
+  line-height: 24px;
+  animation: animate 20s linear infinite;
+  white-space: nowrap;
+  padding-top: 14px;
+}
+
+@keyframes animate{
+  0%{
+    transform: translateX(100%);
+  }100%{transform: translateX(-100%);}
+}
+
+.glogo{
+  display: flex;
+  background-position: center;
+  width: auto;
+  height: 139px;
+  text-align: center;
+  background-repeat: no-repeat;
+  background-image: url("../asset/goatz-logo.svg");
+  display: flex;
+  margin-top:128px ;
+  background-size: 588px, 139px;
+  @include md{
+    height: 75px;
+    background-size: 300px;
+  }
+}
+
+.desc{
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 800;
+  font-size: 24px;
+  line-height: 29px;
+  text-align: center;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: auto;
+  color:  #D8C200;
+  @include md{
+    font-size: 12px;
+  }
+
+}
+
+.goat1{
+  position: relative;
+  display: flex;
+  width: 306px;
+  height: 305px;
+  margin-left: 18px;
+  text-align: left;
+  background-repeat: no-repeat;
+  background-image: url("../asset/goatzhome1.svg");
+  display: flex;
+  @include md{
+    width: 200px;
+    height: 200px;
+    background-size: 200px;
+  }
+
+}
+
+.backpic1{
+  width: auto;
+  position: relative;
+  overflow: hidden;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-image: url("../asset/home-cover.svg");
+  height: 600px;
+  @include xl{
+    height: 650px;
+  }
+  @include lg {
+    height: 500px;
+  }
+  @include md {
+    height: 350px;
+  }
+  @include sm {
+    height: 250px;
+  }
+
+}
+
+.wcgoat{
+  position: relative;
+  display: flex;
+  overflow: hidden;
+  justify-content: space-between;
+  width: 100%;
+  padding-left: 60px;
+  min-height: 500px;
+  @include md{
+    margin: auto;
+    padding-left: 0;
+    flex-direction: column;
+    justify-content: center;
+    padding:0px 14px ;
+  }
+  
+}
+
+.got{
+  padding-top: 30px;
+  width: 465px;
+  height: 52px;
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 800;
+  font-size: 40px;
+  line-height: 49px;
+  color: #FFFFFF;
+  margin-bottom: 78px;
+  @include sm{
+    font-size: 30px;
+  }
+  
+}
+.content{
+  width: 358px;
+  height: 293px;
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 800;
+  font-size: 20px;
+  line-height: 24px;
+  color: #FFFFFF; 
+  @include md{
+    margin: auto;
+    width: 100%;
+    font-size: 17px;
+    min-width: 358px;
+    max-height: 293px;
+}
+}
+
+.btnalign{
+  flex-direction:column ;
+  width: 254px;
+  max-height: 86px;
+  padding-top: 115px;
+  @include md{
+    margin: auto;
+  }
+}
+
+.btn{
+    box-shadow: 0px 4px 9px rgba(225, 225, 225, 225);
+    background: transparent;
+    color: white;
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 800;
+    font-size: 32px;
+    line-height: 39px;
+    width: 254px;
+    height: 86px;
+    color: #D8C200;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 39px;
+}
+
+.goat2align{
+  position: relative;
+  display: flex;
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 401px;
+  height: 395px;
+  margin-top: 105px;
+  background-image: url("../asset/goatzhome3.svg");
+  @include md{
+    margin: auto;
+    margin-top: 360px;
+  }
+}
+
+.backpic2{
+  width: auto;
+  position: relative;
+  overflow: hidden;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-image: url("../asset/home-cover1.svg");
+  height: 600px;
+  @include xl{
+    height: 650px;
+  }
+  @include lg {
+    height: 500px;
+  }
+  @include md {
+    height: 300px;
+  }
+  @include sm {
+    height: 200px;
+   
+  }
+}
+
+.goat3align{
+  position: relative;
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 395px;
+  height: 389px;
+  margin-top: 75px;
+  background-image: url("../asset/goatzhome2.svg");
+  padding-top: 200px;
+  @include md{
+    padding-top: 0px;
+    margin: auto;
+    order: 3;
+  }
+}
+
+.craftgoat{
+  padding: 0px;
+  margin: 0px;
+  display: flex;
+  overflow: hidden;
+  justify-content: space-between;
+  width: 100%;
+  @include md{
+    padding-top: 20px;
+    flex-direction: column ;
+    margin:auto;
+    justify-content: center;
+}
+  
+}
+
+.craft1{
+  width : 595px;
+  font-weight:800;
+  font-size:40px;
+
+  @include md{
+    font-size: 30px;
+  }
+}
+
+.content2{
+  width: 595px;
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 800;
+  font-size: 20px;
+  line-height: 24px;
+  color: #FFFFFF;
+  margin-top: 49px;
+  margin-right: 80px;
+  button{
+    @include md{
+      width: 211px;
+    }
+}
+
+  @include md{
+    font-size: 17px;
+    width: 100%;
+    padding: 14px;
+    margin: 0px;
+  }
+}
+
+.backpic3{
+  width: auto;
+  position: relative;
+  overflow: hidden;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-image: url("../asset/home-cover3.svg");
+  height: 600px;
+  @include xl{
+    height: 650px;
+  }
+  @include lg {
+    height: 500px;
+  }
+  @include md {
+    height: 350px;
+  }
+  @include sm {
+    height: 250px;
+  }
+}
+
+.gmilkgoat{
+  display: flex;
+  overflow: hidden;
+  justify-content: space-between;
+  width: 100%;
+  padding-left: 67px;
+  min-height:440px;
+  @include md{
+    //padding-left: 0px;
+    padding: 0px 14px;
+    flex-direction: column;
+    margin: auto;
+    justify-content: center;
+  }
+}
+
+.content3{
+  width: 358px;
+  height: 293px;
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 800;
+  font-size: 20px;
+  line-height: 24px;
+  color: #FFFFFF; 
+  @include md{
+    width: 100%;
+    font-size: 17px;
+    min-width: 358px;
+    max-height: 223px;  
+}
+}
+
+.goat4align{
+  margin-top: 59px;
+  padding-right: 57px;
+  padding-left: 99px;
+  margin-bottom: 60px;
+  @include md{
+    padding-top: 310px;  
+    margin: auto; 
+  }
+}
+
+
+.gmilk{
+  margin-top: 61px;
+  width: 465px;
+  height: 52px;
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 800;
+  font-size: 40px;
+  line-height: 49px;
+  color: #FFFFFF;
+  @include md{
+    margin-top: 12px;
+    font-size: 30px;
+  }
+ 
+}
+
+.backpic4{
+  width: auto;
+  position: relative;
+  overflow: hidden;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-image: url("../asset/home-cover4.svg");
+  height: 600px;
+  @include xl{
+    height: 650px;
+  }
+  @include lg {
+    height: 500px;
+  }
+  @include md {
+    height: 350px;
+  }
+  @include sm {
+    height: 250px;
+    background-position: center;
+  }
+
 }
 
 .home {
   color: #fff;
-  text-align: center;
+  align-items: center;
   width: 100vw;
   position: relative;
   overflow: hidden;
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
-  background-image: url("../public/images/home-cover.png");
-  height: 1200px;
+  //background-image: url("../public/images/home-cover.png");
+  height: 547px;
 
   @include lg {
     height: 800px;

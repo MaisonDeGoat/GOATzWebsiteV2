@@ -2,6 +2,7 @@
   position: absolute;
   width: 100%;
   padding-top: 24px;
+  margin-top: 16px;
 
   @include md {
     padding-top: 24px;
@@ -13,26 +14,18 @@
 }
 
 .container {
-  border-radius: 5px;
-  padding: 15px 25px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   position: relative;
   z-index: 1000;
-  max-width: 1200px;
+  max-width: 100%;
   margin: auto;
+  margin-top: 16px;
 
-  @include md {
-    padding: 15px 15px;
-  }
-
-  @include sm {
-    padding: 5px;
-  }
+  
   .social {
-    padding-left: 10px;
-    padding-right: 10px;
+    
     display: flex;
     align-items: center;
 
@@ -40,39 +33,113 @@
       display: flex;
       align-items: center;
       justify-content: center;
+
+      @include sm {
+        font-size: small;
+      }
+    
     }
+
   }
+
+ 
+
 }
 
 .menuIcon {
   color: #fff;
-  margin-right: 5px;
+  width: 38px;
+  font-size: 38px;
+  margin-right: 40px;
+  @include md{
+    margin-right: 15px;
+  }
 }
 
 .logo {
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 76px;
+  height: 80px;
+  margin-left: 26px;
+  //padding-top: 16px;
+  @include md{
+    width: 56px;
+    height: 60px;
+  }
+
 }
 .mobileLogo {
   padding-left: 15px;
-  padding-top: 15px;
+  //padding-top: 15px;
   padding-bottom: 5px;
 }
 
 .link {
   text-decoration: none !important;
-  color: #fff;
+  color: #D8C200;
   p {
+    font-family: 'Montserrat';
+    font-style: normal;
     font-weight: 800;
-    font-size: 18px;
+    font-size: 24px;
+    line-height: 29px;
+    
 
     @include lg {
       font-size: 16px;
     }
+
+    @include md {
+      display: none;
+    }
   }
+}
+
+.menu{
+  display: flex;
+  justify-content: flex-end;
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 800;
+  font-size: 24px;
+  line-height: 29px;
+  text-align: center;
+  color: #000000;
+  padding-top: 28px;
+  @include md{
+    font-weight: 600;
+    font-size: 20px;
+    margin-top: 5px;
+    padding-top: 10px;
+  }
+
+}
+
+.menuIcon1{
+  color: black;
+  font-size: 38px;
+  margin-right: 20px;
+  @include md{
+    font-size: 30px;
+    margin-top: 4px;
+  }
+  
 }
 
 .listItemText {
   font-weight: 600;
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 800;
+  font-size: 36px;
+  line-height: 44px;
+  text-align: center;
+  color: #000000;
+  @include md{
+    font-weight: 600;
+    font-size: 25px;
+    line-height: 24px;
+  }
 }

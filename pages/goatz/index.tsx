@@ -5,7 +5,7 @@ import GoatzCover from "../../public/images/goatz.png";
 const Goatz = () => {
   return (
     <div className={style.wrapper}>
-      <Container>
+      <Container style={{paddingTop:"40px"}}>
         <Image src={GoatzCover} layout="responsive" alt="goatz" />
         <p className={style.content}>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore

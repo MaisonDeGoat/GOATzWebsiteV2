@@ -3,17 +3,13 @@ import React, { ReactChild } from "react";
 import Image from "next/image";
 import { Button } from "@mui/material";
 import style from "./staking.module.scss";
-import StakingCover from "../../public/images/staking.png";
-import gmilk1 from "../../public/images/gmilk1.png";
 import loadingImg from "../../public/images/Spin.gif";
-import Link from "next/link";
-import RoadMapButton from "../../public/images/buttonBgConnect.png";
 import Head from "next/head";
 import CloseIcon from "@mui/icons-material/Close";
 import toastr from "toastr";
 import { STAKING_ABI_ADDRESS } from "@config/abi-config";
-import { Util } from "util/util";
 import BigNumber from "bignumber.js";
+import gmilk1 from "../../asset/gmilk.svg";
 
 interface Props {
   children?: ReactChild | ReactChild[];
@@ -481,8 +477,8 @@ export default class Stacking extends React.Component<any, any> {
   }
 
   getShortAccountId() {
-    let address = "" + (this.state.account ? this.state.account : "");
-    return address.slice(0, 8) + "....." + address.slice(address.length - 3, address.length);
+    let address = "" + (this.props.account ? this.props.account : "");
+    return address.slice(0, 3) + "..." + address.slice(address.length - 5, address.length);
   }
 
   scrollTop() {
@@ -1008,36 +1004,36 @@ export default class Stacking extends React.Component<any, any> {
         )}
 
         <Container>
-          {/* <img src={StakingCover} layout="responsive" alt="staking" /> */}
-          <p className={style.content}>
-            Welcome to the KIDz Academy where KIDz are staked to earn $GMILK and GOATz can claim it! Before staking or
-            claiming please read our terms of use. Be sure to claim your GMILK prior to unstaking any KIDZ. GOATz that
-            have claimed their GMILK will not appear below.
-          </p>
-        </Container>
+          <div className={style.upcontent}> 
+            <div className={style.content1} >
+              <p className={style.got}>got GMILK?</p>
+              Here you can stake your KIDz to continually earn GMILK. 
+              You can also claim GMILK from a GOATz if it has not already been claimed. 
+              GOATz that have claimed their GMILK will not appear below. 
+              <br /><br />
+              Before  staking or claiming please read our terms of use.
+            </div>
+            {this.props.isEnabled ? (
+                <Button className={style.connectedButton} onClick={() => toastr.info('Copied your wallet ID')}
+                 style={{textTransform:"uppercase"}}>
+                  {this.getShortAccountId()}
+                </Button>
+              ) : (
+                <Button className={style.connectButton} onClick={() => {
+                    this.props.connectWallet()
+                  }}>CONNECT
+                </Button>
+              )}
+              <div className={style.gmilk1}>
+                {/* <img src={gmilk1.src} alt="" /> */}
+                <Image src={gmilk1.src} alt="" width="188" height="345" objectFit="contain" />
+              </div>
+            </div>
+        </Container> 
+
+          <div className={style.line}></div>
+
         <Container>
-          {this.state.isEnabled ? (
-            <Button>
-              <a className={style.connectedButton}>{this.getShortAccountId()}</a>
-            </Button>
-          ) : (
-            <Button
-              onClick={() => {
-                this.props.connectWallet()
-              }}
-            >
-              <a className={style.connectButton}>Connect</a>
-            </Button>
-          )}
-
-          <div className={style.gmilk1}>
-            {/* <img src={gmilk1.src} alt="" /> */}
-            <Image src={gmilk1.src} alt="" width="200" height="350" objectFit="contain" />
-            <h1>
-              TIME FOR SOME <br /> $GMILK
-            </h1>
-          </div>
-
           <div className={style.content}>
             <div className={style.wrapperScroll}>
               <span>KIDz UNSTAKED</span>
@@ -1046,11 +1042,12 @@ export default class Stacking extends React.Component<any, any> {
                 {/* {this.getLeftPanelUnstakedKidz()} */}
               </div>
             </div>
-            <div>
-              <span> &nbsp; </span>
+            <div className={style.cardalign}>
+              <span> &nbsp;</span>
+              <span> &nbsp;</span>
               <input
                 className={style.cardinput}
-                style={{ textAlign: "center", fontWeight: "bold", fontSize: "30px" }}
+                style={{ textAlign: "center", fontWeight: "800", fontSize: "40px" , marginTop:"22px", marginBottom:"27px"}}
                 type="text"
                 value={this.state.unstakedKidsInput}
                 placeholder="0"
@@ -1077,40 +1074,43 @@ export default class Stacking extends React.Component<any, any> {
               <span>KIDz STAKED</span>
               <div className={style.card}>{this.getLeftPanelStakedKidz()}</div>
             </div>
-            <div>
+            <div >
               <span> &nbsp; </span>
               <p className={style.yellowbg}> {parseInt(this.state.totalStakedGmilkKidz)} GMILK </p>
               <div className={style.btngroup}>
-                <button
+                <div className={style.cardalign}>
+                <button 
+                  style={{ paddingLeft: "11px" , paddingRight: "11px",marginRight:"12px"}}
                   className={
-                    this.state.allStakedKidz && this.state.allStakedKidz.length > 0 ? style.greenbtn : style.yellowbtn
+                    this.state.allStakedKidz && this.state.allStakedKidz.length > 0 ? style.greenbtn1 : style.yellowbtn1
                   }
                   onClick={() => this.setClaimKidzModal(true)}
                 >
                   {" "}
                   CLAIM{" "}
                 </button>
-                <button
+                <button 
+                  style={{ paddingLeft: "21px" , paddingRight: "21px" }}
                   className={
                     this.state.selectedStakedKidz && this.state.selectedStakedKidz.length > 0
-                      ? style.greenbtn
-                      : style.yellowbtn
+                      ? style.greenbtn1
+                      : style.yellowbtn1
                   }
                   onClick={() => this.setStakedKidzToUnstakeModal(true)}
                 >
                   {" "}
                   UNSTAKE{" "}
                 </button>
-              </div>
+              </div></div>
             </div>
           </div>
-
+            
           <div className={style.content}>
             <div className={style.wrapperScroll}>
               <span>GOATz UNCLAIMED</span>
               <div className={style.card}>{this.getLeftPanelGoatz()}</div>
             </div>
-            <div>
+            <div className={style.cardalign}>
               <span> &nbsp; </span>
               <p className={style.yellowbg}> {this.getGoatzBalance(this.state.selectedGoat.length ? this.state.selectedGoat.length : this.state.mintedGoatzObjList.length)} GMILK </p>
               <div className={`${style.btngroup} ${style.btn100}`}>
@@ -1129,25 +1129,21 @@ export default class Stacking extends React.Component<any, any> {
 
           <div className={style.content}>
             <div>
-              <span>GOATz ID # CLAIM CHECK</span>
+              <span >GOATz ID # CLAIM CHECK</span>
               <input
-                className={style.cardinput}
+                className={style.cardinput1}
                 type="text"
+                style={{ textAlign: "center", fontWeight: "800", fontSize: "32px" , marginTop: "22px"}}
                 value={this.state.claimCheckInputValue}
                 onChange={(event) => this.onClaimCheckInputChanged(event.target.value)}
+                placeholder="Enter GOATz ID#"
               />
             </div>
-            <div>
-              <p></p>
-              <div className={style.btngroup}>
-                <button
-                  className={this.state.claimCheckInputValue ? style.yellowbtn : style.disabledbtn}
-                  disabled={this.state.claimCheckInputValue ? false : true}
-                  onClick={() => this.onClaimCheck()}
-                >
-                  {" "}
-                  CHECK{" "}
-                </button>
+            <div className={style.cardalign}>
+              <span> &nbsp; </span>
+              <p className={style.yellowbg}> AVAILABLE</p>
+              
+                {/*
                 <button
                   className={
                     this.state.claimCheckStatus == "UNCLAIMED"
@@ -1160,6 +1156,15 @@ export default class Stacking extends React.Component<any, any> {
                 >
                   {" "}
                   {this.state.claimCheckStatus}{" "}
+                </button>*/}
+                <div className={`${style.btngroup} ${style.btn100}`}>
+                <button
+                  className={this.state.claimCheckInputValue ? style.yellowbtn : style.disabledbtn}
+                  disabled={this.state.claimCheckInputValue ? false : true}
+                  onClick={() => this.onClaimCheck()}
+                >
+                  {" "}
+                  CHECK{" "}
                 </button>
               </div>
             </div>

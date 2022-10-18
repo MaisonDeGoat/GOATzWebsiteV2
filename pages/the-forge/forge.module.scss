@@ -1,7 +1,7 @@
 .wrapper {
   background-size: 100%;
-  background-image: url("../../public/images/tree-background.svg");
-  background-color: #5f0113;
+  //background-image: url("../../public/images/tree-background.svg");
+  background-color: black;
   padding-top: 150px;
   padding-bottom: 100px;
 
@@ -11,6 +11,13 @@
 
   @include sm {
     padding-top: 80px;
+  }
+}
+
+.forgeimg{
+  margin-top: 1000px;
+  @include md{
+    margin-top: 160px;
   }
 }
 

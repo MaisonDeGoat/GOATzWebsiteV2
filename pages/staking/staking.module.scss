@@ -1,8 +1,7 @@
 .wrapper {
   z-index: 1;
-  background-image: url("../../public/images/tree-background.svg");
-  background-color: #5f0113;
-  padding-top: 150px;
+  background-color: black;
+  padding-top: 69px;
   padding-bottom: 100px;
 
   @include md {
@@ -14,10 +13,64 @@
   }
 }
 
-.wrapperScroll {
-  height: 230px;
-  overflow: hidden;
+.got{
+  width: 465px;
+  height: 52px;
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 800;
+  font-size: 40px;
+  line-height: 49px;
+  color: #FFFFFF;
 }
+
+.upcontent{
+  position: relative;
+  display: flex;
+  overflow: hidden;
+  justify-content: center;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 465px;
+  padding-top: 50px;
+  @include md{
+    margin:auto;
+    justify-content: center;
+    flex-direction: column ;
+    padding-bottom: 20px;
+    
+}
+}
+
+.content1 { 
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 800;
+  font-size: 20px;
+  line-height: 24px;
+  color: #FFFFFF;
+  width: 358px;
+  height: 236px;
+  @include md{
+    padding-top: 20px;
+    margin-bottom: 80px;
+  }
+  @include sm{
+    margin-left: 0px;
+    width: 100%;
+    padding: 12px;
+    font-size: 17px;
+}
+}
+
+.line{
+  margin-bottom: 59px;
+  width: 100%;
+  height: 48px;
+  background: linear-gradient(90deg, #D8C200 1.57%, #AA9903 67.61%, #EAD731 98.56%);
+}
+
 .content {
   font-weight: 800;
   font-size: 36px;
@@ -38,6 +91,7 @@
     padding: 20px 0 20px;
   }
 }
+
 .roadMapButton {
   max-width: 170px;
   cursor: pointer;
@@ -48,27 +102,38 @@
 }
 
 .connectButton {
-  background: url("../../public/images/buttonBg.png") no-repeat;
-  background-size: cover;
-  height: 83px;
-  width: 250px;
-  color: #ffffff;
+  box-shadow: 0px 4px 9px rgba(245, 225, 225, 225);
+  width: 254px;
+  height: 86px;
+  text-align: center;
+  color: #D8C200;
   font-size: 32px;
-  font-weight: bold;
-  padding-top: 14px;
-  margin-bottom: 40px;
+  font-weight: 800;
+  box-sizing: border-box;
+  border: 7px solid #000000;
+  padding-top: 10px;
+  text-transform: uppercase;
+  @include md{
+    margin-bottom: 20px;
+  }
+  
 }
 
 .connectedButton {
-  background: url("../../public/images/buttonBg.png") no-repeat;
-  background-size: cover;
-  height: 83px;
-  width: 250px;
-  color: #ffffff;
-  font-size: 23px;
-  font-weight: bold;
-  padding-top: 20px;
-  margin-bottom: 40px;
+  box-shadow: 0px 4px 9px rgba(245, 225, 225, 225);
+  width: 254px;
+  height: 86px;
+  text-align: center;
+  color: #D8C200;
+  font-size: 32px;
+  font-weight: 800;
+  box-sizing: border-box;
+  border: 7px solid #000000;
+  padding-top: 10px;
+  text-transform: uppercase;
+  @include md{
+    margin-bottom: 20px;
+  }
 }
 
 .unclaimedBtn {
@@ -102,7 +167,7 @@
 .gmilk1 {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+ 
 }
 .gmilk1 img {
   height: 300px;
@@ -121,9 +186,10 @@
   display: grid;
   grid-template-columns: 2fr 1fr;
   column-gap: 80px;
-  @include sm {
+  @include md {
     column-gap: 10px;
     grid-template-columns: 1fr 1fr;
+    display: block;
   }
 }
 .btngroup {
@@ -131,6 +197,10 @@
   display: flex;
   flex-direction: row;
   justify-content: space-around;
+  width: auto;
+  @include md{
+    align-items: center;
+  }
   @include sm {
     flex-direction: column;
   }
@@ -142,81 +212,185 @@
   margin-left: -80px;
 }
 .yellowbg {
-  background: #e8b736;
+  margin-top: 21px;
+  margin-bottom:27px ;
+  height: 81px;
   padding: 1vh;
-  border-radius: 10px;
+  border: 3px solid #e8b736;
   text-align: center;
-  margin: 1.5vh 0;
+  padding-top: 14px;
+  @include lg{
+    font-size: 24px;
+  }
+  @include md{
+    flex:1;
+    padding-top: 20px;
+    margin-top: 18px;
+  }
+  @include sm{
+    padding-top: 25px;
+  }
+  
 }
 .yellowbtn {
   cursor: pointer;
-  border: 3px solid #e8b736;
-  border-radius: 30px;
+  padding-top: 27px;
+  box-shadow: 0px 4px 9px rgba(225, 225, 225, 225);
   background: transparent;
-  color: white;
+  color: #D8C200;
   width: auto;
+  height: 81px;
   padding: 1vh 2vh;
   font-family: Montserrat;
-  font-size: 24px;
+  font-size: 32px;
   font-weight: 800;
   margin: 0vh 0 2vh 0;
+  @include md{
+    margin-left: 20px;
+    margin-right: 10px;
+    font-size: 22px;
+  }
 }
 .greenbtn {
   cursor: pointer;
-  border: 3px solid #14ff00;
-  border-radius: 30px;
-  background: #14ff00;
-  color: black;
+  padding-top: 27px;
+  box-shadow: 0px 4px 9px rgba(245, 225, 225, 225);
+  background: transparent;
+  color: #D8C200;
   width: auto;
+  height: 81px;
   padding: 1vh 2vh;
   font-family: Montserrat;
-  font-size: 24px;
+  font-size: 32px;
   font-weight: 800;
   margin: 0vh 0 2vh 0;
+  @include md{
+    margin-left: 20px;
+    margin-right: 10px;
+    font-size: 22px;
+  }
+}
+
+.yellowbtn1 {
+  cursor: pointer;
+  padding-top: 27px;
+  box-shadow: 0px 4px 9px rgba(225, 225, 225, 225);
+  background: transparent;
+  color: #D8C200;
+  width: auto;
+  height: 81px;
+  padding: 1vh 2vh;
+  font-family: Montserrat;
+  font-size: 32px;
+  font-weight: 800;
+  margin: 0vh 0 2vh 0;
+  @include md{
+    font-size: 22px;
+   
+  }
+}
+.greenbtn1 {
+  cursor: pointer;
+  padding-top: 27px;
+  box-shadow: 0px 4px 9px rgba(245, 225, 225, 225);
+  background: transparent;
+  color: #D8C200;
+  width: auto;
+  height: 81px;
+  padding: 1vh 2vh;
+  font-family: Montserrat;
+  font-size: 32px;
+  font-weight: 800;
+  margin: 0vh 0 2vh 0;
+  @include md{
+    width: 100%;
+    font-size: 22px;
+  }
 }
 .disabledbtn {
   cursor: not-allowed;
-  border: 3px solid #e8b736;
-  border-radius: 30px;
+  box-shadow: 0px 4px 9px rgba(245, 225, 225, 225);
   background: transparent;
-  color: white;
+  color: #D8C200;
   width: auto;
+  height: 81px;
   padding: 1vh 2vh;
   font-family: Montserrat;
-  font-size: 24px;
+  font-size: 32px;
   font-weight: 800;
   margin: 0vh 0 2vh 0;
+  @include md{
+    margin-left: 20px;
+    margin-right: 10px;
+    font-size: 22px;
+  }
 }
 .card {
-  background: #e8b736;
+  margin-bottom: 36px;
+  margin-top: 22px;
   padding: 1vh;
-  border-radius: 10px;
-  margin: 1vh 0 2vh 0;
-  white-space: nowrap;
+  border: 3px solid #e8b736;
+  background: transparent;
+  color: white;
   overflow-y: hidden;
-  height: 150px;
-  width: 100%;
-  // @include sm {
-  //   width: min-content;
-  // }
+  width: 591px;
+  height: 194px;
+  text-align: center;
+  padding-top: 20px;
+   @include md {
+     width: auto;
+     padding-top: 50px;
+   }
 }
 .card img {
   height: 120px;
   padding: 0px;
   margin: 3px;
 }
-.cardinput {
-  display: block;
-  outline: none;
-  border: none;
-  width: 100%;
-  background: #e8b736;
-  padding: 1vh;
-  border-radius: 10px;
-  color: white;
-  font-size: 24px;
-  margin: 1.5vh 0;
+.cardalign{
+  @include md{
+    display: flex;
+    justify-content: space-between;
+    justify-content: left;
+  }
 }
+
+
+
+
+
+.cardinput {
+  border: 3px solid #e8b736;
+  background: transparent;
+  color: #FFFFFF;
+  width: 100%;
+  height: 81px;
+  padding: 1vh;
+  font-family: Montserrat;
+  font-size: 24px;
+  font-weight: 800;
+  @include md{
+    flex: 1;
+  }
+  
+}
+
+.cardinput1{
+  border: 3px solid #e8b736;
+  background: transparent;
+  color: #FFFFFF;
+  width: 591px;
+  height: 194px;
+  padding: 1vh;
+  margin-bottom: 36px;
+  font-family: Montserrat;
+  font-size: 24px;
+  font-weight: 800;
+  @include md{
+    width: 100%;
+  }
+}
+
 .modal {
   position: fixed;
   top: 50%;

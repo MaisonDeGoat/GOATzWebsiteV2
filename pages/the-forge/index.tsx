@@ -9,9 +9,8 @@ import CloseIcon from "@mui/icons-material/Close";
 import toastr from "toastr";
 import BigNumber from "bignumber.js";
 import { GoogleSpreadsheet } from "google-spreadsheet";
-
 import style from "./forge.module.scss";
-import ForgeCover from "../../public/images/forge-image.png";
+import ForgeCover from "../../asset/home-cover1.svg";
 import { Util } from "util/util";
 import {
   FORGE_SCREEN_STATUS, SPREADSHEET_ID, LIST_ABI_GOATz,
@@ -498,8 +497,8 @@ export default class Forge extends React.Component<any, any> {
             <title>GOATz - Forge</title>
           </Head>
 
-          {!this.state.isForgeActive ? <Container>
-            <Image src={ForgeCover} layout="responsive" alt="staking" />
+          {!this.state.isForgeActive ? <Container style={{paddingTop:"40px"}}>
+            <Image  src={ForgeCover} layout="responsive" alt="staking" />
             <p className={style.content}>
               <b>Forge SZN 11 is now closed!</b>
               <br />

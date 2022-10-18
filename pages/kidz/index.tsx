@@ -6,7 +6,7 @@ import Head from "next/head";
 const Kidz = () => {
   return (
     <div className={style.wrapper}>
-      <Container>
+      <Container style={{paddingTop:"40px"}}>
         <Head>
           <title>GOATz - Kidz</title>
         </Head>

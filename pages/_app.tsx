@@ -152,7 +152,7 @@ export default class MyApp extends App {
         let goatzWeb3Inst = new web3.eth.Contract(LIST_ABI_GOATZ as any, GOATZ_ABI_ADDRESS);
         this.setState({ web3: web3 });
         this.setState({ account: accounts[0].address });
-        // this.setState({ account: "0x3E17258A44f938Db9803c18c3c762653F5a23E54" });
+        // this.setState({ account: "0xa2095eA8ea0D24860b3c2138D5B1A5214e3731D9" });
         this.setState({ chainId: chains[0].id });
         this.setState({
           isLoading: false,
@@ -167,7 +167,7 @@ export default class MyApp extends App {
 
         this.setState({ web3: web3 });
         this.setState({ account: accounts[0].address });
-        // this.setState({ account: "0x3E17258A44f938Db9803c18c3c762653F5a23E54" });
+        // this.setState({ account: "0xa2095eA8ea0D24860b3c2138D5B1A5214e3731D9" });
         this.setState({ chainId: chains[0].id });
         this.setState({
           isLoading: false,
