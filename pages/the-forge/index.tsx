@@ -563,7 +563,7 @@ export default class Forge extends React.Component<any, any> {
 
                 </div>
                 <div className="col-lg-5 middle-bg">
-                  <h1 style={{ fontSize: 'calc(1.7vw + 1.6rem)', margin: '0px' }}>The Forge</h1>
+                  <h1 style={{ fontSize: 'calc(1.7vw + 1.6rem)', margin: '0px' }}>Spooky SZN 13 Forge</h1>
                   <p className="description" style={{ fontSize: 'calc((1.4 - 1) * 1.2vw + 1.6rem)' }}>Choose two GOATz to start customizing your Forged GOAT</p>
 
                   {(this.state.firstSelectedGoat && this.state.secondSelectedGoat) ? <div className="goat-list">
@@ -593,7 +593,7 @@ export default class Forge extends React.Component<any, any> {
                 <div className="col-lg-3 right-bg">
                   <h2 style={{ fontSize: 'calc(1.7vw + 1.6rem)', margin: '0px' }}>Personalization</h2>
                   <span style={{ fontSize: 'calc((1.4 - 1) * 1vw + 1rem)', color: 'red' }}>MUST READ: </span>
-                  <span style={{ fontSize: 'calc((1.4 - 1) * 1vw + 1rem)' }}>You may not see v2 traits in the preview, but they Will transfer over. The token ID you do NOT select will be burned; the token ID you do select will be updated ON MONDAY 8/1 with the new combined traits!</span>
+                  <span style={{ fontSize: 'calc((1.4 - 1) * 1vw + 1rem)' }}>You may not see v2 traits in the preview, but they Will transfer over. The token ID you do NOT select will be burned; the token ID you do select will be updated within 24 hours with the new combined traits!</span>
 
                   {/* <p className="updated-time">Last Updated: 20:59 UTC</p> */}
                   {(this.state.firstSelectedGoat && this.state.secondSelectedGoat) ? <div>
