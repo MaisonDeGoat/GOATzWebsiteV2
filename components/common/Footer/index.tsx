@@ -105,7 +105,7 @@ const Footer = () => {
           <Grid item xs={12}>
             <Box mt={5}>
               <Typography textAlign="center" color="#fff" fontWeight="bold">
-                ALL RIGHTS RESERVED (c) 2022 KRHFT STUDIOS LLC
+                ALL RIGHTS RESERVED (c) {new Date().getFullYear()} KRHFT STUDIOS LLC
               </Typography>
             </Box>
           </Grid>

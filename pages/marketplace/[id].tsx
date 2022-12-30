@@ -330,7 +330,7 @@ const SingleNftDetails = (props: any) => {
 
                     <div className={style["goatz__details--flex"]}>
                         <div className={style["goatz__details--img"]}>
-                            <img
+                            <Image
                                 src={nftDetails?.imagePath}
                                 alt={nftDetails?.title}
                                 style={{ width: '100%', objectFit: "contain" }}
@@ -358,7 +358,7 @@ const SingleNftDetails = (props: any) => {
 
                             <div className={style["image__list--wrapper"]}>
                                 {isGoatzLoading ? <div style={{ textAlign: "center", margin: "0px", paddingBottom: '16px' }}>
-                                    <img src={loadingImg.src} style={{ height: '50px', width: '50px' }} alt="" />
+                                    <Image src={loadingImg.src} style={{ height: '50px', width: '50px' }} alt="" />
                                     <div style={{ color: '#fff', fontSize: '20px', fontWeight: 'bold' }}>Loading...</div>
                                 </div> : (<>
                                     {mintedGoatzObjList.length === 0 ? (

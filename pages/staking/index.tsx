@@ -320,7 +320,7 @@ export default class Stacking extends React.Component<any, any> {
                 border: ${e.selected ? "7px solid #17fe00" : "none"}
               }
             `}</style>
-            <img
+            <Image
               className="mb-4 allUnstakedKidz__border"
               key={key}
               src={e.image}
@@ -337,7 +337,7 @@ export default class Stacking extends React.Component<any, any> {
     } else if (this.state.unstakedKidzLoading) {
       return (
         <h4 style={{ textAlign: "center", margin: "0px" }}>
-          <img src={loadingImg.src} style={{ height: '50px', width: '50px' }} alt="" />
+          <Image src={loadingImg.src} style={{ height: '50px', width: '50px' }} alt="" />
           <div>Loading...</div>
         </h4>
       );
@@ -431,7 +431,7 @@ export default class Stacking extends React.Component<any, any> {
                 border: ${e.selected ? "7px solid #17fe00" : "none"}
               }
             `}</style>
-            <img
+            <Image
               className="mb-4 allStakedKidz__border"
               key={key}
               src={e.image}
@@ -448,7 +448,7 @@ export default class Stacking extends React.Component<any, any> {
     } else if (this.state.stakedKidzLoading) {
       return (
         <h4 style={{ textAlign: "center", margin: "0px" }}>
-          <img src={loadingImg.src} style={{ height: '50px', width: '50px' }} alt="" />
+          <Image src={loadingImg.src} style={{ height: '50px', width: '50px' }} alt="" />
           <div>Loading...</div>
         </h4>
       );
@@ -1025,7 +1025,7 @@ export default class Stacking extends React.Component<any, any> {
                 </Button>
               )}
               <div className={style.gmilk1}>
-                {/* <img src={gmilk1.src} alt="" /> */}
+                {/* <Image src={gmilk1.src} alt="" /> */}
                 <Image src={gmilk1.src} alt="" width="188" height="345" objectFit="contain" />
               </div>
             </div>
