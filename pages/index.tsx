@@ -18,7 +18,7 @@ import MJ7 from "../public/images/mj7.png"
 import MJ8 from "../public/images/mj8.png"
 import MJ9 from "../public/images/mj9.png"
 import MJ10 from "../public/images/mj10.png"
-import MJ11 from "../public/images/mj11.png"
+import MJ11 from "../public/images/Mj11.png"
 import MJ12 from "../public/images/mj12.png"
 
 export default function Home() {
