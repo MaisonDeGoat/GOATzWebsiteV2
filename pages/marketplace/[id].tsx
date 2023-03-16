@@ -111,7 +111,7 @@ const SingleNftDetails = (props: any) => {
                         <style jsx>{`
                             .mintedGoatzObjList__border { border: ${e.id === firstSelectedGoat?.id ? 'solid 3px red' : 'none'} }
                         `}</style>
-                        <img
+                        <Image
                             className="mb-4 mintedGoatzObjList__border"
                             src={e.image}
                             onClick={() => {

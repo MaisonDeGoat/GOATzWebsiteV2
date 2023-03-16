@@ -127,7 +127,7 @@ const Admin = (props: any) => {
             </Container>
         </div>
     }
-    
+
     return (
         <div className={style.wrapper}>
             <Head>
@@ -174,7 +174,7 @@ const Admin = (props: any) => {
                     {!nftListStatus.is && <h1 className={style.h1_title}>{nftListStatus.message}</h1>}
                     {nftList?.map((elm: any) => <div className={style['nft__grid--card']} key={elm._id}>
                         <div className={style.item__img}>
-                            <img
+                            <Image
                                 src={elm?.imagePath}
                                 alt={elm.title}
                                 style={{ width: '100%', height: '212px', objectFit: "cover" }}

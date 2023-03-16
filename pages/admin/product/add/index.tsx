@@ -215,7 +215,7 @@ const AddProduct = (props: any) => {
                                 type="file" value="" onChange={onFileDrop}
                                 accept="image/png, image/gif, image/jpeg, image/svg"
                             />
-                        </div> : <img
+                        </div> : <Image
                             src={imgReview}
                             style={{ width: '100%', cursor: "pointer" }}
                             alt=""

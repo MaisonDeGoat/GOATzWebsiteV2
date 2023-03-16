@@ -225,7 +225,7 @@ export default class Stacking extends React.Component<any, any> {
                 border: ${e.selected ? "7px solid #17fe00" : "none"}
               }
             `}</style>
-            <img
+            <Image
               className="mb-4 allStakedKidz"
               key={key}
               src={e.image}
@@ -242,7 +242,7 @@ export default class Stacking extends React.Component<any, any> {
     } else if (this.state.unstakedGoatzLoading) {
       return (
         <h4 style={{ textAlign: "center", margin: "0px" }}>
-          <img src={loadingImg.src} style={{ height: '50px', width: '50px' }} alt="" />
+          <Image src={loadingImg.src} style={{ height: '50px', width: '50px' }} alt="" />
           <div>Loading...</div>
         </h4>
       );
