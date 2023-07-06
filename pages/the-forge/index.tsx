@@ -563,7 +563,7 @@ export default class Forge extends React.Component<any, any> {
 
                 </div>
                 <div className="col-lg-5 middle-bg">
-                  <h1 style={{ fontSize: 'calc(1.7vw + 1.6rem)', margin: '0px' }}>SZN 15 Forge</h1>
+                  <h1 style={{ fontSize: 'calc(1.7vw + 1.6rem)', margin: '0px' }}>SZN 16 Forge</h1>
                   <p className="description" style={{ fontSize: 'calc((1.4 - 1) * 1.2vw + 1.6rem)' }}>Choose two GOATz to start customizing your Forged GOAT</p>
 
                   {(this.state.firstSelectedGoat && this.state.secondSelectedGoat) ? <div className="goat-list">
