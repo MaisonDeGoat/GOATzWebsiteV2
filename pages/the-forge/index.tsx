@@ -501,7 +501,7 @@ export default class Forge extends React.Component<any, any> {
           {!this.state.isForgeActive ? <Container>
             <Image src={ForgeCover} layout="responsive" alt="staking" />
             <p className={style.content}>
-              <b>SZN Sweet 16 is Officially Closed with 123 Forges!</b>
+              <b>Spooky SZN 17 is Officially Closed!</b>
               <br />
               <br />
               <b>The What</b>
